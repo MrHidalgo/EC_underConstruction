@@ -1,0 +1,253 @@
+///
+/// MORE FILES
+///
+@import "./_mixin/mixin";
+@import "./_variable/variable";
+@import "./_variable/sprite";
+///
+/// SLIDER
+///
+.slider {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  @include mixinDimensions($w-all);
+
+  &__img {
+    @include mixinDimensions($w-all);
+    filter: blur(5px);
+  }
+}
+.swiper {
+  &-container {
+    width: 100%;
+    height: 100%;
+  }
+}
+///
+/// VIDEO
+///
+.video {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  @include mixinDimensions($w-all);
+  overflow: hidden;
+}
+#video {
+  @include mixinDimensions($w-all);
+  object-fit: cover;
+  filter: blur(2px);
+}
+///
+/// MAIN
+///
+main {
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  @include mixinDimensions($w-all);
+  background-color: rgba($c-white, .65);
+  text-align: center;
+}
+///
+/// SECTION
+///
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &_logotype {
+    padding-top: 15px;
+    height: 15%;
+  }
+  &_circle {
+    display: block;
+    min-height: calc((100% - (15% + 15% + 25% + 50px)));
+
+    .container {
+      max-width: 910px;
+    }
+  }
+  &_title {
+    min-height: 25%;
+  }
+  &_subscribe {
+    padding-top: 20px;
+    height: 15%;
+    justify-content: flex-start;
+  }
+  &_circle {
+    justify-content: flex-start;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-height: 600px) {
+  .section {
+    &_logotype {
+      height: auto;
+      padding: {
+        top: 15px;
+        bottom: 30px;
+      };
+    }
+    &_title {
+      min-height: 0;
+    }
+    &_subscribe {
+      height: auto;
+      padding: {
+        top: 30px;
+        bottom: 30px;
+      }
+    }
+    &_circle {}
+  }
+}
+///
+/// MAIN TITLE/SUB TITLE
+///
+.main {
+  &__title {
+    font: {
+      size: 65px;
+      family: $f-OS-semibold;
+    };
+    color: $c-eclipse;
+    text-shadow: 6px 4px 4px rgba(0,0,0,0.15);
+  }
+
+  &__sub-title {
+    font: {
+      size: 16px;
+    };
+    color: $c-nero;
+  }
+}
+///
+/// SUBSCRIBE
+///
+.subscribe {
+  position: relative;
+  width: 450px;
+  height: 35px;
+  margin: {
+    left: auto;
+    right: auto;
+  };
+  box-shadow: 0 0 5px 0 rgba(0,0,0,0.25);
+  border-radius: 3px;
+
+  &__input,
+  &__btn {
+    float: left;
+    height: 35px;
+    line-height: 35px;
+    color: $c-nero;
+    font: {
+      size: 14px;
+    };
+  }
+
+  &__input {
+    width: calc(100% - 150px);
+    padding: 0 15px;
+    border: none;
+    border-bottom-left-radius: 3px;
+    border-top-left-radius: 3px;
+  }
+
+  &__btn {
+    width: 150px;
+    color: $c-white;
+    font-family: $f-PN-regular;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    background: rgb(86,160,209);
+    background: -moz-linear-gradient(top,  rgba(86,160,209,1) 0%, rgba(32,113,171,1) 100%);
+    background: -webkit-linear-gradient(top,  rgba(86,160,209,1) 0%,rgba(32,113,171,1) 100%);
+    background: linear-gradient(to bottom,  rgba(86,160,209,1) 0%,rgba(32,113,171,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#56a0d1', endColorstr='#2071ab',GradientType=0 );
+  }
+}
+///
+/// CIRCLE
+///
+.circle {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  &__block {
+    @include mixinDimensions(140px);
+    border-radius: $w-all;
+    background-color: rgba($c-white,0.1);
+    box-shadow: 0 0 30px 0 rgba(0,0,0,.05);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: $c-lochmara;
+
+    &-num {
+      font: {
+        size: 45px;
+        family: $f-OS-regular;
+      }
+      text-shadow: 6px 4px 4px rgba(0,0,0,0.15);
+    }
+  }
+}
+///
+/// FOOTER
+///
+.footer {
+  height: 50px;
+  line-height: 50px;
+  text-align: left;
+  margin: {
+    left: auto;
+    right: auto;
+  };
+  font-size: 12px;
+
+  &_left {
+    float: left;
+  }
+  &_right {
+    float: right;
+    margin-top: 8px;
+  }
+}
+///
+/// SOCIAL
+///
+.social {
+  &__btn {
+    float: left;
+    margin-left: 15px;
+    border-radius: $w-all;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,.25);
+
+    &:hover {
+      transition: all 1s ease-in-out;
+      transform: rotateY(360deg);
+    }
+  }
+
+  &_f {
+    @include retina-sprite($sp-i-facebook-group);
+  }
+  &_t {
+    @include retina-sprite($sp-i-twitter-group);
+  }
+  &_g {
+    @include retina-sprite($sp-i-google-plus-group);
+  }
+}

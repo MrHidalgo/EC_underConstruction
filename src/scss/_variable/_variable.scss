@@ -1,0 +1,57 @@
+@import "../_function/function";
+
+////
+/// @group  Variable
+////
+
+///
+/// @name   object
+///
+
+$object: (
+        color : (
+                white           : #FFF,
+                black           : #000,
+                nero            : #191919,
+                eclipse         : #3f3c3c,
+                picton-blue     : #56a0d1,
+                lochmara        : #2071ab,
+        ),
+        fonts : (
+                PN-thin         : "proxima-nova-thin",
+                PN-light        : "proxima-nova-light",
+                PN-regular      : "proxima-nova-regular",
+                PN-semibold     : "proxima-nova-semibold",
+                PN-bold         : "proxima-nova-bold",
+                PN-extrabold    : "proxima-nova-extrabold",
+                PN-black        : "proxima-nova-black",
+                OS-regular		: "opensans-regular",
+                OS-bold			: "opensans-bold",
+                OS-semibold		: "opensans-semibold",
+                OS-extrabold	: "opensans-extrabold",
+        ),
+        dimension : (
+                all : 100%
+        ),
+);
+
+$w-all                  : return-value(dimension, all);
+
+$c-white                : return-value(color, white);
+$c-black                : return-value(color, black);
+$c-nero                 : return-value(color, nero);
+$c-eclipse              : return-value(color, eclipse);
+$c-picton-blue          : return-value(color, picton-blue);
+$c-lochmara             : return-value(color, lochmara);
+
+$f-PN-thin 			    : return-value(fonts, PN-thin);
+$f-PN-light 		    : return-value(fonts, PN-light);
+$f-PN-regular 		    : return-value(fonts, PN-regular);
+$f-PN-semibold 		    : return-value(fonts, PN-semibold);
+$f-PN-bold 			    : return-value(fonts, PN-bold);
+$f-PN-extrabold 	    : return-value(fonts, PN-extrabold);
+$f-PN-black 		    : return-value(fonts, PN-black);
+$f-OS-regular		    : return-value(fonts, OS-regular);
+$f-OS-bold			    : return-value(fonts, OS-bold);
+$f-OS-semibold		    : return-value(fonts, OS-semibold);
+$f-OS-extrabold		    : return-value(fonts, OS-extrabold);

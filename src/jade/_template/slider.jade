@@ -1,0 +1,20 @@
+mixin imageSlider(srcName)
+    .swiper-slide
+        div(
+            class="slider__img"
+            style="background:url('./image/slider/" + srcName + "');background-size: cover;background-position: center;"
+        )
+        //.swiper-lazy-preloader.swiper-lazy-preloader-white
+
+.slider
+    .swiper-container
+        .swiper-wrapper
+            +imageSlider("slider.png")
+            +imageSlider("slider-0.jpeg")
+            +imageSlider("slider-1.jpeg")
+            +imageSlider("slider-2.jpeg")
+            +imageSlider("slider-3.jpeg")
+            +imageSlider("slider-4.jpg")
+            +imageSlider("slider-5.jpg")
+            +imageSlider("slider-6.jpg")
+            +imageSlider("slider-7.jpg")

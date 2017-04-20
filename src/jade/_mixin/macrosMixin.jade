@@ -1,0 +1,26 @@
+//- MAIN TITLE
+mixin mainTitle(className, text)
+    p(class="main__title " + className)
+        span.main__title-text!= text
+
+//- LOGOTYPE
+mixin logotype(title1, title2, subtilte)
+    .logotype
+        .logotype__img--wrap
+            img(
+                src="./image/logo-left.png"
+                title=""
+                alt=""
+                class="logotype__img logotype__img-left logotype_size"
+            )
+            img(
+                src="./image/logo-right.png"
+                title=""
+                alt=""
+                class="logotype__img logotype__img-right logotype_size"
+            )
+        .logotype__title--wrap
+            p.logotype__title
+                span.logotype__title_color-1!= title1
+                span.logotype__title_color-2!= title2
+            p.logotype__sub-title!= subtilte

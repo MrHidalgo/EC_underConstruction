@@ -1,0 +1,118 @@
+include _mixin/mixin
+include _mixin/macrosMixin
+
+
+doctype html
+html(
+    lang="en"
+    class="js"
+)
+
+    +headSite("ExpertCollege Under Construction", linkSite.styleLinkIndex, "")
+
+
+    body
+
+        //include _template/slider
+        .video
+            video(
+                id='video',
+                autoplay=true,
+                muted=true, loop=true, controls=false
+            )
+                source(src='./video/video.mp4')
+
+        main.main
+
+            section.section.section_logotype
+                //+logotype("Expert", "Folio", "e-learning en blended learning")
+                img(
+                    src="./image/logotype.png"
+                    title="ExpertFolio"
+                    alt="ExpertFolio"
+                    class="logotype--img"
+                )
+
+            section.section.section_title
+                +mainTitle("", "Under Construction")
+
+                p.main__sub-title!= "We are working very hard on the new version of our site.<br>It will bring a lot of new features. Stay tuned!"
+
+            section.section.section_subscribe
+                .subscribe.clearfix
+                    input(
+                        type="text"
+                        name="subscribe"
+                        placeholder=""
+                        class="subscribe__input"
+                    )
+                    a(
+                        href="javascript:void(0);"
+                        title=""
+                        class="subscribe__btn"
+                    )!= "Subscribe"
+
+            section.section.section_circle
+                .container
+                    input(
+                        type="hidden"
+                        id="start_date"
+                        name="start_date"
+                        value="March 11,2017 11:00"
+                    )
+                    .circle
+                        .circle__block.circle__block_months
+                            span.circle__block-num!= "05"
+                            span.circle__block-text!= "month"
+                        .circle__block.circle__block_days
+                            span.circle__block-num!= "22"
+                            span.circle__block-text!= "days"
+                        .circle__block.circle__block_hours
+                            span.circle__block-num!= "13"
+                            span.circle__block-text!= "hours"
+                        .circle__block.circle__block_minutes
+                            span.circle__block-num!= "11"
+                            span.circle__block-text!= "minutes"
+                        .circle__block.circle__block_seconds
+                            span.circle__block-num!= "59"
+                            span.circle__block-text!= "seconds"
+
+
+            footer.footer
+                .container
+                    .footer_left
+                        span.copyright!= "© ExpertCollege 2017"
+                        span.footer__line!= "  |  "
+                        a(
+                            href="javascript:void(0);"
+                            title=""
+                            class=""
+                        )!= "alle rechten voorbehouden"
+                        span.footer__line!= "  |  "
+                        a(
+                            href="javascript:void(0);"
+                            target="_blank"
+                            title=""
+                            class=""
+                        )!= "disclaimer"
+
+                    .footer_right.social
+                        a(
+                            href="https://www.facebook.com/pages/ExpertCollege/257436114287385"
+                            title=""
+                            class="social__btn social_f"
+                        )
+                        a(
+                            href="https://twitter.com/expertcollege1"
+                            title=""
+                            class="social__btn social_t"
+                        )
+                        a(
+                            href="https://plus.google.com/u/0/b/103858104732075956830/103858104732075956830"
+                            title=""
+                            class="social__btn social_g"
+                        )
+
+
+    - for(var i = 0; i < linkSite.scriptLink.length; i++)
+        script(src= linkSite.scriptLink[i])

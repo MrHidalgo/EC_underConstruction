@@ -1,0 +1,230 @@
+////
+/// @group  Mixin
+////
+
+/// 
+/// Mixin setting the width and height element.
+///
+/// @name   mixinDimensions
+///
+/// @param  {String}  $width             - The width property sets the width of an element.
+/// @param  {String}  $height  [$width]  - The height property sets the height of an element.
+///
+/// @see    $object
+///
+/// @example
+///   <selector> {
+///     @include mixinDimensions(100%);
+///     @include mixinDimensions(100%, 50%);
+///   }
+///
+@mixin mixinDimensions($width, $height:$width) {
+  width : $width;
+  height: $height;
+}
+
+
+///
+/// Mixin generate animation. It uses an additional function :
+/// - **map-get()**   - returns the value in a map associated with the given key. If the map doesn’t have such a key, returns null;
+/// - **map-merge()** - Merges two maps together into a new map. Keys in $map2 will take precedence over keys in $map1;
+///
+/// @link http://sass-lang.com/documentation/Sass/Script/Functions.html#map_get-instance_method       map-get()
+/// @link http://sass-lang.com/documentation/Sass/Script/Functions.html#map_merge-instance_method     map-merge()
+///
+/// @name   mixinKeyframes
+///
+/// @param  {String}  $keyName - Animation Name
+/// @param  {Object}  $options
+///
+/// @example
+///   <selector> {
+///     @include moduleKeyframes(clockLeft,
+///       (
+///         opacityStart      : 0.8,
+///         opacityEnd        : 1,
+///         transformStart    : rotate(360deg)
+///       )
+///       ||
+///       (
+///         opacityStart      : 0.5,
+///         opacityEnd        : 1,
+///         transformDouble   : (rotate(-360deg) scale(0.5))
+///       )
+///     );
+///   }
+///
+@mixin mixinKeyframes($keyName, $options: ()) {
+  $configuration: map-merge((), $options);
+
+  @keyframes #{$keyName} {
+    from{
+      opacity   : map-get($configuration, opacityStart);
+      transform : map-get($configuration, transformStart);
+      transform : map-get($configuration, transformDouble);
+    }
+    to{
+      opacity   : map-get($configuration, opacityEnd);
+      transform : map-get($configuration, transformEnd);
+    }
+  }
+}
+
+///
+/// Mixin in mathematics, the gradient is a generalization of the usual concept of derivative of a function in one dimension to a function in several dimensions.
+///
+/// @name     mixinLinerGradient
+///
+/// @param    {Color}  $start_color  - Optional. The color of the shadow. Look at CSS Color Values for a complete list of possible color values;
+/// @param    {Color}  $end_color    - --//--
+///
+/// @link http://www.w3schools.com/cssref/css_colors_legal.asp  CSS Color Values
+///
+/// @see    $object
+///
+/// @example
+///   <selector> {
+///     @include mixinLinerGradient(#F00A1B, #FF0000);
+///     @include mixinLinerGradient($white, $black);
+///   }
+///
+@mixin mixinLinerGradient($start_color, $end_color){
+	background: $start_color;
+	background: -moz-linear-gradient(top,  rgba($start_color, 1) 0%, rgba($end_color, 1) 100%);
+	background: -webkit-linear-gradient(top,  rgba($start_color, 1) 0%,rgba($end_color, 1) 100%);
+	background: linear-gradient(to bottom,  rgba($start_color, 1) 0%,rgba($end_color, 1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$start_color}', endColorstr='#{$end_color}',GradientType=0 );
+}
+
+
+///
+/// Centered elements
+///
+@mixin centered {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+///
+/// Mixin media queries.
+///
+/// @name     respond-to
+///
+/// @param    {String}  $media [$text-mobile | $text-tablet | $text-small | $text-medium | $text-large] - Value that identifies one of the options and breakpoint.
+///
+/// @see      $object
+///
+/// @example
+///   <selector> {
+///     @include mixinRespond($text-mobile) { @content };
+///   }
+///   <selector> {
+///     @include mixinRespond($text-medium) { @content };
+///   }
+///
+//@mixin respond-to($media){
+//  @if ($media == 'extra-small') {
+//    @media screen and (max-width: 479px) {
+//      @content
+//    }
+//  }
+//  @else if ($media == 'small'){
+//    @media screen and (min-width: 480px) and (max-width: 767px) {
+//      @content
+//    }
+//  }
+//  @else if ($media == 'small-max') {
+//    @media screen and (max-width: 767px) {
+//      @content
+//    }
+//  }
+//  @else if ($media == 'small-min') {
+//    @media screen and (min-width: 768px){
+//      @content
+//    }
+//  }
+//  @else if ($media == 'medium') {
+//    @media screen and (min-width: 768px) and (max-width: 991px) {
+//      @content
+//    }
+//  }
+//  @else if ($media == 'medium-max') {
+//    @media screen and (max-width: 991px) {
+//      @content
+//    }
+//  }
+//  @else if ($media == 'large-min') {
+//    @media screen and (min-width: 992px) {
+//      @content
+//    }
+//  }
+//  @else if ($media == 'large') {
+//    @media screen and (min-width: 992px) and (max-width: 1199px) {
+//      @content
+//    }
+//  }
+//  @else if ($media == 'large-max') {
+//    @media screen and (max-width: 1199px) {
+//      @content
+//    }
+//  }
+//  @else if ($media == 'extra-large') {
+//    @media screen and (min-width: 1200px) {
+//      @content
+//    }
+//  }
+//  @else if ($media == 'hard') {
+//    @media screen and (min-width: 992px) and (max-width: 1366px) {
+//      @content
+//    }
+//  }
+//  @else if ($media == 'hard-max') {
+//    @media screen and (max-width: 1366px) {
+//      @content
+//    }
+//  }
+//  @else if ($media != 'extra-small'  or $media != 'small' or
+//       $media != 'small-all'    or $media != 'medium' or
+//       $media != 'medium-all'   or $media != 'large' or
+//       $media != 'large-all'    or $media != 'extra-large') {
+//    @warn "Unfortunately, no value could be retrieved from `#{$media}`. Please make sure it is defined...";
+//  }
+//}
+
+
+$breakpoints: (
+	'extra-small'   : "(max-width: 479px)",
+
+	'small-max'     : "(max-width: 767px)",
+	'small-min'     : "(min-width: 300px)",
+	'small'         : "(min-width: 480px) and (max-width: 767px)",
+
+	'medium-max'    : "(max-width: 991px)",
+	'medium-min'    : "(min-width: 768px)",
+	'medium'        : "(min-width: 768px) and (max-width: 991px)",
+
+	'large-max'     : "(max-width: 1199px)",
+	'large-min'     : "(min-width: 992px)",
+	'large'         : "(min-width: 992px) and (max-width: 1199px)",
+
+	'extra-large'   : "(min-width: 1200px)",
+
+	'hard'          : "(min-width: 992px) and (max-width: 1366px)",
+	'hard-max'      : "(max-width: 1366px)"
+) !default;
+
+@mixin respond-to($name) {
+	// If the key exists in the map
+	@if map-has-key($breakpoints, $name) {
+		// Prints a media query based on the value
+		@media screen and #{inspect(map-get($breakpoints, $name))} {
+			@content;
+		}
+	}
+	// If the key doesn't exist in the map
+	@else {
+		@warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. Please make sure it is defined in `$breakpoints` map.";
+	}
+}
