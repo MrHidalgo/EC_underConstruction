@@ -18,17 +18,9 @@ $object: (
                 lochmara        : #2071ab,
         ),
         fonts : (
-                PN-thin         : "proxima-nova-thin",
-                PN-light        : "proxima-nova-light",
-                PN-regular      : "proxima-nova-regular",
-                PN-semibold     : "proxima-nova-semibold",
-                PN-bold         : "proxima-nova-bold",
-                PN-extrabold    : "proxima-nova-extrabold",
-                PN-black        : "proxima-nova-black",
-                OS-regular		: "opensans-regular",
-                OS-bold			: "opensans-bold",
                 OS-semibold		: "opensans-semibold",
-                OS-extrabold	: "opensans-extrabold",
+                WW-regular      : "Watchword_regular_demo",
+                TAR-regular     : "typo angular rounded regular",
         ),
         dimension : (
                 all : 100%
@@ -44,14 +36,7 @@ $c-eclipse              : return-value(color, eclipse);
 $c-picton-blue          : return-value(color, picton-blue);
 $c-lochmara             : return-value(color, lochmara);
 
-$f-PN-thin 			    : return-value(fonts, PN-thin);
-$f-PN-light 		    : return-value(fonts, PN-light);
-$f-PN-regular 		    : return-value(fonts, PN-regular);
-$f-PN-semibold 		    : return-value(fonts, PN-semibold);
-$f-PN-bold 			    : return-value(fonts, PN-bold);
-$f-PN-extrabold 	    : return-value(fonts, PN-extrabold);
-$f-PN-black 		    : return-value(fonts, PN-black);
-$f-OS-regular		    : return-value(fonts, OS-regular);
-$f-OS-bold			    : return-value(fonts, OS-bold);
 $f-OS-semibold		    : return-value(fonts, OS-semibold);
-$f-OS-extrabold		    : return-value(fonts, OS-extrabold);
+
+$f-WW-regular		    : return-value(fonts, WW-regular);
+$f-TAR-regular		    : return-value(fonts, TAR-regular);

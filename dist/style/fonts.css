@@ -1,13 +1,13 @@
 @font-face {
-  font-family: 'proxima-nova-regular';
-  src: url("../fonts/Proxima Nova Regular.otf");
+  font-family: 'Watchword_regular_demo';
+  src: url("../fonts/Watchword_regular_demo.otf");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'opensans-regular';
-  src: url("../fonts/OpenSans-Regular.ttf") format("truetype");
+  font-family: 'typo angular rounded regular';
+  src: url("../fonts/Typo Angular Rounded Regular.otf");
   font-weight: normal;
   font-style: normal;
 }

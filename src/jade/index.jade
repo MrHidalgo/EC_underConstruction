@@ -13,16 +13,14 @@ html(
 
     body
 
-        //include _template/slider
+
         .video
             video(
-                id='video',
-                autoplay=true,
-                muted=true, loop=true, controls=false
-            )
+                id='video'
+                autoplay=true, muted=true, loop=true, controls=false)
                 source(src='./video/video.mp4')
 
-        main.main
+        main.main.clearfix
 
             section.section.section_logotype
                 //+logotype("Expert", "Folio", "e-learning en blended learning")
@@ -58,37 +56,57 @@ html(
                         type="hidden"
                         id="start_date"
                         name="start_date"
-                        value="March 11,2017 11:00"
+                        value="August 1,2017 18:00"
                     )
                     .circle
                         .circle__block.circle__block_months
-                            span.circle__block-num!= "05"
-                            span.circle__block-text!= "month"
+                            span(
+                                id="date__month"
+                                class="circle__block-num"
+                            )!= "05"
+                            span(
+                                class="circle__block-text")!= "month"
                         .circle__block.circle__block_days
-                            span.circle__block-num!= "22"
-                            span.circle__block-text!= "days"
+                            span(
+                                id="date__day"
+                                class="circle__block-num"
+                            )!= "22"
+                            span(
+                                class="circle__block-text")!= "days"
                         .circle__block.circle__block_hours
-                            span.circle__block-num!= "13"
-                            span.circle__block-text!= "hours"
+                            span(
+                                id="date__hours"
+                                class="circle__block-num"
+                            )!= "13"
+                            span(
+                                class="circle__block-text")!= "hours"
                         .circle__block.circle__block_minutes
-                            span.circle__block-num!= "11"
-                            span.circle__block-text!= "minutes"
+                            span(
+                                id="date__minutes"
+                                class="circle__block-num"
+                            )!= "11"
+                            span(
+                                class="circle__block-text")!= "minutes"
                         .circle__block.circle__block_seconds
-                            span.circle__block-num!= "59"
-                            span.circle__block-text!= "seconds"
+                            span(
+                                id="date__seconds"
+                                class="circle__block-num"
+                            )!= "59"
+                            span(
+                                class="circle__block-text")!= "seconds"
 
 
             footer.footer
                 .container
                     .footer_left
                         span.copyright!= "© ExpertCollege 2017"
-                        span.footer__line!= "  |  "
+                        span.footer__line.footer__line-0!= "  |  "
                         a(
                             href="javascript:void(0);"
                             title=""
                             class=""
                         )!= "alle rechten voorbehouden"
-                        span.footer__line!= "  |  "
+                        span.footer__line.footer__line-1!= "  |  "
                         a(
                             href="javascript:void(0);"
                             target="_blank"
@@ -96,7 +114,7 @@ html(
                             class=""
                         )!= "disclaimer"
 
-                    .footer_right.social
+                    .footer_right.social.clearfix
                         a(
                             href="https://www.facebook.com/pages/ExpertCollege/257436114287385"
                             title=""

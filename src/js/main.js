@@ -1,6 +1,12 @@
-function dateDiff(date2) {
-    var date1 = new Date(),
-        date2 = new Date(date2);
+function dateDiff(dateValue) {
+    var date1       = new Date(),
+        date2       = new Date(dateValue);
+
+    var elemMonth   = $("#date__month"),
+        elemDay     = $("#date__day"),
+        elemHours   = $("#date__hours"),
+        elemMinutes = $("#date__minutes"),
+        elemSeconds = $("#date__seconds");
 
     var seconds = date2.getSeconds() - date1.getSeconds();
     if (seconds < 0) {
@@ -10,8 +16,7 @@ function dateDiff(date2) {
     if (seconds < 10) {
         seconds = "0" + seconds;
     }
-    $(".circle__block_seconds .circle__block-num").text(seconds);
-    $(".circle__block_seconds .circle__block-text").text();
+    elemSeconds.text(seconds);
 
     var minutes = date2.getMinutes() - date1.getMinutes();
     if (minutes < 0) {
@@ -22,13 +27,7 @@ function dateDiff(date2) {
         minutes = "0" + minutes;
     }
 
-    var months_text = "month",
-        days_text = "days",
-        hours_text = "hours",
-        minutes_text = "minutes";
-
-    $(".circle__block_minutes .circle__block-num").text(minutes);
-    $(".circle__block_minutes .circle__block-text").text(minutes_text);
+    elemMinutes.text(minutes);
 
     var hours = date2.getHours() - date1.getHours();
     if (hours < 0) {
@@ -38,8 +37,7 @@ function dateDiff(date2) {
     if (hours < 10) {
         hours = "0" + hours;
     }
-    $(".circle__block_hours .circle__block-num").text(hours);
-    $(".circle__block_hours .circle__block-text").text(hours_text);
+    elemHours.text(hours);
 
     var days = date2.getDate() - date1.getDate();
     if (days < 0) {
@@ -49,8 +47,7 @@ function dateDiff(date2) {
     if (days < 10) {
         days = "0" + days;
     }
-    $(".circle__block_days .circle__block-num").text(days);
-    $(".circle__block_days .circle__block-text").text(days_text);
+    elemDay.text(days);
 
     var months = date2.getMonth() - date1.getMonth();
     if (months < 0) {
@@ -60,19 +57,15 @@ function dateDiff(date2) {
     if (months < 10) {
         months = "0" + months;
     }
-    $(".circle__block_months .circle__block-num").text(months);
-    $(".circle__block_months .circle__block-text").text(months_text);
-
-
-    // var years = date2.getFullYear() - date1.getFullYear();
-    // return [ years, months, days, hours, minutes, seconds ];
+    elemMonth.text(months);
 }
 
 
-function getfrominputs() {
-    if (document.getElementById("start_date") != null) {
-        var string = document.getElementById("start_date").value;
+function getFromInputs() {
+    var dataInput   = $("#start_date"),
+        string      = $(dataInput).val();
 
+    if (dataInput.length > 0) {
         dateDiff(string);
 
         setInterval(function () {
@@ -81,19 +74,33 @@ function getfrominputs() {
     }
 }
 
+$(window).on("load ready resize scroll", function() {
+    var winWidth        = $(window).width();
+
+    var circleWrap      = $(".circle__block"),
+        circleWrapLen   = circleWrap.length,
+        windowPadding   = 30;
+
+    if(winWidth < "768") {
+        // 5 margin left/right
+        var res = Math.ceil((winWidth - windowPadding) / circleWrapLen) - 5;
+
+        circleWrap.attr("style", "width:" + res + "px;height:" + res + "px;");
+    } else {
+        circleWrap.attr("style", "");
+    }
+});
+
 $(document).ready(function () {
     // TIMER
-    getfrominputs();
+    getFromInputs();
 
-    // SLIDER
-    var swiper = new Swiper('.swiper-container', {
-        pagination: '.swiper-pagination'
-        , paginationClickable: false
-        , preloadImages: false
-        , lazyLoading: true
-        , centeredSlides: true
-        // , autoplay: 4500
-        , autoplayDisableOnInteraction: false
-        , effect: 'fade'
-    });
+    // VIDEO SUPPORT
+    var vid             = $("video"),
+        videoBool       = document.createElement('video').canPlayType;
+
+    if(vid.length === 0 || !videoBool) {
+        vid.remove();
+        $(".video").addClass("not_load");
+    }
 });

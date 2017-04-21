@@ -301,10 +301,7 @@ input[type="radio"] {
 
 .logotype {
   cursor: pointer;
-  display: inline-block;
-  position: relative;
-  width: 280px;
-  height: 70px;
+  
 }
 
 
@@ -312,50 +309,11 @@ input[type="radio"] {
   height: 90px;
 }
 
-
-.logotype__img {
-  position: absolute;
-  top: 0;
-}
-
-
-.logotype__img-left {
-  left: 0;
-}
-
-
-.logotype__img-right {
-  right: 0;
-}
-
-
-.logotype_size {
-  height: 70px;
-}
-
-
-.logotype__title {
-  position: absolute;
-  left: 50px;
-  line-height: 70px;
-  font-size: 31px;
-  font-family: "proxima-nova-semibold";
-  color: #3f3c3c;
-}
-
-
-.logotype__title_color-2 {
-  color: #2071ab;
-}
-
-
-.logotype__sub-title {
-  position: absolute;
-  left: 60px;
-  bottom: 0;
-  color: #3f3c3c;
-  font-size: 14px;
-  font-family: "proxima-nova-bold";
+@media screen and (max-width: 767px) {
+  
+  .logotype--img {
+    height: 75px;
+  }
 }
 
 
