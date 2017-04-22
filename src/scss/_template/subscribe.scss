@@ -1,0 +1,22 @@
+///
+/// MORE FILES
+///
+@import "../_mixin/mixin";
+@import "../_variable/variable";
+@import "../_variable/sprite";
+///
+/// LOGOTYPE
+///
+.subscribe {
+
+  &__btn {
+    &-mail {
+      float: right;
+      margin: {
+        top: 15px;
+        right: 15px;
+      };
+      @include retina-sprite($sp-i-mail-1x-group)
+    }
+  }
+}

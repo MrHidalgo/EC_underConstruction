@@ -16,6 +16,7 @@ $object: (
                 eclipse         : #3f3c3c,
                 picton-blue     : #56a0d1,
                 lochmara        : #2071ab,
+                blue-zodiac     : #3e4459,
         ),
         fonts : (
                 OS-semibold		: "opensans-semibold",
@@ -35,6 +36,7 @@ $c-nero                 : return-value(color, nero);
 $c-eclipse              : return-value(color, eclipse);
 $c-picton-blue          : return-value(color, picton-blue);
 $c-lochmara             : return-value(color, lochmara);
+$c-blue-zodiac          : return-value(color, blue-zodiac);
 
 $f-OS-semibold		    : return-value(fonts, OS-semibold);
 

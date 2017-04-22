@@ -6,7 +6,14 @@
 ///
 /// MORE TMPL
 ///
-@import "_template/_main/_macros/_logotype";
+//@import "_template/_main/_macros/_logotype";
 ///
 /// MAIN TMPL
 ///
+@import "_template/video";
+@import "_template/logotype";
+@import "_template/subscribe";
+@import "_template/title";
+@import "_template/circle";
+@import "_template/copyright";
+@import "_template/social";

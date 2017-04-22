@@ -1,0 +1,64 @@
+///
+/// MORE FILES
+///
+@import "../_mixin/mixin";
+@import "../_variable/variable";
+@import "../_variable/sprite";
+///
+/// CIRCLE
+///
+.circle {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  &__block {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    @include mixinDimensions(140px);
+    margin: {
+      //left: 20px;
+      //right: 20px;
+    };
+    text-align: center;
+    color: $c-blue-zodiac;
+    transition-property: background, box-shadow;
+    transition-duration: .3s;
+    transition-timing-function: ease-in-out;
+
+    &-num {
+      font: {
+        size: 50px;
+        family: $f-TAR-regular;
+      }
+      text-shadow: 6px 4px 4px rgba(0,0,0,0.15);
+      @include respond-to(small) {
+        font-size: 30px;
+      }
+      @include respond-to(extra-small) {
+        font-size: 20px;
+        line-height: 1;
+      }
+    }
+
+    &-text {
+      text-transform: uppercase;
+      @include mixinDimensions(100px, 20px);
+      line-height: 21px;
+      background-color: $c-blue-zodiac;
+      border-radius: 10px;
+      color: $c-white;
+      padding: {
+        left: 15px;
+        right: 15px;
+      };
+      font: {
+        family: $f-WW-regular;
+        size: 12px;
+      }
+    }
+  }
+}

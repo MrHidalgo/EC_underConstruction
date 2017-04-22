@@ -1,0 +1,20 @@
+///
+/// MORE FILES
+///
+@import "../_mixin/mixin";
+@import "../_variable/variable";
+@import "../_variable/sprite";
+///
+/// LOGOTYPE
+///
+.logotype {
+  float: left;
+  padding: {
+    top: 15px;
+    left: 15px;
+  }
+
+  &__img {
+    height: 75px;
+  }
+}

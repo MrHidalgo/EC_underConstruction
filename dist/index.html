@@ -12,40 +12,42 @@
   </head>
   <body>
     <div class="video">
-      <video id="video" autoplay muted loop>
-        <source src="./video/video.mp4">
-      </video>
+      <!--video(
+      id='video'
+      autoplay=true, muted=true, loop=true, controls=false)
+      source(src='./video/video.mp4')
+      -->
     </div>
     <main class="main clearfix">
-      <section class="section section_logotype">
-        <!--+logotype("Expert", "Folio", "e-learning en blended learning")--><img src="./image/logotype.png" title="ExpertFolio" alt="ExpertFolio" class="logotype--img">
-      </section>
-      <section class="section section_title">
-        <p class="main__title "><span class="main__title-text">Under Construction</span></p>
-        <p class="main__sub-title">We are working very hard on the new version of our site.<br>It will bring a lot of new features. Stay tuned!</p>
-      </section>
-      <section class="section section_subscribe">
-        <div class="subscribe clearfix">
-          <input type="text" name="subscribe" placeholder="" class="subscribe__input"><a href="javascript:void(0);" title="" class="subscribe__btn">Subscribe</a>
+      <header class="header clearfix">
+        <div class="logotype"><img src="./image/logotype.png" title="ExpertFolio" alt="ExpertFolio" class="logotype__img"></div><a href="javascript:void(0);" title="" class="subscribe__btn subscribe__btn-mail"></a>
+      </header>
+      <section>
+        <div class="section__wrap section__wrap-0">
+          <div class="main__title-wrap">
+            <p class="main__sub-title">BE READY, WE ARE LAUNCHING SOON.</p>
+            <p class="main__title "><span class="main__title-text">Under Construction</span></p>
+            <hr class="main__title-line">
+          </div>
         </div>
-      </section>
-      <section class="section section_circle">
-        <div class="container">
-          <input type="hidden" id="start_date" name="start_date" value="August 1,2017 18:00">
-          <div class="circle">
-            <div class="circle__block circle__block_months"><span id="date__month" class="circle__block-num">05</span><span class="circle__block-text">month</span></div>
-            <div class="circle__block circle__block_days"><span id="date__day" class="circle__block-num">22</span><span class="circle__block-text">days</span></div>
-            <div class="circle__block circle__block_hours"><span id="date__hours" class="circle__block-num">13</span><span class="circle__block-text">hours</span></div>
-            <div class="circle__block circle__block_minutes"><span id="date__minutes" class="circle__block-num">11</span><span class="circle__block-text">minutes</span></div>
-            <div class="circle__block circle__block_seconds"><span id="date__seconds" class="circle__block-num">59</span><span class="circle__block-text">seconds</span></div>
+        <div class="section__wrap section__wrap-1">
+          <div class="circle__wrap">
+            <div class="container">
+              <input type="hidden" id="start_date" name="start_date" value="August 1,2017 18:00">
+              <div class="circle">
+                <div class="circle__block circle__block_months"><span id="date__month" class="circle__block-num">05</span><span class="circle__block-text">month</span></div>
+                <div class="circle__block circle__block_days"><span id="date__day" class="circle__block-num">22</span><span class="circle__block-text">days</span></div>
+                <div class="circle__block circle__block_hours"><span id="date__hours" class="circle__block-num">13</span><span class="circle__block-text">hours</span></div>
+                <div class="circle__block circle__block_minutes"><span id="date__minutes" class="circle__block-num">11</span><span class="circle__block-text">minutes</span></div>
+                <div class="circle__block circle__block_seconds"><span id="date__seconds" class="circle__block-num">59</span><span class="circle__block-text">seconds</span></div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
       <footer class="footer">
-        <div class="container">
-          <div class="footer_left"><span class="copyright">© ExpertCollege 2017</span><span class="footer__line footer__line-0">  |  </span><a href="javascript:void(0);" title="">alle rechten voorbehouden</a><span class="footer__line footer__line-1">  |  </span><a href="javascript:void(0);" target="_blank" title="">disclaimer</a></div>
-          <div class="footer_right social clearfix"><a href="https://www.facebook.com/pages/ExpertCollege/257436114287385" title="" class="social__btn social_f"></a><a href="https://twitter.com/expertcollege1" title="" class="social__btn social_t"></a><a href="https://plus.google.com/u/0/b/103858104732075956830/103858104732075956830" title="" class="social__btn social_g"></a></div>
-        </div>
+        <div class="copyright"><span class="copyright__text">© ExpertCollege 2017</span><span class="copyright__line copyright__line-0">  |  </span><a href="javascript:void(0);" title="" class="copyright__text">alle rechten voorbehouden</a><span class="copyright__line copyright__line-1">  |  </span><a href="javascript:void(0);" target="_blank" title="" class="copyright__text">disclaimer</a></div>
+        <div class="social clearfix"><a href="https://www.facebook.com/pages/ExpertCollege/257436114287385" title="" class="social__btn social_f"></a><a href="https://twitter.com/expertcollege1" title="" class="social__btn social_t"></a><a href="https://plus.google.com/u/0/b/103858104732075956830/103858104732075956830" title="" class="social__btn social_g"></a></div>
       </footer>
     </main>
   </body>

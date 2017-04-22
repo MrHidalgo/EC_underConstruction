@@ -10,126 +10,32 @@ html(
 
     +headSite("ExpertCollege Under Construction", linkSite.styleLinkIndex, "")
 
-
     body
 
 
-        .video
-            video(
-                id='video'
-                autoplay=true, muted=true, loop=true, controls=false)
-                source(src='./video/video.mp4')
+        include _template/video
 
         main.main.clearfix
 
-            section.section.section_logotype
-                //+logotype("Expert", "Folio", "e-learning en blended learning")
-                img(
-                    src="./image/logotype.png"
-                    title="ExpertFolio"
-                    alt="ExpertFolio"
-                    class="logotype--img"
-                )
+            header.header.clearfix
 
-            section.section.section_title
-                +mainTitle("", "Under Construction")
+                include _template/logotype
 
-                p.main__sub-title!= "We are working very hard on the new version of our site.<br>It will bring a lot of new features. Stay tuned!"
+                include _template/subscribe
 
-            section.section.section_subscribe
-                .subscribe.clearfix
-                    input(
-                        type="text"
-                        name="subscribe"
-                        placeholder=""
-                        class="subscribe__input"
-                    )
-                    a(
-                        href="javascript:void(0);"
-                        title=""
-                        class="subscribe__btn"
-                    )!= "Subscribe"
+            section
 
-            section.section.section_circle
-                .container
-                    input(
-                        type="hidden"
-                        id="start_date"
-                        name="start_date"
-                        value="August 1,2017 18:00"
-                    )
-                    .circle
-                        .circle__block.circle__block_months
-                            span(
-                                id="date__month"
-                                class="circle__block-num"
-                            )!= "05"
-                            span(
-                                class="circle__block-text")!= "month"
-                        .circle__block.circle__block_days
-                            span(
-                                id="date__day"
-                                class="circle__block-num"
-                            )!= "22"
-                            span(
-                                class="circle__block-text")!= "days"
-                        .circle__block.circle__block_hours
-                            span(
-                                id="date__hours"
-                                class="circle__block-num"
-                            )!= "13"
-                            span(
-                                class="circle__block-text")!= "hours"
-                        .circle__block.circle__block_minutes
-                            span(
-                                id="date__minutes"
-                                class="circle__block-num"
-                            )!= "11"
-                            span(
-                                class="circle__block-text")!= "minutes"
-                        .circle__block.circle__block_seconds
-                            span(
-                                id="date__seconds"
-                                class="circle__block-num"
-                            )!= "59"
-                            span(
-                                class="circle__block-text")!= "seconds"
+                .section__wrap.section__wrap-0
+                    include _template/title
 
+                .section__wrap.section__wrap-1
+                    include _template/circle
 
             footer.footer
-                .container
-                    .footer_left
-                        span.copyright!= "© ExpertCollege 2017"
-                        span.footer__line.footer__line-0!= "  |  "
-                        a(
-                            href="javascript:void(0);"
-                            title=""
-                            class=""
-                        )!= "alle rechten voorbehouden"
-                        span.footer__line.footer__line-1!= "  |  "
-                        a(
-                            href="javascript:void(0);"
-                            target="_blank"
-                            title=""
-                            class=""
-                        )!= "disclaimer"
 
-                    .footer_right.social.clearfix
-                        a(
-                            href="https://www.facebook.com/pages/ExpertCollege/257436114287385"
-                            title=""
-                            class="social__btn social_f"
-                        )
-                        a(
-                            href="https://twitter.com/expertcollege1"
-                            title=""
-                            class="social__btn social_t"
-                        )
-                        a(
-                            href="https://plus.google.com/u/0/b/103858104732075956830/103858104732075956830"
-                            title=""
-                            class="social__btn social_g"
-                        )
+                include _template/copyright
+
+                include _template/social
 
 
     - for(var i = 0; i < linkSite.scriptLink.length; i++)

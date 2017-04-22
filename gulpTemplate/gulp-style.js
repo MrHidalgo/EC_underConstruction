@@ -72,18 +72,18 @@ exports.styleMainTask = function(taskName) {
             .pipe(
                 changed(distFolder, changedOption)
             )
-            .pipe(
-                sourcemaps.init(sourceMapsOption)
-            )
+            // .pipe(
+            //     sourcemaps.init(sourceMapsOption)
+            // )
 			.pipe(
 			    scss(sassOptions).on('error', scss.logError)
             )
 			.pipe(
 			    prefixer(autoPrefixOptions)
             )
-            .pipe(
-                sourcemaps.write('./maps')
-            )
+            // .pipe(
+            //     sourcemaps.write('./maps')
+            // )
             .pipe(
                 stripCssComments()
             )
