@@ -19,6 +19,7 @@ body {
   //@include respond-to(large-max) {
   //	overflow-x: hidden;
   //}
+  overflow: hidden;
 
   &.open-menu,
   &.open-popup {

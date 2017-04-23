@@ -103,4 +103,32 @@ $(document).ready(function () {
         vid.remove();
         $(".video").addClass("not_load");
     }
+
+    /* subscribe */
+    $(".btn-subscribe-js").on("click", function() {
+
+        if($(this).hasClass("active")) {
+            $(this).removeClass('active');
+            $("header, section, footer").removeClass("fadeOut").addClass("fadeIn");
+            $(".subscribe").removeClass("zoomIn").addClass("zoomOut").css({
+                "z-index" : "0"
+            });
+        } else {
+            $(this).addClass('active');
+            $("header, section, footer").removeClass("fadeIn").addClass("animated fadeOut");
+            $(".subscribe").removeClass("zoomOut").addClass("animated zoomIn").css({
+                "z-index" : "100"
+            });
+        }
+    });
+
+    /* animation check view...*/
+    if($(window).width() > '767') {
+        $('.video, .main').addClass('hidden').viewportChecker({
+                classToAdd: 'visible animated slideInUp',
+                classToRemove : 'hidden',
+                removeClassAfterAnimation: true
+            }
+        );
+    }
 });

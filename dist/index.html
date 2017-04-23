@@ -6,6 +6,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge"/>
     <title>ExpertCollege Under Construction</title>
     <link rel="icon" type="image/png" href="./image/favicon.png"/>
+    <link href="./vendor/css/animate.min.css" rel="stylesheet"/>
     <link href="./style/fonts.css" rel="stylesheet"/>
     <link href="./style/base.css" rel="stylesheet"/>
     <link href="./style/common.css" rel="stylesheet"/>
@@ -18,9 +19,20 @@
       source(src='./video/video.mp4')
       -->
     </div>
-    <main class="main clearfix">
+    <main class="main clearfix"><a href="javascript:void(0);" title="" class="subscribe__btn subscribe__btn-mail btn-subscribe-js"><i class="subscribe__btn-mail--icon"></i></a>
+      <div class="subscribe">
+        <div class="subscribe_flex">
+          <div class="subscribe__wrap">
+            <p class="main__sub-title">SUBSCRIBE TO GET NOTIFIED.</p>
+            <p class="main__title "><span class="main__title-text">Newsletter</span></p>
+            <div class="subscribe__filed">
+              <input type="text" name="subscribe" placeholder="Email address" class="subscribe__input"><a href="javascript:void(0);" title="" class="subscribe__btn-send"></a>
+            </div>
+          </div>
+        </div>
+      </div>
       <header class="header clearfix">
-        <div class="logotype"><img src="./image/logotype.png" title="ExpertFolio" alt="ExpertFolio" class="logotype__img"></div><a href="javascript:void(0);" title="" class="subscribe__btn subscribe__btn-mail"></a>
+        <div class="logotype"><img src="./image/logotype-inverse.png" title="ExpertFolio" alt="ExpertFolio" class="logotype__img"></div>
       </header>
       <section>
         <div class="section__wrap section__wrap-0">
@@ -52,5 +64,6 @@
     </main>
   </body>
   <script src="./vendor/js/jquery-1.11.1.min.js"></script>
+  <script src="./vendor/js/jquery.viewportchecker.min.js"></script>
   <script src="./script/main.min.js"></script>
 </html>

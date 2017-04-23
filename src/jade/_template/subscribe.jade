@@ -2,5 +2,25 @@
 a(
     href="javascript:void(0);"
     title=""
-    class="subscribe__btn subscribe__btn-mail"
+    class="subscribe__btn subscribe__btn-mail btn-subscribe-js"
 )
+    i.subscribe__btn-mail--icon
+
+.subscribe
+    .subscribe_flex
+        .subscribe__wrap
+            p.main__sub-title!= "SUBSCRIBE TO GET NOTIFIED."
+
+            +mainTitle("", "Newsletter")
+
+            .subscribe__filed
+                input(
+                    type="text"
+                    name="subscribe"
+                    placeholder="Email address"
+                    class="subscribe__input")
+                a(
+                    href="javascript:void(0);"
+                    title=""
+                    class="subscribe__btn-send"
+                )

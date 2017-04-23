@@ -8,15 +8,145 @@
 /// LOGOTYPE
 ///
 .subscribe {
+  display: none;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  width: calc(100% - 40px);
+  height: calc(100% - 40px);
+  background-color: rgba($c-blue-zodiac, 0.8);
+  transition: .5s ease-in-out;
+
+  &.animated {
+    display: block;
+  }
+
+  &_flex {
+    height: $w-all;
+    margin-top: -100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__wrap {
+    width: $w-all;
+  }
+
+  &__filed {
+    position: relative;
+    width: 75%;
+    height: 80px;
+    line-height: 80px;
+    margin: {
+      left: auto;
+      right: auto;
+    };
+  }
+
+  &__input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: none;
+    @include mixinDimensions($w-all);
+    padding: 0 120px 0 20px;
+    background-color: rgba($c-white, 0.05);
+    font: {
+      size: 30px;
+      family: $f-WW-regular;
+    };
+    color: rgba($c-white, 0.55);
+  }
 
   &__btn {
+
+    &-send {
+      position: absolute;
+      top: 0;
+      right: 0;
+      @include mixinDimensions(100px, 80px);
+      border: {
+        left: 1px solid rgba($c-white, 0.55);
+      };
+
+      &:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        @include retina-sprite($sp-i-email-group);
+      }
+    }
+
     &-mail {
+      position: relative;
+      z-index: 1000;
+      @include mixinDimensions(50px);
+      border-radius: $w-all;
+      background-color: $c-blue-zodiac;
       float: right;
       margin: {
         top: 15px;
         right: 15px;
       };
-      @include retina-sprite($sp-i-mail-1x-group)
+
+      &:not(.active) {
+        animation-name: shadowScale;
+        animation-duration: 2s;
+        animation-fill-mode: both;
+        animation-iteration-count: infinite;
+      }
+
+      &:before {
+        content: "subscribe";
+        position: absolute;
+        left: -100px;
+        width: 100px;
+        top: 0;
+        font-size: 12px;
+        line-height: 50px;
+        color: $c-blue-zodiac;
+      }
+
+      &--icon {
+        display: inline-block;
+        margin-top: (50px - 24px) / 2;
+        @include retina-sprite($sp-i-email-group);
+      }
+
+      &.active {
+        &:before {
+          opacity: 0;
+          transition-property: opacity;
+          transition: .3s ease-in-out;
+        }
+        .subscribe__btn-mail--icon {
+          @include retina-sprite($sp-i-close-group);
+        }
+      }
     }
+  }
+}
+
+input[name="subscribe"]::-webkit-input-placeholder {color: rgba($c-white, 0.55);}
+input[name="subscribe"]::-moz-placeholder {color: rgba($c-white, 0.55);}
+input[name="subscribe"]:-moz-placeholder {color: rgba($c-white, 0.55);}
+input[name="subscribe"]::placeholder {color: rgba($c-white, 0.55);}
+
+@keyframes shadowScale {
+  from {
+    box-shadow: 0 0 0 0 rgba(0,0,0,0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px 3px rgba(0,0,0,0.5);
+  }
+  to {
+    box-shadow: 0 0 0 0 rgba(0,0,0,0.5);
   }
 }

@@ -1,5 +1,6 @@
 {
   "styleLinkIndex" : [
+    "./vendor/css/animate.min.css",
     "./style/fonts.css",
     "./style/base.css",
     "./style/common.css"
@@ -7,6 +8,7 @@
 
   "scriptLink" : [
     "./vendor/js/jquery-1.11.1.min.js",
+    "./vendor/js/jquery.viewportchecker.min.js",
     "./script/main.min.js"
   ]
 }
