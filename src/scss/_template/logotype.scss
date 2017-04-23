@@ -15,6 +15,19 @@
   }
 
   &__img {
-    height: 75px;
+
+    &-desktop {
+      height: 75px;
+      @include respond-to(small-max) {
+        display: none;
+      }
+    }
+    &-mobile {
+      display: none;
+      height: (106px / 2);
+      @include respond-to(small-max) {
+        display: block;
+      }
+    }
   }
 }

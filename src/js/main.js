@@ -77,17 +77,17 @@ function getFromInputs() {
 $(window).on("load ready resize scroll", function() {
     var winWidth        = $(window).width();
 
-    var circleWrap      = $(".circle__block"),
-        circleWrapLen   = circleWrap.length,
-        windowPadding   = 30;
+    var bodyHeight      = $("body").height(),
+        mainContainer   = $(".main");
 
     if(winWidth < "768") {
-        // 5 margin left/right
-        var res = Math.ceil((winWidth - windowPadding) / circleWrapLen) - 5;
-
-        circleWrap.attr("style", "width:" + res + "px;height:" + res + "px;");
+        mainContainer.css({
+            "height" : bodyHeight
+        });
     } else {
-        circleWrap.attr("style", "");
+        mainContainer.css({
+            "height" : "100vh"
+        });
     }
 });
 

@@ -16,10 +16,21 @@
   }
   @include respond-to(small-max) {
     display: block;
+    float: none;
+    padding-left: 0;
   }
 
   &__text {
     color: $c-blue-zodiac;
+    @include respond-to(small-max) {
+      font-size: 14px;
+    }
+
+    &-0 {
+      @include respond-to(small-max) {
+        display: block;
+      }
+    }
   }
 
   &__line {

@@ -19,6 +19,8 @@ main {
   padding: 20px;
   text-align: center;
   @include respond-to(small-max) {
+    height: auto;
+    min-height: $w-all;
     padding: 15px;
   }
 }
@@ -35,12 +37,34 @@ section {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: calc(100% - (100px + 50px));
+  @include respond-to(medium-min) {
+    height: calc(100% - (100px + 50px));
+  }
+  @include respond-to(small-max) {
+    min-height: calc(100% - (100px * 2));
+  }
 }
 .section {
   &__wrap {
     &-0 {
       margin-top: -200px;
+      @include respond-to(small-max) {
+        margin-top: 0;
+      }
+    }
+    &-1 {
+      @include respond-to(small-max) {
+        margin-bottom: 30px;
+      }
+    }
+  }
+}
+@media only screen and (max-height: 800px) {
+  .section {
+    &__wrap {
+      &-0 {
+        margin-top: 0;
+      }
     }
   }
 }

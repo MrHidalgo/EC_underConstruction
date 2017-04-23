@@ -20,6 +20,9 @@ body {
   //	overflow-x: hidden;
   //}
   overflow: hidden;
+  @include respond-to(small-max) {
+    overflow-y: auto;
+  }
 
   &.open-menu,
   &.open-popup {

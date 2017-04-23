@@ -11,6 +11,20 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
+  @include respond-to(small-max) {
+    display: inherit;
+    padding-top: 65px;
+    width: 270px;
+    height: 270px;
+    margin: {
+      left: auto;
+      right: auto;
+    };
+    border-radius: $w-all;
+    border: 5px solid $c-blue-zodiac;
+    box-shadow: 0 0 20px 0 rgba(0,0,0,.55);
+    background-color: rgba($c-blue-zodiac, .55);
+  }
 
   &__block {
     cursor: pointer;
@@ -19,28 +33,76 @@
     align-items: center;
     justify-content: center;
     @include mixinDimensions(140px);
-    margin: {
-      //left: 20px;
-      //right: 20px;
-    };
     text-align: center;
     color: $c-blue-zodiac;
     transition-property: background, box-shadow;
     transition-duration: .3s;
     transition-timing-function: ease-in-out;
+    @include respond-to(small-max) {
+      display: inline-block;
+      width: 65px;
+      height: auto;
+    }
+
+    &_months,
+    &_days,
+    &_hours {
+      .circle__block-num {
+        @include respond-to(small-max) {
+          font-size: 30px;
+        }
+      }
+    }
+
+    &_months,
+    &_days {
+      .circle__block-num {
+        @include respond-to(small-max) {
+          &:after {
+            content: ":";
+            position: absolute;
+            top: -2px;
+            right: -7px;
+          }
+        }
+      }
+    }
+
+    &_minutes,
+    &_seconds {
+      @include respond-to(small-max) {
+        margin-top: 25px;
+        padding-top: 7px;
+        @include mixinDimensions(80px);
+        border-radius: $w-all;
+        border: 2px solid $c-blue-zodiac;
+        box-shadow: 0 0 10px 0 rgba(0,0,0,.55);
+        background-color: rgba($c-blue-zodiac, .55);
+      }
+    }
+
+    &_minutes {
+      @include respond-to(small-max) {
+        margin-right: 7.5px;
+      }
+    }
+    &_seconds {
+      @include respond-to(small-max) {
+        margin-left: 7.5px;
+      }
+    }
 
     &-num {
+      position: relative;
       font: {
         size: 50px;
         family: $f-TAR-regular;
       }
       text-shadow: 6px 4px 4px rgba(0,0,0,0.15);
-      @include respond-to(small) {
-        font-size: 30px;
-      }
-      @include respond-to(extra-small) {
-        font-size: 20px;
-        line-height: 1;
+      @include respond-to(small-max) {
+        font-size: 26px;
+        display: block;
+        color: $c-white;
       }
     }
 
@@ -58,6 +120,12 @@
       font: {
         family: $f-WW-regular;
         size: 12px;
+      }
+      @include respond-to(small-max) {
+        width: auto;
+        background-color: transparent;
+        color: $c-white;
+        padding: 0;
       }
     }
   }

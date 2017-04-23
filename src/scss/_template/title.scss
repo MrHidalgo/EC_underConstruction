@@ -16,14 +16,7 @@
     color: $c-eclipse;
     text-shadow: 6px 4px 4px rgba(0,0,0,0.15);
     @include respond-to(small-max) {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      height: 75px;
-      padding-left: 115px;
       font-size: 28px;
-      text-align: right;
-      line-height: 1.2;
     }
 
     .subscribe & {
@@ -38,10 +31,13 @@
         right: auto;
       };
       background-color: $c-blue-zodiac;
+      @include respond-to(small-max) {
+        width: 100px;
+      }
     }
 
     &-wrap {
-      height: 150px;
+      height: 100px;
     }
   }
 
@@ -51,9 +47,9 @@
     };
     color: $c-nero;
     @include respond-to(small-max) {
-      display: none;
+      //display: none;
       font-size: 13px;
-      padding-top: 30px;
+      //padding-top: 30px;
     }
 
     .subscribe & {
