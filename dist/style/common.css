@@ -85,8 +85,6 @@ html {
 
 html,
 body {
-  width: 100%;
-  min-height: 100%;
   overflow: hidden;
 }
 
@@ -119,10 +117,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: "opensans-semibold";
-  background-color: #FFF;
   overflow-x: hidden;
-  width: 100vw;
-  min-height: 100vh;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -133,6 +128,17 @@ body {
     left: 0;
     height: 100%;
   }
+}
+
+
+html {
+  height: 100%;
+  min-height: 100%;
+}
+
+
+body {
+  min-height: 100%;
 }
 
 
@@ -317,6 +323,11 @@ input[type="radio"] {
   height: 100%;
   overflow: hidden;
   border: 20px solid #FFF;
+  background: url("../image/bg-0.jpg") fixed center no-repeat;
+  -webkit-background-size: cover;
+          background-size: cover;
+  -webkit-filter: blur(3px);
+          filter: blur(3px);
 }
 
 @media screen and (max-width: 767px) {
@@ -324,27 +335,6 @@ input[type="radio"] {
   .video {
     border-width: 15px;
   }
-}
-
-
-.video.not_load:before {
-  opacity: 1;
-}
-
-
-.video:before {
-  content: "";
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url("../image/bg-0.jpg") no-repeat center;
-  -webkit-background-size: cover;
-          background-size: cover;
-  -webkit-filter: blur(5px);
-          filter: blur(5px);
 }
 
 

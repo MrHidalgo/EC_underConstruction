@@ -13,9 +13,9 @@ html {
 
 html,
 body {
-  width: $w-all;
+  //width: $w-all;
   //height: $w-all;
-  min-height: $w-all;
+  //height: $w-all;
   //@include respond-to(large-max) {
   //	overflow-x: hidden;
   //}
@@ -46,12 +46,12 @@ body {
 
   font-family: $f-OS-semibold;
 
-  background-color: $c-white;
+  //background-color: red;
 
   overflow-x: hidden;
 
-  width: 100vw;
-  min-height: 100vh;
+  //width: 100vw;
+  //min-height: 100vh;
 }
 
 @media only screen and(max-width: 1024px) {
@@ -61,6 +61,14 @@ body {
     left: 0;
     height: 100%;
   }
+}
+
+html {
+  height:100%;
+  min-height:100%;
+}
+body {
+  min-height:100%;
 }
 
 * {

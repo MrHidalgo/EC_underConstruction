@@ -84,9 +84,15 @@ $(window).on("load ready resize scroll", function() {
         mainContainer.css({
             "height" : bodyHeight
         });
+        $(".video").css({
+            "background-size" : "100% 100%"
+        });
     } else {
         mainContainer.css({
             "height" : "100vh"
+        });
+        $(".video").css({
+            "background-size" : "cover"
         });
     }
 });

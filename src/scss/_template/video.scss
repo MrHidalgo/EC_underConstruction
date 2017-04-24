@@ -15,31 +15,10 @@
   @include mixinDimensions($w-all);
   overflow: hidden;
   border: 20px solid $c-white;
+  background: url("../image/bg-0.jpg") fixed center no-repeat;
+  background-size: cover;
+  filter: blur(3px);
   @include respond-to(small-max) {
     border-width: 15px;
   }
-
-  &.not_load {
-    &:before {
-      opacity: 1;
-      //transition: 1s ease-in-out;
-    }
-  }
-
-  &:before {
-    content: "";
-    position: absolute;
-    opacity: 0;
-    top: 0;
-    left: 0;
-    @include mixinDimensions($w-all);
-    background: url("../image/bg-0.jpg") no-repeat center;
-    background-size: cover;
-    filter: blur(5px);
-  }
-}
-#video {
-  //@include mixinDimensions($w-all);
-  //object-fit: cover;
-  //filter: blur(.5px);
 }
