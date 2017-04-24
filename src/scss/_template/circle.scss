@@ -21,7 +21,7 @@
       right: auto;
     };
     border-radius: $w-all;
-    border: 5px solid $c-blue-zodiac;
+    border: 5px solid rgba($c-blue-zodiac, 0.55);
     box-shadow: 0 0 20px 0 rgba(0,0,0,.55);
     background-color: rgba($c-blue-zodiac, .55);
   }
@@ -75,7 +75,7 @@
         padding-top: 7px;
         @include mixinDimensions(80px);
         border-radius: $w-all;
-        border: 2px solid $c-blue-zodiac;
+        border: 2px solid rgba($c-blue-zodiac, 0.55);
         box-shadow: 0 0 10px 0 rgba(0,0,0,.55);
         background-color: rgba($c-blue-zodiac, .55);
       }
@@ -122,6 +122,7 @@
         size: 12px;
       }
       @include respond-to(small-max) {
+        font-size: 10px;
         width: auto;
         background-color: transparent;
         color: $c-white;

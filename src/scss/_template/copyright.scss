@@ -22,6 +22,7 @@
 
   &__text {
     color: $c-blue-zodiac;
+    font-size: 15px;
     @include respond-to(small-max) {
       font-size: 14px;
     }

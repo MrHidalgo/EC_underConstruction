@@ -329,8 +329,6 @@ input[type="radio"] {
 
 .video.not_load:before {
   opacity: 1;
-  -webkit-transition: 1s ease-in-out;
-  transition: 1s ease-in-out;
 }
 
 
@@ -342,19 +340,11 @@ input[type="radio"] {
   left: 0;
   width: 100%;
   height: 100%;
-  background: url("../image/bg.jpg") no-repeat center;
+  background: url("../image/bg-0.jpg") no-repeat center;
   -webkit-background-size: cover;
           background-size: cover;
-}
-
-
-#video {
-  width: 100%;
-  height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
-  -webkit-filter: blur(0.5px);
-          filter: blur(0.5px);
+  -webkit-filter: blur(5px);
+          filter: blur(5px);
 }
 
 
@@ -782,7 +772,7 @@ input[name="subscribe"]::placeholder {
     margin-right: auto;
     -webkit-border-radius: 100%;
             border-radius: 100%;
-    border: 5px solid #3e4459;
+    border: 5px solid rgba(62, 68, 89, 0.55);
     -webkit-box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.55);
             box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.55);
     background-color: rgba(62, 68, 89, 0.55);
@@ -858,7 +848,7 @@ input[name="subscribe"]::placeholder {
     height: 80px;
     -webkit-border-radius: 100%;
             border-radius: 100%;
-    border: 2px solid #3e4459;
+    border: 2px solid rgba(62, 68, 89, 0.55);
     -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.55);
             box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.55);
     background-color: rgba(62, 68, 89, 0.55);
@@ -915,6 +905,7 @@ input[name="subscribe"]::placeholder {
 @media screen and (max-width: 767px) {
   
   .circle__block-text {
+    font-size: 10px;
     width: auto;
     background-color: transparent;
     color: #FFF;
@@ -942,6 +933,7 @@ input[name="subscribe"]::placeholder {
 
 .copyright__text {
   color: #3e4459;
+  font-size: 15px;
 }
 
 @media screen and (max-width: 767px) {

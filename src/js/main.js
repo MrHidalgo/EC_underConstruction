@@ -96,13 +96,13 @@ $(document).ready(function () {
     getFromInputs();
 
     // VIDEO SUPPORT
-    var vid             = $("video"),
-        videoBool       = document.createElement('video').canPlayType;
-
-    if(vid.length === 0 || !videoBool) {
-        vid.remove();
-        $(".video").addClass("not_load");
-    }
+    // var vid             = $("video"),
+    //     videoBool       = document.createElement('video').canPlayType;
+    //
+    // if(vid.length === 0 || !videoBool) {
+    //     vid.remove();
+    //     $(".video").addClass("not_load");
+    // }
 
     /* subscribe */
     $(".btn-subscribe-js").on("click", function() {
@@ -124,11 +124,11 @@ $(document).ready(function () {
 
     /* animation check view...*/
     if($(window).width() > '767') {
-        $('.video, .main').addClass('hidden').viewportChecker({
-                classToAdd: 'visible animated slideInUp',
-                classToRemove : 'hidden',
-                removeClassAfterAnimation: true
-            }
-        );
+        // $('.video, .main').addClass('hidden').viewportChecker({
+        //         classToAdd: 'visible animated slideInUp'
+        //         , classToRemove : 'hidden'
+        //         , removeClassAfterAnimation: true
+        //     }
+        // );
     }
 });
