@@ -47,9 +47,7 @@
     };
     color: $c-nero;
     @include respond-to(small-max) {
-      //display: none;
       font-size: 13px;
-      //padding-top: 30px;
     }
 
     .subscribe & {
