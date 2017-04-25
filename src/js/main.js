@@ -80,13 +80,18 @@ $(window).on("load ready resize scroll", function() {
     var bodyHeight      = $("body").height(),
         mainContainer   = $(".main");
 
+    var ua              = navigator.userAgent,
+        mobile          = /IEMobile|Windows Phone|Lumia/i.test(ua) ? 'win' : /Android/.test(ua) ? 'android' : /webOS|Mobile|Tablet|Opera Mini|\bCrMo\/|Opera Mobi/i.test(ua) ? 1 : 0;
+
     if(winWidth < "768") {
         mainContainer.css({
             "height" : bodyHeight
         });
-        $(".video").css({
-            "background-size" : "100% 100%"
-        });
+        if(mobile === "win" || mobile === "android") {
+            $(".video").css({
+                "background-size" : "100% 100%"
+            });
+        }
     } else {
         mainContainer.css({
             "height" : "100vh"
