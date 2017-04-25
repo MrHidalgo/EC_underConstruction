@@ -107,20 +107,20 @@ $(document).ready(function () {
     getFromInputs();
 
     /* SUBSCRIBE */
-    $(".btn-subscribe-js").on("click", function() {
-
-        if($(this).hasClass("active")) {
-            $(this).removeClass('active');
-            $("header, section, footer").removeClass("fadeOut").addClass("fadeIn");
-            $(".subscribe").removeClass("zoomIn").addClass("zoomOut").css({
-                "z-index" : "0"
-            });
-        } else {
-            $(this).addClass('active');
-            $("header, section, footer").removeClass("fadeIn").addClass("animated fadeOut");
-            $(".subscribe").removeClass("zoomOut").addClass("animated zoomIn").css({
-                "z-index" : "100"
-            });
-        }
-    });
+    // $(".btn-subscribe-js").on("click", function() {
+    //
+    //     if($(this).hasClass("active")) {
+    //         $(this).removeClass('active');
+    //         $("header, section, footer").removeClass("fadeOut").addClass("fadeIn");
+    //         $(".subscribe").removeClass("zoomIn").addClass("zoomOut").css({
+    //             "z-index" : "0"
+    //         });
+    //     } else {
+    //         $(this).addClass('active');
+    //         $("header, section, footer").removeClass("fadeIn").addClass("animated fadeOut");
+    //         $(".subscribe").removeClass("zoomOut").addClass("animated zoomIn").css({
+    //             "z-index" : "100"
+    //         });
+    //     }
+    // });
 });

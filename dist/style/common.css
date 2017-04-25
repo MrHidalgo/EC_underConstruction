@@ -543,20 +543,8 @@ input[type="radio"] {
 }
 
 
-.subscribe__btn-mail:not(.active) {
-  -webkit-animation-name: shadowScale;
-          animation-name: shadowScale;
-  -webkit-animation-duration: 2s;
-          animation-duration: 2s;
-  -webkit-animation-fill-mode: both;
-          animation-fill-mode: both;
-  -webkit-animation-iteration-count: infinite;
-          animation-iteration-count: infinite;
-}
-
-
 .subscribe__btn-mail:before {
-  content: "subscribe";
+  content: "";
   position: absolute;
   left: -100px;
   width: 100px;

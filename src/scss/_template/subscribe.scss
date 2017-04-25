@@ -130,14 +130,14 @@
       };
 
       &:not(.active) {
-        animation-name: shadowScale;
-        animation-duration: 2s;
-        animation-fill-mode: both;
-        animation-iteration-count: infinite;
+        //animation-name: shadowScale;
+        //animation-duration: 2s;
+        //animation-fill-mode: both;
+        //animation-iteration-count: infinite;
       }
 
       &:before {
-        content: "subscribe";
+        content: "";
         position: absolute;
         left: -100px;
         width: 100px;
