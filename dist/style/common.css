@@ -481,6 +481,7 @@ input[type="radio"] {
 
 
 .subscribe__btn-send {
+  cursor: none;
   position: absolute;
   top: 0;
   right: 0;
