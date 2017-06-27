@@ -1,0 +1,53 @@
+<div class="forms__body_login animated fadeIn">
+    <form class="forms__form clearfix" id="loginform" kendo-validator="loginValidator" k-options="loginRules" name="loginForm" role="form">
+
+        <!-- E-mail filed -->
+        <div class="forms__group forms__group-icons" style="position:relative;"
+             ng-class="{ 'has-error' : loginForm.Email.$invalid && loginForm.Email.$dirty}">
+
+            <label for="login-username" class="forms__icon icon-email"></label>
+
+            <input id="login-username"  data-login="loginuser" class="forms__input"
+                   autocomplete="on"
+                     name="Email"
+                   required data-message="E-mailadres is verplicht"
+                   ng-model="username" ng-keypress="$event.which === 13 && loginUser()">
+                 <span class="k-invalid-msg"  data-for="validEmail"></span><br />
+        </div>
+
+        <!-- Password filed -->
+        <div class="forms__group forms__group-icons" id="psdgroup" style="position:relative;"  ng-class="{ 'has-error' : loginForm.Password.$invalid && loginForm.Password.$dirty}">
+            <label for="login-password" class="forms__icon icon-key"></label>
+
+            <input id="login-password" class="forms__input"
+                   autocomplete="off"
+                   type="Password" name="Password"
+                   required
+                   ng-model="password" ng-keypress="$event.which === 13 && loginUser()" />
+           
+        </div>
+
+    </form>
+
+    <button type="button"
+            class="button__c btn__login" 
+            ng-click="loginUser()">
+        {{"login"|translate}}
+        <i class="fa fa-sign-in"></i>
+    </button>
+
+    <a href="javascript:void(0);"
+       class="btn__links btn__forgot"
+       ng-click="navigationTMPL('/app/login/forgotPasswordTMPL.html')">
+        {{"Forgot_password"|translate}}
+    </a>
+</div>
+
+<script>
+    /* forgot pass */
+    $(".btn__forgot").on("click", function () {
+        var headerBtn = $(".forms__btn");
+
+        headerBtn.removeClass("active");
+    });
+</script>

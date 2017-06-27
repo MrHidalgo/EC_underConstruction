@@ -1,0 +1,169 @@
+﻿<div class="circle clearfix">
+
+    <!-- SVG -->
+    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <linearGradient id="gradientText" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#4285F4"></stop>
+                <stop offset="100%" stop-color="#0d47a1"></stop>
+            </linearGradient>
+        </defs>
+        <text fill="url(#gradientText)" x="50%" y="50%">DASHBOARD
+        </text>
+    </svg>
+
+    <!-- CIRCLE BTN -->
+    <div class="circle__block circle__link">
+        <div class="circle__block-icon--wrap">
+            <img src="/Images/i-dashboard-link.png" class="circle__block-icon" alt="">
+        </div>
+        <div class="circle__block-text--wrap">
+            <p class="circle__block-text">link to iop</p>
+        </div>
+    </div>
+    <div class="circle__block circle__assessment">
+        <div class="circle__block-icon--wrap">
+            <img src="/Images/i-dashboard-assessment.png" class="circle__block-icon" alt="">
+        </div>
+        <div class="circle__block-text--wrap">
+            <p class="circle__block-text">assessment</p>
+        </div>
+    </div>
+    <div class="circle__block circle__update">
+        <div class="circle__block-icon--wrap">
+            <img src="/Images/i-dashboard-level.png" class="circle__block-icon" alt="">
+        </div>
+        <div class="circle__block-text--wrap">
+            <p class="circle__block-text">update epa level</p>
+        </div>
+    </div>
+    <div class="circle__block circle__messages">
+        <div class="circle__block-icon--wrap">
+            <img src="/Images/i-dashboard-message.png" class="circle__block-icon" alt="">
+        </div>
+        <div class="circle__block-text--wrap">
+            <p class="circle__block-text">messages</p>
+        </div>
+    </div>
+    <div class="circle__block circle__certificates">
+        <div class="circle__block-icon--wrap">
+            <img src="/Images/i-dashboard-certificate.png" class="circle__block-icon" alt="">
+        </div>
+        <div class="circle__block-text--wrap">
+            <p class="circle__block-text">certificates</p>
+        </div>
+    </div>
+    <div class="circle__block circle__ultrasound">
+        <div class="circle__block-icon--wrap">
+            <img src="/Images/i-dashboard-ultrasound.png" class="circle__block-icon" alt="">
+        </div>
+        <div class="circle__block-text--wrap">
+            <p class="circle__block-text">ultrasound</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // FOR IE
+    // $mt: sin($rot * pi() / 180) * $half-parent - $half-item;
+    // $ml: cos($rot * pi() / 180) * $half-parent - $half-item;
+    // margin: $mt 0 0 $ml;
+
+    // FOR MODERN BROWSER
+    // transform: rotate($rot * 1deg) translate($half-parent) rotate($rot * -1deg);
+
+    function drawCircle(selector, selectorNot, radius, dimensionCircleBtn, fontSize) {
+
+        // CONST
+        var CIRCLE_DIMENSION_BIG    = dimensionCircleBtn || 140,
+            CIRCLE_DIMENSION_MEDIUM = dimensionCircleBtn || 120,
+            CIRCLE_DIMENSION_SMALL  = dimensionCircleBtn || 100;
+
+        var CIRCLE_FONTSIZE_BIG     = fontSize || 12,
+            CIRCLE_FONTSIZE_MEDIUM  = fontSize || 10,
+            CIRCLE_FONTSIZE_SMALL   = fontSize || 9;
+
+        // VAR
+        var total   = $(selector).not(selectorNot).length,
+            angle   = 360 / total,
+            rotate  = 0;
+
+
+        $(".circle").attr("style", "width:" + radius * 2 + "px;height:" + radius * 2 + "px;");
+
+
+        $(selector).each(function (ind, val) {
+
+            var transformRotatePositive     = "rotate(+" + rotate + "deg)",
+                transformRotateNegative     = "rotate(-" + rotate + "deg);",
+                transformTranslateAfter     = "translate(" + radius + "px)",
+                transformTranslateBefore    = "translate(0,-" + radius + "px)";
+
+            var offsetMargin;
+
+            var transform,
+                widthHeightDimension,
+                marginLeftTop,
+                fontSize;
+
+            // dimension block
+            if (total <= 8) {
+                widthHeightDimension = "width:" + CIRCLE_DIMENSION_BIG + "px;height:" + CIRCLE_DIMENSION_BIG + "px;";
+                offsetMargin = CIRCLE_DIMENSION_BIG / 2;
+                fontSize = "font-size:" + CIRCLE_FONTSIZE_BIG + "px;";
+            } else if (total > 8 && total < 13) {
+                widthHeightDimension = "width:" + CIRCLE_DIMENSION_MEDIUM + "px;height:" + CIRCLE_DIMENSION_MEDIUM + "px;";
+                offsetMargin = CIRCLE_DIMENSION_MEDIUM / 2;
+                fontSize = "font-size:" + CIRCLE_FONTSIZE_MEDIUM + "px;";
+            } else {
+                widthHeightDimension = "width:" + CIRCLE_DIMENSION_SMALL + "px;height:" + CIRCLE_DIMENSION_SMALL + "px;";
+                offsetMargin = CIRCLE_DIMENSION_SMALL / 2;
+                fontSize = "font-size:" + CIRCLE_FONTSIZE_SMALL + "px;";
+            }
+
+            // transform function
+            if (total === 5 || total === 3) {
+                transform = "transform:" + transformRotatePositive + " " + transformTranslateBefore + " " + transformRotateNegative;
+            } else {
+                transform = "transform:" + transformRotatePositive + " " + transformTranslateAfter + " " + transformRotateNegative;
+            }
+
+            // offset
+            marginLeftTop = "margin-top:-" + offsetMargin + "px;margin-left:-" + offsetMargin + "px;";
+
+            // add style attr
+            $(this).attr('style', transform + "" + widthHeightDimension + "" + marginLeftTop + "" + fontSize);
+
+            // inc rotate
+            rotate += angle;
+        });
+    }
+
+    function windowEventListenerWidth() {
+        var windowWidth = $(window).width();
+
+        if (windowWidth > "767" && windowWidth < "991") {
+            drawCircle(".circle__block", "", 250, "", "");
+        } else if (windowWidth > "991") {
+            drawCircle(".circle__block", "", 280, "", "");
+        }
+    }
+
+    function windowEventListenerHeight() {
+        var winHeight   = $(window).height(),
+            windowWidth = $(window).width();
+
+        if(winHeight > "730" && winHeight < "850" && windowWidth > "767") {
+            drawCircle(".circle__block", "", 220, 120, 10);
+        }
+    }
+
+    $(window).on("load resize ready scroll", function () {
+        windowEventListenerWidth();
+        windowEventListenerHeight();
+    });
+
+    windowEventListenerWidth();
+    windowEventListenerHeight();
+
+</script>

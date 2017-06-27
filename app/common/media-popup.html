@@ -1,0 +1,11 @@
+﻿<div class="modal-body" >
+    <i title="Close" class="fa fa-times-circle-o close-icon" aria-hidden="true" ng-click="close()"></i>
+    <!--poster="{{file.Thumbnail}}"-->
+    <video loop controls ng-show="file!=null && file.isVideo" class="img-responsive" autoplay ng-src="{{file.filepath}}" >
+        <!--<source ng-src="{{file.filepath}}" ng-if="file.FileType " type="{{file.FileType}}" />-->
+   </video>
+    
+
+    <img ng-show="file!=null && !file.isVideo" ng-src="{{file.filepath}}" class="img-responsive" />
+</div>
+

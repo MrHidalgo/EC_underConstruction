@@ -1,0 +1,103 @@
+<div class="menu">
+    <a href="javascript:void(0);" class="menu__btn menu_open-js">
+        <span class="menu__btn-line menu__btn-line_0"></span>
+        <span class="menu__btn-line menu__btn-line_1"></span>
+        <span class="menu__btn-line menu__btn-line_2"></span>
+        <span class="menu__btn-text">{{"menu"|translate}}</span>
+    </a>
+    <script>
+        /* LEFT MENU */
+        var menuBtnOpen     = $(".menu_open-js"),
+            menuBtnClose    = $(".menu_close-js"),
+            menuContainer   = $(".navigation");
+
+        menuBtnOpen.on("click", function(){
+            menuContainer.addClass("active");
+            $("html, body").addClass("open-menu");
+        });
+
+        menuBtnClose.on("click", function(){
+            menuContainer.removeClass("active");
+            $("html, body").removeClass("open-menu");
+        });
+    </script>
+</div>
+
+<div class="logotype">
+    <img src="../Images/logotype.png"
+         alt="ExpertFolio"
+         title="ExpertFolio"
+         class="logotype__img"/>
+</div>
+
+<div class="profile">
+    <a href="javascript:void(0);" class="profile__btn profile-js">
+        <i class="profile__btn-icon icon-user"></i>
+        <i class="icon-arrow_drop_down"></i>
+    </a>
+    <div class="profile__drop">
+        <div class="profile__drop-wrap">
+            <a href="javascript:void(0);"
+               class="profile__link profile_border"
+               ng-click="showProfile()">
+                {{"my_profile"|translate}}</a>
+
+<!--            <a href="javascript:void(0);"
+               class="profile__link"
+               ng-click="editProfile()">
+                {{"edit_profile"|translate}}</a>-->
+
+            <a href="javascript:void(0);"
+               class="profile__link"
+               ng-click="logout()">
+               {{"sign_out"|translate}} </a>
+        </div>
+    </div>
+
+    <script>
+        /* PROFILE */
+        $(".profile-js").on("click", function() {
+            $(".profile__drop").toggle();
+            $(".language__drop").hide();
+        });
+        $(".profile__link").on("click", function() {
+            $(".profile__drop").hide();
+        });
+    </script>
+</div>
+
+<div data-lang="lang_{{currentLang}}" class="language">
+    <span class="language__btn language-js">
+        <i class="language__btn-icon"></i>
+        <i class="icon-arrow_drop_down"></i>
+    </span>
+    <div class="language__drop">
+        <div class="language__drop-wrap">
+            <p class="language__drop-header">{{"choose_language"|translate}}:</p>
+            <span ng-click="setLanguage('en')" class="language__btn language_eng">
+                <i class="language__btn-icon icon-sp-i-flag-gb"></i>
+                {{"english"|translate}}
+            </span>
+            <span ng-click="setLanguage('nl')" class="language__btn language_du">
+                <i class="language__btn-icon icon-sp-i-flag-nl"></i>
+                {{"nederlands"|translate}}
+            </span>
+        </div>
+    </div>
+    <script>
+        /* LANGUAGE */
+        $(".language-js").on("click", function() {
+            $(".language__drop").toggle();
+            $(".profile__drop").hide();
+        });
+        $(".language__drop .language__btn").on("click", function() {
+            $(".language__drop").hide();
+        });
+    </script>
+</div>
+
+<div class="profile profile_info">
+    <span class="profile__name">{{ userName }}<span class="profile__role">{{ userTypes }}</span></span>
+</div>
+
+<hr class="header__line"/>

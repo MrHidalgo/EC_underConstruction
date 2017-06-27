@@ -1,0 +1,511 @@
+﻿<div class="container">
+    <div class="panel-button-wrapper col-md-offset-2 col-md-8">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                {{formTitle}}
+            </div>
+
+            <div class="panel-body" style="margin:20px;">
+
+                <form class="form-horizontal" name="kpbForm" autocomplete="on">
+
+                    <uib-accordion close-others="oneAtATime">
+                        <!--General information KPB-->
+                        <div uib-accordion-group class="panel-default" is-open="status.General" ng-click="openCollapse($event, 'General')">
+                                <div uib-accordion-heading >
+                                    General information KPB
+                                    <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-up': status.General, 'glyphicon-chevron-down': !status.General}"></i>
+                                </div >
+                         
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Student Name</label>
+                                <div class="col-sm-9">
+
+                                    <input type="text" ng-show="!isTeacher" class="form-control" ng-model="kpbModel.StudentName" readonly>
+                                    <select ng-show="isTeacher" class="form-control" ng-model="kpbModel.CurrentUserEmail" ng-options="kpb.Email as kpb.Email + ' - ' + kpb.UserTitle.Name + ' '+ kpb.Surname for kpb in hospitalStudents">
+                                        <option value="">--Select Student --</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Profession</label>
+                                <div class="col-sm-9">
+
+                                    <input type="text" class="form-control" ng-model="kpbModel.Profession" readonly>
+                                    <!--<select ng-show="isTeacher" class="form-control" ng-model="kpbModel.SpecialityId" ng-options="spec.Id as spec.Name for spec in specialities">
+                                        <option value="">--Select Profession --</option>
+                                    </select>-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Level Of Training:</label>
+                                <div class="col-sm-9">
+
+                                    <input type="text" class="form-control" ng-model="kpbModel.Level" readonly>
+                                
+                                </div>
+                            </div>
+                            <div class="form-group">
+                               
+                                  
+                                        <label class="control-label col-sm-3">Year</label>
+                                   
+                                    <div class="col-sm-2">
+                                        <input type="number" class="form-control" ng-model="kpbModel.Year" readonly>
+                                    </div>
+                                    <div class="col-sm-2"></div>
+
+                                    <div class="col-sm-3">
+                                        <label class="control-label" style="float: right">Semester</label>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input type="number" class="form-control" ng-model="kpbModel.Semestr" readonly>
+                                    </div>
+                               
+                               
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Hospital</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" ng-model="kpbModel.Hospital" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Supervisor name</label>
+                                <div class="col-sm-9">
+                                    <input type="text" ng-show="isTeacher" class="form-control" ng-model="kpbModel.SupervisorName" readonly>
+                                    <select ng-show="!isTeacher" class="form-control" ng-model="kpbModel.CurrentTeacherEmail" ng-options="t.Email as t.Email + ' - ' + t.UserTitle.Name + ' '+ t.Surname for t in hospitalTeachers">
+                                        <option value="">--Select Supervisor --</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Date clinical assessment</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" ng-model="kpbModel.AssesstmentDate" uib-datepicker-popup="{{format}}" is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" ng-click="open()">
+                                                <i class="glyphicon glyphicon-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Date of creating form</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" readonly  ng-model="kpbModel.CreatedDate">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button">
+                                                <i class="glyphicon glyphicon-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Attachments:</label>
+                                <div class="col-sm-9">
+
+                                    <div class="btn col-sm-12 btn-default upload-btn-border"
+                                         ngf-select="selectFiles($files)"
+                                         ngf-drop="selectFiles($files)"
+                                         ng-model="files"
+                                         ngf-multiple="true"
+                                         ngf-max-size="'50MB'"
+                                         ngf-keep="'distinct'"
+                                         ngf-allow-dir="true"
+                                         ngf-include-dir="true"
+                                        style="border: 1px dashed black;"
+                                          ngf-max-files="10">
+                                        
+                                        <p class="glyphicon glyphicon-save"></p>
+                                        Select or Drop file(s) here
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3"></label>
+                                <div class="col-sm-9">
+                                    <span ng-show="files == null || files.length ==0 ">No files</span>
+                                    <div ng-hide="files == null || files.length ==0 ">
+                                        <div class="files-header">Selected count: {{files.length}}</div>
+                                        <div ng-repeat="file in files" id="wrapper_{{file.$$hashKey}}">
+                                            <div class="col-sm-11 no-padding">
+
+                                                <span style="word-wrap:break-word">{{file.name}}</span>
+                                                <span class="pull-right">{{file.size / 1024 | number:2}} kB</span>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <button id="{{file.$$hashKey}}" type="button" ng-click="delete(file)" class="btn btn-danger btn-xs btn-round" title="Delete current file">
+                                                    <span class="glyphicon glyphicon-remove"></span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--General information KPB end-->
+                        <!--Type of assessment-->
+                        <div uib-accordion-group class="panel-default" is-open="status.AssesstmentType"  ng-click="openCollapse($event, 'AssesstmentType')">
+                            <uib-accordion-heading>
+                                Type of assessment
+                                <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-up': status.AssesstmentType, 'glyphicon-chevron-down': !status.AssesstmentType}"></i>
+                            </uib-accordion-heading>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Selected KPB</label>
+                                <div class="col-sm-9" >
+                                    <select class="form-control" ng-model="kpbModel.KpbId" ng-options="kpb.Id as kpb.Name for kpb in kpbs" ng-change="changeFormTitle($index)">
+                                        <option value="">--Select KPB --</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Linked EPA</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" ng-model="kpbModel.EpaId" ng-options="epa.Id as epa.Name for epa in epas">
+                                        <option value="">--Select EPA --</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <hr />
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Describe assessement/situation</label>
+                                <div class="col-sm-9">
+                                    <textarea class="form-control" ng-model="kpbModel.Description" ng-maxlength="500" required></textarea>
+                                </div>
+                            </div>
+
+                            <h4 class="kpb-from-header">Clinical information</h4>
+                            <hr />
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Patient age</label>
+                                <div class="col-sm-9">
+                                    <input type="number" min="0" class="form-control" ng-model="kpbModel.Age">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Patient priority</label>
+                                <div class="col-sm-9">
+                                    <div class="btn-group">
+                                        <label ng-repeat="priority in priorities" class="btn btn-primary" ng-model="kpbModel.Priority" uib-btn-radio="'{{priority}}'">{{priority}}</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Pathology</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" ng-maxlength="100" ng-model="kpbModel.Pathology">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Type of assessment end-->
+
+                        
+                            <!--Assessment competencies-->
+                            <div ng-hide="!isTeacher && isNewForm" uib-accordion-group class="panel-default" is-open="status.Assesstments" ng-click="openCollapse($event, 'Assesstments')">
+                                <uib-accordion-heading>
+                                    Assessment competencies
+                                    <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-up': status.Assesstments, 'glyphicon-chevron-down': !status.Assesstments}"></i>
+                                </uib-accordion-heading>
+                                <div class="form-group">
+                                    <label class="col-sm-3"></label>
+                                    <div class="col-sm-9">
+                                        <div class="row">
+                                            <span class="col-sm-2 add-margin-right radio-btn-rating-text">
+                                                below
+                                            </span>
+                                            <span class="col-sm-3 add-margin-right radio-btn-rating-text">
+                                                experted
+                                            </span>
+                                            <span class="col-sm-2 radio-btn-rating-text">
+                                                above
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-hide="tooltipsVisibility.MedicalExpert">
+                                    <label uib-tooltip-html="tooltips.MedicalExpert"
+                                           tooltip-trigger="'mouseenter'"
+                                           tooltip-placement="top-right"
+                                           tooltip-append-to-body="true"
+                                           class="control-label col-sm-3">Medical expert<sup><i class="glyphicon glyphicon-info-sign" /></sup>
+                                       
+                                    </label>
+                                   
+                                    <div class="col-sm-9">
+                                        <div class="row">
+                                            <div class="col-sm-1" ng-repeat="rating in ratings" ng-class="{'add-margin-right': rating == 5 || rating == 8}">
+                                                <input type="button"
+                                                       class="btn btn-xs btn-default btn-round rating-btn"
+                                                       name="medicalExpert" value="{{rating}}"
+                                                       uib-btn-radio="'{{rating}}'"
+                                                       uncheckable
+                                                       uibButtonConfig="roundBtnSetting"
+                                                       ng-model="kpbModel.MedicalExpert" ng-required="isRequiredRadio()">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-hide="tooltipsVisibility.Communicator">
+
+                                    <label uib-tooltip-html="tooltips.Communicator" 
+                                           tooltip-trigger="'mouseenter'" 
+                                           tooltip-placement="top-right"
+                                           tooltip-append-to-body="true"
+                                           class="control-label col-sm-3">Communicator<sup><i class="glyphicon glyphicon-info-sign" /></sup></label>
+
+                                    <div class="col-sm-9">
+                                        <div class="row">
+                                            <div class="col-sm-1" ng-repeat="rating in ratings" ng-class="{'add-margin-right': rating == 5 || rating == 8}">
+                                                <input type="button"
+                                                       class="btn btn-xs btn-default btn-round rating-btn"
+                                                       name="communicator" value="{{rating}}"
+                                                       uib-btn-radio="'{{rating}}'"
+                                                       uncheckable
+                                                       uibButtonConfig="roundBtnSetting"
+                                                       ng-model="kpbModel.Communicator" ng-required="isRequiredRadio()">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-hide="tooltipsVisibility.Collaborator">
+                                    <label uib-tooltip-html="tooltips.Collaborator"
+                                           tooltip-trigger="'mouseenter'"
+                                           tooltip-placement="top-right"
+                                           tooltip-append-to-body="true"
+                                           class="control-label col-sm-3">Collaborator<sup><i class="glyphicon glyphicon-info-sign" /></sup>
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <div class="row">
+                                            <div class="col-sm-1" ng-repeat="rating in ratings" ng-class="{'add-margin-right': rating == 5 || rating == 8}">
+                                                <input type="button"
+                                                       class="btn btn-xs btn-default btn-round rating-btn"
+                                                       name="collaborator" value="{{rating}}"
+                                                       uib-btn-radio="'{{rating}}'"
+                                                       uncheckable
+                                                       uibButtonConfig="roundBtnSetting"
+                                                       ng-model="kpbModel.Collaborator" ng-required="isRequiredRadio()">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-hide="tooltipsVisibility.Scholar">
+                                    <label uib-tooltip-html="tooltips.Scholar"
+                                           tooltip-trigger="'mouseenter'"
+                                           tooltip-placement="top-right"
+                                           tooltip-append-to-body="true"
+                                           class="control-label col-sm-3">Scholar<sup><i class="glyphicon glyphicon-info-sign" /></sup>
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <div class="row">
+                                            <div class="col-sm-1" ng-repeat="rating in ratings"
+                                                 ng-class="{'add-margin-right': rating == 5 || rating == 8 }">
+                                                <input type="button"
+                                                       class="btn btn-xs btn-default btn-round rating-btn"
+                                                       name="scholar" value="{{rating}}"
+                                                       uib-btn-radio="'{{rating}}'"
+                                                       uncheckable
+                                                       uibButtonConfig="roundBtnSetting"
+                                                       ng-model="kpbModel.Scholar" ng-required="isRequiredRadio()">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-group" ng-hide="tooltipsVisibility.HealthAdvocate">
+                                    <label uib-tooltip-html="tooltips.HealthAdvocate"
+                                           tooltip-trigger="'mouseenter'"
+                                           tooltip-placement="top-right"
+                                           tooltip-append-to-body="true"
+                                           class="control-label col-sm-3">Health advocate<sup><i class="glyphicon glyphicon-info-sign" /></sup>
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <div class="row">
+                                            <div class="col-sm-1" ng-repeat="rating in ratings"
+                                                 ng-class="{'add-margin-right': rating == 5 || rating == 8 }">
+                                                <input type="button"
+                                                       class="btn btn-xs btn-default btn-round rating-btn"
+                                                       name="healthAdvocate" value="{{rating}}"
+                                                       uib-btn-radio="'{{rating}}'"
+                                                       uncheckable
+                                                       uibButtonConfig="roundBtnSetting"
+                                                       ng-model="kpbModel.HealthAdvocate" ng-required="isRequiredRadio()">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-hide="tooltipsVisibility.Manager">
+
+                                    <label uib-tooltip-html="tooltips.Manager"
+                                           tooltip-trigger="'mouseenter'"
+                                           tooltip-placement="top-right"
+                                           tooltip-append-to-body="true"
+                                           class="control-label col-sm-3">
+                                        Manager
+                                        <span><sup><i class="glyphicon glyphicon-info-sign" /></sup></span>
+                                    </label>
+
+                                    <div class="col-sm-9">
+                                        <div class="row">
+                                            <div class="col-sm-1" ng-repeat="rating in ratings"
+                                                 ng-class="{'add-margin-right': rating == 5 || rating == 8 }">
+                                                <input type="button"
+                                                       class="btn btn-xs btn-default btn-round rating-btn"
+                                                       name="manager" value="{{rating}}"
+                                                       uib-btn-radio="'{{rating}}'"
+                                                       uncheckable
+                                                       uibButtonConfig="roundBtnSetting"
+                                                       ng-model="kpbModel.Manager" ng-required="isRequiredRadio()">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-hide="tooltipsVisibility.Professional">
+
+                                    <label uib-tooltip-html="tooltips.Professional"
+                                           tooltip-trigger="'mouseenter'"
+                                           tooltip-placement="top-right"
+                                           tooltip-append-to-body="true"
+                                           class="control-label col-sm-3">Professional<sup><i class="glyphicon glyphicon-info-sign" /></sup>
+                                    </label>
+
+                                    <div class="col-sm-9">
+                                        <div class="row">
+                                            <div class="col-sm-1" ng-repeat="rating in ratings"
+                                                 ng-class="{'add-margin-right': rating == 5 || rating == 8 }">
+                                                <input 
+                                                       type="button"
+                                                       class="btn btn-xs btn-default btn-round rating-btn"
+                                                       name="professional" value="{{rating}}"
+                                                       uib-btn-radio="'{{rating}}'"
+                                                       uncheckable
+                                                       uibButtonConfig="roundBtnSetting"
+                                                       ng-model="kpbModel.Professional" ng-required="isRequiredRadio()">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Assessment competencies end-->
+                            <!--Feadback-->
+                            <div ng-hide="!isTeacher && isNewForm" uib-accordion-group class="panel-default" is-open="status.Feadback" ng-click="openCollapse($event, 'Feadback')">
+                                <uib-accordion-heading>
+                                    Feedback
+                                    <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-up': status.Feadback, 'glyphicon-chevron-down': !status.Feadback}"></i>
+                                </uib-accordion-heading>
+                                <div class="form-group "><span class="col-sm-1"/><label class="col-sm-11 pull-left"> Positive points </label></div>
+                                <div class="form-group" ng-repeat="PositivePoint in kpbModel.PositivePoints">
+                                    <label class="control-label col-sm-1">{{$index+1}}.</label>
+                                    <div class="col-sm-11">
+                                        <textarea class="form-control" 
+                                                  ng-change="addNewPositivePoint($index)" 
+                                                  name="positivePoint[{{PositivePoint.Id}}].Value" 
+                                                  ng-model="PositivePoint.Value" 
+                                                  ng-required="isRequiredFeedbackPositivePoint()"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group"><span class="col-sm-1" /><label class="col-sm-11 pull-left">Learning points</label></div>
+                                <div class="form-group" ng-repeat="LerningPoint in kpbModel.LerningPoints">
+                                    <label class="control-label col-sm-1">{{$index+1}}.</label>
+                                    <div class="col-sm-11">
+                                        <textarea class="form-control" 
+                                                   ng-change="addNewLerningPoint($index)" 
+                                                  name="lerningPoint[{{LerningPoint.Id}}].Value" 
+                                                  ng-model="LerningPoint.Value" 
+                                                  ng-required="isRequiredFeedbackLerningPoint()"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Feadback end-->
+                            <!--General conclusion-->
+                            <div ng-hide="!isTeacher && isNewForm" uib-accordion-group class="panel-default" is-open="status.Conslusion"  ng-click="openCollapse($event, 'Conslusion')">
+                               
+                                <uib-accordion-heading>
+                                    General conclusion on level of qualification 
+                                    <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-up': status.Conslusion, 'glyphicon-chevron-down': !status.Conslusion}"></i>
+                                </uib-accordion-heading>
+                                <div class="form-group">
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-9">
+                                        <div class="row">
+                                            <span class="col-sm-2 add-margin-right radio-btn-rating-text">
+                                                below
+                                            </span>
+                                            <span class="col-sm-3 add-margin-right radio-btn-rating-text">
+                                                experted
+                                            </span>
+                                            <span class="col-sm-2 radio-btn-rating-text">
+                                                above
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3"></label>
+                                    <div class="col-sm-9">
+                                        <div class="row">
+                                            <div class="col-sm-1" ng-repeat="rating in ratings" ng-class="{'add-margin-right': rating == 5 || rating == 8}">
+                                                <input type="button"
+                                                       class="btn btn-xs btn-default btn-round rating-btn"
+                                                       name="generalConclusion" value="{{rating}}"
+                                                       uib-btn-radio="'{{rating}}'"
+                                                       ng-click="unckeckRadio($event,'GeneralConclusion')"
+                                                       uncheckable
+                                                       ng-model="kpbModel.GeneralConclusion" ng-required="isRequiredRadio()">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--General conclusion end-->
+
+                       
+                        <div class="col-sm-12" ng-hide="isNewForm || isTeacher" style="margin-top:30px">
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Supervisor password:</label>
+                                <div class="col-sm-9">
+                                    <input type="password" class="form-control" ng-model="kpbModel.SupervisorPassword" required>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+
+                        <div class="form-group">
+                            <div class="col-sm-12">
+
+                              
+                                    <button class="btn btn-primary" type="button" title="Save and send later" ng-click="save()">Save</button>
+                                    <button class="btn btn-success pull-right" title="Save and Send" ng-click="send()">Send</button>
+                                
+                            </div>
+                        </div>
+                    </uib-accordion>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    </div>

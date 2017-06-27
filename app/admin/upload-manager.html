@@ -1,0 +1,97 @@
+﻿<div class="container-fluid">
+    <div class="row">
+
+        <div class="row_padding">
+
+            <div class="shape">
+
+                <!-- header -->
+                <div class="shape__header">
+                    {{"Upload manager" }}
+                </div>
+                <!-- end header -->
+                <!-- body -->
+                <div class="shape__body">
+
+                    <div class="panel panel-default">
+                        <div kendo-tab-strip="Strips">
+                            <!-- tab list -->
+                            <ul>
+                                <li class="k-state-active">Uploads</li>
+                                <li>Archived Uploads</li>
+
+                            </ul>
+                            <div style="padding: 1em">
+                                <div>
+                                    <div kendo-toolbar="mainTb" k-options="mainTbOptions"></div>
+                                    <div kendo-grid="uploadsGrid" options="mainGridOptions">
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="padding: 1em">
+                                <div kendo-toolbar="groupPtfTb" k-options="groupPortfolioTbOptions"></div>
+                                <div kendo-grid="archivedGrid" options="archivedGridOptions">
+                                </div>
+                            </div>
+                            <!--<div style="padding: 1em">
+                                <div kendo-toolbar="groupUSTb" k-options="groupUSTbOptions"></div>
+                                <div kendo-grid="groupUSGrid" options="groupUSGridOptions">
+                                </div>
+                            </div>-->
+                        </div>
+                    </div>
+
+                </div>
+                <!-- end body -->
+
+            </div>
+
+        </div>
+        <div kendo-window="submitWind" k-visible="false"
+                                 modal="true" k-on-close="closeSubmitwnd()">
+            <div ng-show="view.archive">
+                <form class="form-horizontal" name="US">
+                    <div>
+                        Are you sure you want to archive this Upload?
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-5 col-md-offset-5">
+                            <input id="saveMem" type="button" class='btn btn-primary' value='Yes' ng-click="archiveUpload()" />
+                            <input id="cancelMem" type="button" class='btn btn-danger' value='No' ng-click="cancelSubmit()" />
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div ng-show="view.deleteUpload">
+                <form class="form-horizontal" name="US">
+                    <div>
+                        Are you sure you want to delete this Upload?
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-5 col-md-offset-5">
+                            <input id="saveMem" type="button" class='btn btn-primary' value='Yes' ng-click="deleteUpload()" />
+                            <input id="cancelMem" type="button" class='btn btn-danger' value='No' ng-click="cancelSubmit()" />
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div ng-show="view.reactivateUpload">
+                <form class="form-horizontal" name="US">
+                    <div>
+                        Are you sure you want to reactivate this Upload?
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-5 col-md-offset-5">
+                            <input id="saveMem" type="button" class='btn btn-primary' value='Yes' ng-click="reactivate()" />
+                            <input id="cancelMem" type="button" class='btn btn-danger' value='No' ng-click="cancelSubmit()" />
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

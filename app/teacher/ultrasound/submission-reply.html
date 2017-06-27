@@ -1,0 +1,47 @@
+﻿
+<div class="modal-body">
+    <i title="{{ 'close' }}" class="fa fa-times-circle-o close-icon" aria-hidden="true" ng-click="close()"></i>
+    <div class="message-box" id="'submission-discussion'" dw-message dw-absolute-position="true"></div>
+    <div class="panel panel-default">
+        <div class="panel-heading medium-blue"><strong>{{"submission_discussion"}}</strong></div>
+        <div class="panel-body">
+            <form class="form-horizontal">
+                <div class="row messages-container">
+                    <dl class="dl-horizontal chat  chart-panel">
+                        <div ng-repeat="message in submission.messages | orderBy : 'sentOn'">
+                            <dt>
+                                <span class="medium-blue" ng-if="currentUser === message.username">{{"me"}}</span><br />
+                                <span class="medium-blue" ng-if="currentUser !== message.username">{{"user_type_" + message.userType}}</span><br />
+                                <small class="pull-right text-muted light-blue">
+                                    <span class="glyphicon glyphicon-time"> </span> {{toLocalDate(message.sentOn) | date : "short"}}
+                                </small>
+                            </dt>
+                            <dd>{{message.text}}</dd>
+                            <hr>
+                        </div>
+                    </dl>
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3" for="comment">{{"reply"}} :</label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control" rows="3" id="comment" ng-model="message"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </form>
+
+        </div>
+        <div class="panel-footer">
+            <button type="button" class="btn  btn-default" ng-click="goToSubmission()">
+                {{ "go_to_upload" }}
+            </button>
+            <button type="button" class="btn  btn-danger" ng-click="closeDiscussion()" ng-if="!submission.closed && submission.messages[submission.messages.length-1].username === currentUser">
+                {{ "close_discussion" }}
+            </button>
+            <button type="button" class="btn  btn-primary" ng-click="reply()" ng-if="submission.messages[submission.messages.length-1].username !== currentUser">
+                {{ "send" }}
+            </button>
+        </div>
+    </div>
+</div>

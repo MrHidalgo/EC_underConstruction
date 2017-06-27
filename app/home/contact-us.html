@@ -1,0 +1,160 @@
+﻿
+<!-- header -->
+<div class="modals__header">
+
+    <span class="modals__header-text">{{"contact_with_expertfolio" | translate}}</span>
+
+    <a href="javascript:void(0);"
+       class="modals__close modals__close_white"
+       ng-click="cancel()">
+        <i class="fa fa-times"></i>
+    </a>
+</div>
+
+<!-- body -->
+<div class="modals__body">
+
+    <form name="contactForm" class="contactForm">
+
+        <div class="forms__group"
+             ng-class="{ 'has-error' : contactForm.name.$invalid && !contactForm.name.$pristine}">
+
+            <label for="name" class="col-sm-3">{{"name" | translate}}</label>
+
+            <div class="col-sm-9 col-xs-12">
+                <input type="text" class="forms__input" id="name" name="name" maxlength="100"
+                       required
+                       ng-model="contact.name"/>
+
+                <p class="help-block"
+                   ng-show="contactForm.name.$invalid && !contactForm.name.$pristine">
+                    Field is required</p>
+            </div>
+        </div>
+
+        <div class="forms__group"
+             ng-class="{ 'has-error' : contactForm.email.$invalid && !contactForm.email.$pristine}">
+
+            <label for="email" class="col-sm-3">{{"email" | translate}}</label>
+
+            <div class="col-sm-9 col-xs-12">
+                <input type="email" class="forms__input" id="email" name="email" maxlength="150"
+                       required
+                       ng-model="contact.email"/>
+
+                <p class="help-block"
+                   ng-show="contactForm.email.$invalid && !contactForm.email.$pristine">
+                    Please use valid email address</p>
+            </div>
+        </div>
+
+        <div class="forms__group"
+             ng-class="{ 'has-error' : contactForm.subject.$invalid && !contactForm.subject.$pristine}">
+
+            <label class="control-label col-sm-3" for="subject">{{"subject" | translate}}</label>
+
+            <div class="col-sm-9 col-xs-12">
+                <select class="forms__input" id="subject" name="subject"
+                        required
+                        ng-model="contact.subject">
+                    <option value="" >--{{"select_subject" | translate}}--</option>
+                    <option ng-repeat="sub in subjects" value="{{sub|translate}}">{{sub|translate}}</option>
+                </select>
+
+                <p class="help-block"
+                   ng-show="contactForm.subject.$invalid && !contactForm.subject.$pristine">
+                    Field is required</p>
+            </div>
+        </div>
+
+        <div class="forms__group"
+             ng-class="{ 'has-error' : contactForm.message.$invalid && !contactForm.message.$pristine}">
+
+            <div class="col-sm-9 col-xs-12 col-sm-offset-3">
+                                <textarea class="forms__input forms__input_textarea"
+                                          required rows="3" maxlength="1024" name="message"
+                                          ng-model="contact.message"></textarea>
+
+                <p class="help-block"
+                   ng-show="contactForm.message.$invalid && !contactForm.message.$pristine">
+                    Field is required</p>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+<!-- footer -->
+<div class="modals__footer">
+    <button type="button"
+            class="button__c"
+            ng-click="cancel()">
+        {{"cancel" | translate}}
+    </button>
+
+    <button type="button"
+            class="button__c"
+            ng-disabled="contactForm.$invalid"
+            ng-click="send()">
+        {{"send" | translate}}
+    </button>
+</div>
+
+<!--<div class="k-loading-image k-overlay" ng-show="loading"></div>
+<div class="panel panel-default panel__contact">
+    <div class="panel-heading medium-blue">
+        <strong>Contact Us</strong>
+    </div>
+
+    <div class="panel-body">
+        <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+        <form class="form-horizontal" name="contactForm">
+            <div class="form-group" ng-class="{ 'has-error' : contactForm.name.$invalid && !contactForm.name.$pristine}">
+                <label class="control-label col-sm-2" for="name">Name</label>
+                <div class="col-sm-10">
+                    <input class="form-control" required name="name" maxlength="100" ng-model="contact.name">
+                    <p ng-show="contactForm.name.$invalid && !contactForm.name.$pristine" class="help-block">Field is required</p>
+                </div>
+            </div>
+
+            <div class="form-group" ng-class="{ 'has-error' : contactForm.email.$invalid && !contactForm.email.$pristine}">
+                <label class="control-label col-sm-2" for="email">Email</label>
+                <div class="col-sm-10">
+                    <input type="email" required class="form-control" name="email" maxlength="150" ng-model="contact.email">
+                    <p ng-show="contactForm.email.$invalid && !contactForm.email.$pristine" class="help-block"> please_use_valid_email_address</p>
+                </div>
+
+            </div>
+            <div class="form-group" ng-class="{ 'has-error' : contactForm.subject.$invalid && !contactForm.subject.$pristine}">
+                <label class="control-label col-sm-2" for="subject">Subject</label>
+                <div class="col-sm-10">
+                    <select class="form-control" required name="subject" ng-model="contact.subject">
+                        <option value=""> &#45;&#45; Select subject &#45;&#45;</option>
+                        <option ng-repeat="sub in subjects" value="{{sub}}">{{sub}}</option>
+                    </select>
+                    <p ng-show="contactForm.subject.$invalid && !contactForm.subject.$pristine" class="help-block">Field is required</p>
+                </div>
+            </div>
+
+            <div class="form-group" ng-class="{ 'has-error' : contactForm.message.$invalid && !contactForm.message.$pristine}">
+                <div class="col-sm-10 col-sm-offset-2">
+                    <textarea class="form-control" required rows="3" maxlength="1024" name="message" ng-model="contact.message"></textarea>
+                    <p ng-show="contactForm.message.$invalid && !contactForm.message.$pristine" class="help-block">Field is required</p>
+                </div>
+            </div>
+
+            <div class="form-group mb0">
+                <div class="col-sm-offset-2 col-sm-5">
+                    <button type="button" class="btn  btn-default btn-block" ng-click="cancel()">Cancel</button>
+                </div>
+                <div class="col-sm-5">
+                    <button type="button" class="btn  btn-primary btn-block" ng-disabled="contactForm.$invalid" ng-click="send()">Send</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+-->

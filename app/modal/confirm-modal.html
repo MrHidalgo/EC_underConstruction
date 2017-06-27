@@ -1,0 +1,16 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">
+        {{ options.title | translate }}
+    </h3>
+</div>
+<div class="modal-body">
+    <p>{{ options.message | translate }}</p>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-success" ng-click="ok()">
+        {{ options.okLabel | translate }}
+	</button>
+	<button type="button" class="btn btn-danger" ng-click="cancel()">
+	{{ options.cancelLabel | translate }}
+	</button>
+</div>

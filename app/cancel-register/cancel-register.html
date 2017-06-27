@@ -1,0 +1,23 @@
+﻿<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <h3 class="modal-title" id="myModalLabel">{{"cancel_registration" | translate}}</h3>
+    </div>
+    <div class="modal-body">
+        
+        <h4 class="text-center">
+            {{"are_you_sure_you_want_to_cancel_your_registration_all_previously_entered_information_will_be_discarded" | translate}}.
+        </h4>
+        
+    </div>
+    <div class="modal-footer">
+        <div class="col-md-12">
+            <button type="button" class="btn btn-success" ng-click="yes()">
+                {{"yes" | translate}}
+            </button>
+            <button type="button" class="btn btn-danger" ng-click="no()">
+                {{"no" | translate}}
+            </button>
+        </div>
+    </div>
+</div>

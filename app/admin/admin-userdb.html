@@ -1,0 +1,278 @@
+﻿<div class="k-loading-image k-overlay" ng-show="loading"></div>
+
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="row_padding">
+
+            <div class="shape">
+
+                <!-- header -->
+                <div class="shape__header">
+                    {{"user_database" | translate}}
+                </div>
+                <!-- end header -->
+
+                <!-- body -->
+                <div class="shape__body">
+
+                    <div class="panel panel-default">
+                        <div kendo-tab-strip="Strips">
+                            <!-- tab list -->
+                            <ul>
+                                <li class="k-state-active">User database</li>
+                                <li>Portfolio Groups</li>
+                                <li>Ultrasound Groups</li>
+                            </ul>
+                            <div style="padding: 1em">
+                                <div>
+                                    <div kendo-toolbar="mainTb" k-options="mainTbOptions"></div>
+                                    <div kendo-grid="userGrid" options="mainGridOptions">
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="padding: 1em">
+                                <div kendo-toolbar="groupPtfTb" k-options="groupPortfolioTbOptions"></div>
+                                <div kendo-grid="groupGrid" options="groupGridOptions">
+                                </div>
+                            </div>
+                            <div style="padding: 1em">
+                                <div kendo-toolbar="groupUSTb" k-options="groupUSTbOptions"></div>
+                                <div kendo-grid="groupUSGrid" options="groupUSGridOptions">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- end body -->
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!--<div class="row" onload="initgrid()">-->
+
+    <!--<div class="col-md-12">-->
+        <!--<div class="panel panel-default">-->
+   <!---->
+            <!--<div kendo-tab-strip="Strips">-->
+                <!--&lt;!&ndash; tab list &ndash;&gt;-->
+                <!--<ul>-->
+                    <!--<li class="k-state-active">User database</li>-->
+                    <!--<li>Portfolio Groups</li>-->
+                    <!--<li>Ultrasound Groups</li>-->
+                <!--</ul>-->
+                <!--<div style="padding: 1em">-->
+                    <!--<div>-->
+                        <!--<div kendo-toolbar="mainTb" k-options="mainTbOptions"></div>-->
+                        <!--<div kendo-grid="userGrid" options="mainGridOptions">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div style="padding: 1em">-->
+                    <!--<div kendo-toolbar="groupPtfTb" k-options="groupPortfolioTbOptions"></div>-->
+                    <!--<div kendo-grid="groupGrid" options="groupGridOptions">-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div style="padding: 1em">-->
+                    <!--<div kendo-toolbar="groupUSTb" k-options="groupUSTbOptions"></div>-->
+                    <!--<div kendo-grid="groupUSGrid" options="groupUSGridOptions">-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!---->
+        <!--</div>-->
+    <!--</div>-->
+    <div kendo-window="WindowModal" k-visible="false"
+         modal="true">
+        <div class="k-loading-image k-overlay" ng-show="loading"></div>
+        <form class="form-horizontal" name="userForm">
+            <div class="form-group" ng-class="{ 'has-error' : userForm.name.$invalid && !userForm.name.$pristine }">
+                <label class="control-label col-sm-3">Name:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="k-textbox" style="width:100%;" name="name" ng-model="user.Name" required>
+                    <p ng-show="userForm.name.$invalid && !userForm.name.$pristine" class="help-block">Name is required</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-3">Middle Name:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="k-textbox" style="width:100%;" name="name" ng-model="user.MiddleName" required>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{ 'has-error' : userForm.surname.$invalid && !userForm.surname.$pristine }">
+                <label class="control-label col-sm-3">Surname:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="k-textbox" style="width:100%;" name="surname" ng-model="user.Surname" required>
+                    <p ng-show="userForm.surname.$invalid && !userForm.surname.$pristine" class="help-block">Surname is required</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-3">Gender:</label>
+                <div class="col-sm-6">
+                    <label class="radio-inline">
+                        <input type="radio" value="male" name="gender"  ng-model="user.Gender" disabled>male
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" value="female"  name="gender" ng-model="user.Gender" disabled>female
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-3">Title:</label>
+                <div class="col-sm-6">
+                    <select kendo-drop-down-list="titlesDDL" style="width:100%;" k-options="titlesDDLOptions" ng-model="user.Title" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-3">Email:</label>
+                <div class="col-sm-6">
+                    <input type="email" name="email" style="width:100%;" class="k-textbox" ng-model="user.Email" disabled>
+
+                </div>
+            </div>
+            <div class="form-group" ng-show="user.Speciality!=null">
+                <label class="control-label col-sm-3">Speciality:</label>
+                <div class="col-sm-6">
+                    <select kendo-drop-down-list="specialityDDL" style="width:100%;" k-options="specialityDDLOptions" ng-required="true" />
+                </div>
+            </div>
+            <div class="form-group" ng-show="user.UserLoT!=null">
+                <label class="control-label col-sm-3">Level Of Training:</label>
+                <div class="col-sm-6">
+                    <select kendo-drop-down-list="lotDDL" style="width:100%;" k-options="lotDDLOptions" ng-required="true" required />
+                </div>
+            </div>
+
+            <div class="form-group" ng-show="user.UserHospital!=null">
+                <label class="control-label col-sm-3">Hospital:</label>
+                <div class="col-sm-6">
+                    <select kendo-drop-down-list="hospitalDDL" style="width:100%;" k-options="hospitalDDLOptions" ng-required="true" required />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-3">Country:</label>
+                <div class="col-sm-6">
+                    <select kendo-drop-down-list="countryDDL" style="width:100%;" k-options="countryDDLOptions" ng-required="true" required />
+                </div>
+            </div>
+
+            <div class="form-group" ng-show="user.College==null">
+                <label class="control-label col-sm-3">Portfolio supervisor:</label>
+                <div class="col-sm-6">
+                    <select kendo-drop-down-list="portfolioSupDDL" style="width:100%;" k-options="portfolioSupDDLOptions" ng-required="true" />
+                </div>
+            </div>
+            <div class="form-group" ng-show="user.College==null">
+                <label class="control-label col-sm-3">Selecteer:</label>
+                <div class="col-sm-6">
+                    <select kendo-combo-box="selecteerPtfCbx"style="width:100%;" k-options="selecteerPtfCbxOptions"></select>
+                </div>
+            </div>
+
+            <!-- ng-model="user.UsSupervisorType" -->
+            <div class="form-group" ng-show="user.College==null">
+                <label class="control-label col-sm-3">US supervisor:</label>
+                <div class="col-sm-6">
+                    <select kendo-drop-down-list="portfolioUSDDL" style="width:100%;" k-options="portfolioUsSupDDLOptions" ng-required="true" />
+                </div>
+            </div>
+            <div class="form-group" ng-show="user.College==null">
+                <label class="control-label col-sm-3">Selecteer:</label>
+                <div class="col-sm-6">
+                    <select kendo-combo-box="SelecteerUSCbx" style="width:100%;" k-options="USselecteerCbxOptions" />
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="control-label col-sm-3">Start subscription:</label>
+                <div class="col-sm-6">
+                    <input data-kendo-date-picker k-options="endSubscriptionOptions" style="width:100%;" ng-model="user.StartSubscription" />
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-3">End subscription:</label>
+                <div class="col-sm-6">
+                    <input data-kendo-date-picker k-options="endSubscriptionOptions" style="width:100%;" ng-model="user.EndSubscription" />
+                </div>
+            </div>
+            <div class="form-group">
+
+                <div class="row">
+                    <label class="control-label col-sm-3">User Rights:</label>
+                    <div class="col-sm-6">
+                        <div class="col-sm-12" ng-repeat="role in roles">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" ng-model="user.Rights[role]" ng-checked="user.Rights.indexOf(role)> -1" ng-click="updateRights(role)">{{role}}
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <!-- ng-disabled="!userForm.$valid" -->
+                    <button type="button" class="btn btn-primary pull-right" ng-click="SaveUser()">Save</button>
+                    <button type="button" class="btn btn-danger pull-left" ng-click="closeform()">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div kendo-window="confirmDeletewindow" k-visible="false"
+         modal="true" k-width="300">
+        <div>
+            Are you sure you want to delete user <b>{{Uname}} {{SurName}}</b>?
+        </div>
+        <div class="form-group row">
+            <div class="col-md-5 col-md-offset-5">
+                <input id="saveMem" type="button" class='btn btn-primary' value='Yes' ng-click="deleteUser()" />
+                <input id="cancelMem" type="button" class='btn btn-danger' value='No' ng-click="closedeletewind()" />
+            </div>
+        </div>
+    </div>
+    <div kendo-window="groupwindow" k-visible="false"
+         modal="true">
+        <div kendo-toolbar="groupTb" k-options="groupTbOptions"></div>
+        <div kendo-grid="groupGrid" options="groupGridOptions">
+        </div>
+    </div>
+    <div kendo-window="addGroupwnd" k-visible="false"
+         modal="true">
+        <div class="form-group">
+            <label class="control-label col-sm-3">Group:</label>
+            <div class="col-md-6">
+                <input type="text" class="k-textbox" ng-model="Group" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-5">
+            </div>
+            <div class="col-md-5">
+                <input id="saveOper" type="button" class='btn btn-primary' value='Create' ng-click="createGroup()" />
+                <input id="cancelOper" type="button" class='btn btn-danger' value='Cancel' ng-click="closedeletewind" />
+            </div>
+        </div>
+    </div>
+    <div kendo-window="groupDetailswindow" k-visible="false"
+         modal="true" k-on-close="closedetailsWindow()">
+        <div ng-show="IsPortfolio">
+            <div kendo-toolbar="groupDetTb" k-options="groupDetTbOptions"></div>
+            <div kendo-grid="groupDetails" options="groupDetailsGridOptions">
+            </div>
+        </div>
+        <div ng-show="IsUltraSound">
+            <div kendo-grid="groupUSDetails" options="groupUSDetailsGridOptions">
+            </div>
+        </div>
+    </div>

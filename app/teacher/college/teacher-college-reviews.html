@@ -1,0 +1,136 @@
+﻿<div class="container">
+    <div class="row">
+
+        <!-- MAIN SEARCH BLOCK -->
+        <div class="shape">
+
+            <!-- header -->
+            <div class="shape__header">
+                {{"reviews" | translate}}
+            </div>
+            <!-- end header -->
+            <!-- body -->
+            <div class="shape__body clearfix">
+                <div class="history-table-wrapper">
+                    <div class="white-bg">
+
+                        <div id="history-table-header-group">
+                            <div class="status-bar">
+                                <span>{{"submissions_for_review"|translate}}</span>
+
+                                <span class="pull-right" style="padding-top: 17px;">
+
+                                    <div class="forms__checkbox">
+                                        <input type="checkbox" class="checkbox__btn" id="hideReviewed" ng-model="showReviewed" ng-change="getSubmissions()">
+                                        <label class="checkbox__label" for="hideReviewed">
+                                            <i class="checkbox__icon"></i>
+                                            <span class="checkbox__text"> {{"show_reviewed"|translate}}</span>
+                                        </label>
+                                    </div>
+
+                                    <!--<input type="checkbox" id="hideReviewed" ng-model="showReviewed" ng-change="getSubmissions()" />-->
+                                    <!--<label for="hideReviewed">{{"show_reviewed"|translate}}</label>-->
+                                </span>
+                            </div>
+
+                            <div class="table_header clearfix">
+                                <!--<div style="width:40%;" class="table_header-text">{{"upload_date"|translate}}</div>-->
+                                <div class="table_header-text">{{"upload_date"|translate}}</div>
+                                <!--<div style="width:40%;" class="table_header-text">{{"ultrasound_type"|translate}}</div>-->
+                                <div class="table_header-text">{{"ultrasound_type"|translate}}</div>
+                                <!--<div style="width:20%;" class="table_header-text">{{"status"|translate}}</div>-->
+                                <div class="table_header-text">{{"status"|translate}}</div>
+                            </div>
+                        </div>
+
+                        <div id="scrolling">
+                            <table class="table table-bordered table_fixed"
+                                   ng-hide="isNullOrUndefined(submissions) || submissions.length === 0">
+                                <thead>
+                                    <tr>
+                                        <th width="40%" class="history-table-header">{{"upload_date"|translate}}</th>
+                                        <th width="40%" class="history-table-header">{{"Type of Registration"|translate}}</th>
+                                        <th width="20%" class="history-table-header">{{"status"|translate}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-show="submissions.length < 1">
+                                        <td style="height: 64px;" align="center">-</td>
+                                        <td style="height: 64px;" align="center">-</td>
+                                        <td style="height: 64px;" align="center">-</td>
+                                        <td style="height: 64px;" align="center">-</td>
+                                        <td style="height: 64px;" align="center">-</td>
+                                        <td style="height: 64px;" align="center">-</td>
+                                    </tr>
+                                    <tr ng-repeat="submission in submissions">
+                                        <td width="40%" align="center">{{toLocalDate(submission.UploadDate) | date:'dd/MM/yyyy HH:mm'}}</td>
+                                        <td width="40%" align="center">{{submission.UltrasoundTypeName.join(", ")}}</td>
+                                        <td width="20%" align="center">
+                                            <span ng-if="submission.StatusName=='pending_assessment'">
+                                                <button class="button__c button_c-info"
+                                                        ui-sref="teacher.collegereview({submissionId: submission.Id, returnState: 'teacher.collegereviews'})">
+                                                    {{"review"|translate}}
+                                                </button>
+                                            </span>
+                                            <span ng-if="submission.StatusName=='approved'" class="button__c-empty button__c-text">
+                                                <img ng-src="{{'Images/' + 'right.png' }}">
+                                                <!--   {{submission.Approved ? "approved" : "rejected"|translate}} -->
+                                            </span>
+                                            <span ng-if="submission.StatusName=='rejected'" class="button__c-empty button__c-text">
+                                                <img ng-src="{{'Images/' + 'wrong.png'}}">
+                                                <!--   {{submission.Approved ? "approved" : "rejected"|translate}} -->
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <!--  <ul uib-pagination total-items="totalRecords" ng-model="pageNumber" max-size="5" class="pagination-sm" boundary-link-numbers="true"
+                                                  ng-change="getSubmissions(pageNumber)"></ul> -->
+
+                    </div>
+                </div>
+            </div>
+            <!-- end body -->
+
+        </div>
+        <!-- end MAIN SEARCH BLOCK -->
+
+    </div>
+</div>
+
+
+<script>
+    $("#scrolling").on("load resize ready scroll", function(){
+        var countScroll                     = $(this).scrollTop(),
+            tableHeader                     = $(".table_header"),
+            tableHeaderItem                 = $(".table_header .table_header-text"),
+            tableFixedWidth                 = $(".table_fixed").width(),
+            tableFixedHeaderWidthItemArr    = [],
+            tableFixedHeaderWidthItem       = $(".table_fixed thead th");
+
+        tableFixedHeaderWidthItem.each(function(idx, val) {
+            var valWidth = $(val).outerWidth(true);
+
+            tableFixedHeaderWidthItemArr.push(idx === 0 ? valWidth + 1 : valWidth);
+        });
+
+        if(countScroll > "0") {
+            tableHeader.show().css({
+                "width" : tableFixedWidth
+            });
+            tableHeaderItem.each(function(idx, val) {
+                $(val).css({
+                    "width" : tableFixedHeaderWidthItemArr[idx]
+                });
+            });
+        } else {
+            tableHeader.hide();
+        }
+    });
+</script>
+
+
+

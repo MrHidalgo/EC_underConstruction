@@ -1,0 +1,665 @@
+﻿<div class="container">
+    <div class="row">
+
+        <div class="col-md-offset-1 col-md-10 col-xs-12">
+
+            <!-- MAIN SEARCH BLOCK -->
+            <div class="shape">
+
+                <!-- header -->
+                <div class="shape__header">
+                    <span ng-show="isNullOrUndefined(files) || files.length === 0">
+                        {{"search"|translate}}
+                    </span>
+
+                    <span ng-show="!isNullOrUndefined(files) && files.length > 0 && isNullOrUndefined(selectedFile)">
+                        {{"search_results" | translate}}
+                    </span>
+
+                    <span ng-if="!isNullOrUndefined(selectedFile)">
+                         {{"search_preview_files" | translate}}
+                    </span>
+
+                    <span ng-show="!isNullOrUndefined(files) && files.length > 0 && isNullOrUndefined(selectedFile)">
+                        {{files.length}} {{"results_found" | translate}}
+                    </span>
+                </div>
+
+                <!-- body -->
+                <div class="shape__body clearfix">
+
+                    <!-- main search form -->
+                    <form class="col-sm-offset-1 col-sm-10 forms__body-search" ng-show="isNullOrUndefined(files) || files.length === 0">
+
+                        <div class="forms__group">
+
+                            <label class="control-label col-sm-3" for="ultrasoundType">{{"ultrasound_type"|translate}}:</label>
+
+                            <div class="col-sm-9 col-xs-12">
+                                <select class="forms__input" id="ultrasoundType" ng-model="ultrasoundTypeId" ng-change="updateOptions()"
+                                        ng-options="ultrasoundType.Name|translate for ultrasoundType in ultrasoundTypes track by ultrasoundType.Id">
+                                    <option value="" selected>{{"select_a_value"|translate}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="forms__group">
+
+                            <label class="control-label col-sm-3" for="view">{{"view"|translate}}:</label>
+
+                            <div class="col-sm-9 col-xs-12">
+                                <select class="forms__input" id="view" ng-model="viewId" ng-change="loadFingingOptions()"
+                                        ng-options="view.Id as  view.Name|translate for view in views track by view.Id">
+                                    <option value="" selected>{{"select_a_value"|translate}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="forms__group">
+
+                            <label class="control-label col-sm-3" for="date-range-search">{{"upload_date"|translate}}:</label>
+
+                            <div class="col-sm-9 col-xs-12">
+                                <input date-range-picker class="forms__input date-picker"
+                                       placeholder="{{'select_date_range'|translate}}"
+                                       type="text" readonly
+                                       ng-model="dateRangePicker" ng-disabled="false"
+                                       id="date-range-search"
+                                       max="dateOptions.maxDate"/>
+                            </div>
+                        </div>
+
+                        <hr class="shape__line">
+
+                        <div class="forms__group forms__group_top">
+
+                            <label class="control-label col-sm-3">{{"personal_portfolio"|translate}}:</label>
+
+                            <div class="col-sm-9 col-xs-12">
+
+                                <div class="forms__checkbox">
+                                    <input type="checkbox" class="checkbox__btn" id="isPersonalPortfolio" name="isPersonalPortfolio" ng-change="IsPersonalChanged()"  ng-model="isPersonalPortfolio" >
+                                    <label class="checkbox__label" for="isPersonalPortfolio">
+                                        <i class="checkbox__icon"></i>
+
+                                        <span class="checkbox__text" ng-if="isPersonalPortfolio == true"> {{"yes"|translate}}</span>
+                                        <span class="checkbox__text" ng-if="isPersonalPortfolio == false || isPersonalPortfolio== null"> {{"no"|translate}}</span>
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <hr class="shape__line">
+
+                        <div class="forms__group forms__group_top">
+
+                            <label class="control-label col-sm-3">{{ "reviewed_by"|translate}}:</label>
+
+                            <div class="col-sm-9 col-xs-12">
+
+                                <div class="forms__radio">
+                                    <input type="radio" id="me" class="radio__btn" ng-disabled="isPersonalPortfolio==true" ng-value="1" ng-model="reviewedByMe" name="reviewer">
+                                    <label for="me" class="radio__label">
+                                        <i class="radio__icon"></i>
+                                        <span class="radio__text">{{"me"|translate}}</span>
+                                    </label>
+                                </div>
+
+                                <div class="forms__radio">
+                                    <input type="radio" id="anyone" class="radio__btn" ng-disabled="isPersonalPortfolio==true" ng-value="0" ng-model="reviewedByMe" name="reviewer">
+                                    <label for="anyone" class="radio__label">
+                                        <i class="radio__icon"></i>
+                                        <span class="radio__text">{{"anyone_else"|translate}}</span>
+                                    </label>
+                                </div>
+
+                                <!--<label class="radio-inline" for="me">
+                                    <input type="radio" name="reviewer" id="me" ng-value="1" ng-model="reviewedByMe"> {{"me"|translate}}
+                                </label>
+
+                                <label class="radio-inline" for="anyone">
+                                    <input type="radio" name="reviewer" id="anyone" ng-value="0" ng-model="reviewedByMe"> {{ "anyone_else"|translate}}
+                                </label>-->
+
+                            </div>
+                        </div>
+
+                        <hr class="shape__line" ng-if="indications.length>0">
+
+                        <div class="forms__group forms__group-indication forms__group_top" ng-if="indications.length>0">
+
+                            <label class="control-label shape__label-flexTop col-sm-3">{{"indications"|translate}}:</label>
+
+                            <div class="col-sm-9 col-xs-12">
+                                <div class="inline col-xs-6" ng-repeat="indication in indications">
+
+                                    <div class="forms__checkbox" >
+                                        <input type="checkbox" class="checkbox__btn" id="indication_{{indication.Id}}" name="indication" ng-model="indication.Selected" ng-checked="indication.Selected">
+                                        <label class="checkbox__label" for="indication_{{indication.Id}}">
+                                            <i class="checkbox__icon"></i>
+                                            <span class="checkbox__text"> {{indication.Name|translate}}</span>
+                                        </label>
+                                    </div>
+
+                                    <!-- <div class="checkbox">
+                                         <label for="indication_{{indication.Id}}">
+                                             <input type="checkbox" id="indication_{{indication.Id}}" name="indication" ng-model="indication.Selected" ng-checked="indication.Selected">
+                                             {{indication.Name|translate}}
+                                         </label>
+                                     </div>-->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div ng-if="findings.length > 0">
+
+                            <ul class="nav nav-tabs col-xs-12">
+                                <li class="active">
+                                    <a data-toggle="tab" href="javascript:void(0)">{{"tags"|translate}}</a>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content col-xs-12">
+                                <div id="tag" class="tab-pane fade in active clearfix">
+
+                                    <div class="tag__filed clearfix" ng-if="finding.Type !== 'number'" ng-repeat="finding in findings">
+
+                                        <label class="control-label col-sm-3">{{finding.Name|translate}}:</label>
+
+                                        <div class="col-sm-9">
+
+                                            <div class="forms__radio" ng-repeat="option in finding.Options">
+                                                <input type="radio" id="finding_option_{{finding.Id}}{{option.Name}}" class="radio__btn"
+                                                       name="{{finding.Name}}" ng-value="option.Id" ng-model="finding.selectedOptionId" ng-selected="$index === 0 ? true : false"
+                                                       ng-change="findingChanged()">
+                                                <label class="radio__label" for="finding_option_{{finding.Id}}{{option.Name}}">
+                                                    <i class="radio__icon"></i>
+                                                    <span class="radio__text" ng-bind-html="option.Name|translate | trustAsHtml"></span>
+                                                </label>
+                                            </div>
+
+                                            <!--<label class="radio-inline" for="finding_option_{{finding.Id}}{{option.Name}}" ng-repeat="option in finding.Options">
+                                                <input type="radio" name="{{finding.Name}}" id="finding_option_{{finding.Id}}{{option.Name}}"
+                                                       ng-value="option.Id" ng-model="finding.selectedOptionId" ng-selected="$index === 0 ? true : false"
+                                                       ng-change="findingChanged()">
+
+                                                <span ng-bind-html="option.Name|translate | trustAsHtml"></span>
+                                            </label>-->
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                    <!-- end main search form -->
+
+                    <!-- search results -->
+                    <div class="search-results-container" ng-show="!isNullOrUndefined(files) && files.length > 0 && isNullOrUndefined(selectedFile)">
+                        <div class="search-results">
+                            <div class="history-table-wrapper" ng-show="!isNullOrUndefined(files) && files.length > 0 && isNullOrUndefined(selectedFile)">
+                                <div class="table-responsive white-bg">
+                                    <div id="history-table-header-group">
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <td width="30%" class="history-table-header">{{"image"|translate}}</td>
+                                                <td width="40%" class="history-table-header">{{"uploaded_by"|translate}}</td>
+                                                <td width="30%" class="history-table-header">{{"upload_date"|translate}}</td>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+
+                                    <div id="scrolling">
+                                        <table class="table table-bordered table-hover">
+                                            <tbody>
+                                            <tr class="file-result" ng-repeat="file in files" ng-click="showFileDetails(file)">
+                                                <td width="30%">
+
+                                                    <!-- image container -->
+                                                    <div class="search__image-container">
+
+                                                        <!-- image block main -->
+                                                        <div class="search_image-wrap">
+
+                                                            <img class="search_image" alt="{{file.ViewName}}" ng-src="{{file.Filepath}}" width="150px"
+                                                                 ng-if="!isVideoFile(file.Filepath)" />
+
+                                                            <video loop class="search_video" ng-if="isVideoFile(file.Filepath)">
+                                                                <source ng-src="{{file.Filepath}}" />
+                                                            </video>
+
+                                                        </div>
+
+                                                        <!-- icon btn/!btn block main -->
+                                                        <div class="search__icon-container">
+                                                            <div class="search__icon-wrap" ng-if="!isVideoFile(file.Filepath)">
+                                                                <i class="fa fa-file-image-o" aria-hidden="true"></i>
+                                                            </div>
+
+                                                            <div class="search__icon-wrap" ng-if="isVideoFile(file.Filepath)">
+                                                                <i class="fa fa-file-video-o" aria-hidden="true"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                   <!-- <h4 class="thumbnail-identification" ng-if="!isVideoFile(file.Filepath)"><i class="fa fa-file-image-o" aria-hidden="true"></i></h4>
+                                                    <h4 class="thumbnail-identification" ng-if="isVideoFile(file.Filepath)"><i class="fa fa-file-video-o" aria-hidden="true"></i></h4>
+                                                    <img class="img-responsive search-thumbnail" alt="{{file.ViewName}}" ng-src="{{file.Filepath}}" width="150px"
+                                                         ng-if="!isVideoFile(file.Filepath)"/>
+                                                    <video loop class="img-responsive search-thumbnail" ng-if="isVideoFile(file.Filepath)">
+                                                        <source ng-src="{{file.Filepath | trustUrl}}"/>
+                                                    </video>-->
+                                                </td>
+                                                <td width="40%" align="center" class="vertical-align-middle"> {{file.UploadedBy}}</td>
+                                                <td width="30%" align="center" class="vertical-align-middle"> {{toLocalDate(file.UploadedOn) | date: 'short'}}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- <ul uib-pagination total-items="totalRecords" ng-model="pageNumber" max-size="5" class="pagination-sm" boundary-link-numbers="true"
+                                ng-change="search()"></ul> -->
+                        </div>
+                    </div>
+                    <!-- end search results -->
+
+                    <!-- search files preview -->
+                    <div class="search-image-details" ng-if="!isNullOrUndefined(selectedFile)">
+
+                        <div class="shape__body">
+                            <div class="shape_top shape__body-padding animated fadeIn">
+                                <div class="animated fadeIn center">
+
+                                    <!-- image container -->
+                                    <div class="search__image-container search__image_some">
+
+                                        <!-- image block main -->
+                                        <div class="search_image-wrap">
+
+                                            <img alt="{{selectedFile.ViewName}}" ng-src="{{selectedFile.Filepath}}" class="search_image"
+                                                 ng-if="!isVideoFile(selectedFile.Filepath)" />
+
+                                            <video class="search_video" loop ng-if="isVideoFile(selectedFile.Filepath)">
+                                                <source ng-src="{{selectedFile.Filepath}}"/>
+                                            </video>
+
+                                        </div>
+
+                                        <!-- icon btn/!btn block main -->
+                                        <div class="search__icon-container">
+                                            <div class="search__icon-field search__icon_light">
+                                                <div class="search__icon-wrap" ng-click="enlarge(selectedFile.Filepath)">
+                                                    <i class="fa" ng-class="isVideoFile(selectedFile.Filepath) ? 'fa-play' :'fa-arrows-alt'" aria-hidden="true"></i>
+                                                </div>
+                                                <span class="search__icon-text">{{isVideoFile(selectedFile.Filepath) ? 'Play' :'Preview'}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="shape_bottom shape__body-padding">
+
+                                <hr class="shape__line shape__line_transparent">
+
+                                <div class="shape__groups clearfix">
+                                    <span class="shape__label col-xs-3">{{"view"|translate}}:</span>
+                                    <span class="shape__info col-xs-8">{{selectedFile.ViewName|translate}}</span>
+                                </div>
+
+                                <hr class="shape__line">
+
+                                <div class="shape__groups clearfix">
+                                    <span class="shape__label col-sm-3">{{"finding"|translate}}:</span>
+
+                                    <span class="shape__info col-sm-8">
+                                        <span class="shape__info-column col-xs-12" ng-repeat="finding in selectedFile.SelectedFindings">
+                                            <span class="col-xs-5" style="padding-left: 0;">{{finding.FindingName|translate}}:</span>
+                                            <span class="col-xs-1"> - </span>
+                                            <span class="col-xs-5" ng-bind-html="finding.OptionName|translate | trustAsHtml"></span>
+                                            <br>
+                                        </span>
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!--<div class="image-details">
+                            <div class="row">
+
+                                <table class="table table-img-preview table-responsive">
+                                    <tbody>
+                                    <tr>
+                                        <td class="v-align-middle">
+                                            <div class="image">
+                                                <img alt="{{selectedFile.ViewName}}" ng-src="{{selectedFile.Filepath}}" class="img-responsive"
+                                                     ng-if="!isVideoFile(selectedFile.Filepath)"/>
+                                                <video loop class="img-responsive" ng-if="isVideoFile(selectedFile.Filepath)">
+                                                    <source ng-src="{{selectedFile.Filepath}}"/>
+                                                </video>
+                                                <div class="play-icon">
+                                                    <i class="fa glow-icon" ng-class="isVideoFile(selectedFile.Filepath) ? 'fa-play-circle-o' :'fa-search-plus'"
+                                                       aria-hidden="true" ng-click="enlarge(selectedFile.Filepath)"></i>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="forms__group">
+
+                                    <label class="control-label col-sm-3" for="view">{{"view"|translate}}:</label>
+
+                                    <div class="col-sm-9 col-xs-12">
+                                        <p class="form-control-static"> {{selectedFile.ViewName|translate}}</p>
+                                    </div>
+                                </div>
+
+                                <div class="forms__group">
+
+                                    <label class="control-label col-sm-3">{{"finding"|translate}}:</label>
+
+                                    <div class="col-sm-9 col-xs-12">
+                                        <dl class="dl-horizontal">
+                                        <span ng-repeat="finding in selectedFile.SelectedFindings">
+                                            <dt>{{finding.FindingName|translate}}</dt>
+                                            <dd><span ng-bind-html="finding.OptionName|translate | trustAsHtml"></span></dd>
+                                        </span>
+                                        </dl>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>-->
+
+                    </div>
+                    <!-- end search files preview -->
+                </div>
+
+                <!-- footer -->
+                <div class="shape__footer">
+
+                    <!-- main search btn -->
+                    <span style="margin-left: auto" ng-show="isNullOrUndefined(files) || files.length === 0">
+
+                     <button class="button__c button_c-info"
+                             ng-click="clearSearchCriteria()">
+                        {{"clear"|translate}}
+                    </button> &nbsp;
+
+                    <button type="button"
+                            class="button__c"
+                            ng-click="search()">
+                        {{"search"|translate}}
+                    </button>
+
+                </span>
+                    <!-- end main search btn -->
+
+                    <!-- search results btn -->
+                    <div class="shape__footer-wrap"
+                         ng-show="!isNullOrUndefined(files) && files.length > 0 && isNullOrUndefined(selectedFile)">
+
+                        <button type="button"
+                                class="button__c btn__newSearch"
+                                ng-click="newSearch()">
+                            {{"back_to_search"|translate}}
+                        </button>&nbsp;
+                    </div>
+                    <!-- end search results btn-->
+
+                    <!-- search files preview btn -->
+                    <span style="margin-left: auto"
+                          ng-if="!isNullOrUndefined(selectedFile)">
+
+                    <button type="button"
+                            class="button__c button_c-info"
+                            ng-click="backToList()">
+                        {{"back_to_results"|translate}}
+                    </button> &nbsp;
+
+                    <a class="button__c"
+                       ng-href="{{selectedFile.Filepath}}"
+                       target="_blank">
+                        {{"download"|translate}}
+                    </a>
+                </span>
+                    <!-- end search files preview btn -->
+                </div>
+
+            </div>
+            <!-- end MAIN SEARCH BLOCK -->
+
+        </div>
+
+    </div>
+</div>
+
+<!--<section class="body">-->
+<!--<div class="container-fluid">-->
+<!--<span kendo-notification="notification" k-options="notf1Options"></span>-->
+<!--<div class="row">-->
+<!--<div class="col-md-offset-2 col-md-8">-->
+
+
+<!--<div class="panel panel-default">-->
+
+<!--<div class="panel-heading">-->
+<!--<button ng-if="!isNullOrUndefined(files) && files.length > 0 && isNullOrUndefined(selectedFile)" type="button" class="btn btn-primary" ng-click="newSearch()">{{"new_search"|translate}}</button>&nbsp;-->
+<!--</div>-->
+
+
+<!--<div class="panel-body">-->
+<!--&lt;!&ndash;<form class="form-horizontal search-options" ng-show="isNullOrUndefined(files) || files.length === 0">&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+<!--&lt;!&ndash;<label class="control-label col-sm-3" for="ultrasoundType">{{"ultrasound_type"|translate}}:</label>&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="col-sm-5">&ndash;&gt;-->
+<!--&lt;!&ndash;<select class="form-control" id="ultrasoundType" ng-model="ultrasoundTypeId" ng-change="updateOptions()"&ndash;&gt;-->
+<!--&lt;!&ndash;ng-options="ultrasoundType.Name for ultrasoundType in ultrasoundTypes track by ultrasoundType.Id">&ndash;&gt;-->
+<!--&lt;!&ndash;<option value="" disabled selected>{{"select_a_value"|translate}}</option>&ndash;&gt;-->
+<!--&lt;!&ndash;</select>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+<!--&lt;!&ndash;<label class="control-label col-sm-3" for="view">{{"view"|translate}} :</label>&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="col-sm-5">&ndash;&gt;-->
+<!--&lt;!&ndash;<select class="form-control" id="view" ng-model="viewId" ng-change="loadFingingOptions()"&ndash;&gt;-->
+<!--&lt;!&ndash;ng-options="view.Id as  view.Name for view in views track by view.Id">&ndash;&gt;-->
+<!--&lt;!&ndash;<option value="" disabled selected>{{"select_a_value"|translate}}</option>&ndash;&gt;-->
+<!--&lt;!&ndash;</select>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+<!--&lt;!&ndash;<label class="control-label col-sm-3" for="date-range-search">{{"upload_date"|translate}} :</label>&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="col-sm-5">&ndash;&gt;-->
+<!--&lt;!&ndash;<input date-range-picker class="form-control date-picker" placeholder="{{'select_date_range'|translate}}" type="text"&ndash;&gt;-->
+<!--&lt;!&ndash;ng-model="dateRangePicker" ng-disabled="false"  id="date-range-search"&ndash;&gt;-->
+<!--&lt;!&ndash;max="dateOptions.maxDate" />&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+<!--&lt;!&ndash;<label class="control-label col-sm-3">{{ "reviewed_by"|translate}} :</label>&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="col-sm-9">&ndash;&gt;-->
+<!--&lt;!&ndash;<label class="radio-inline" for="me">&ndash;&gt;-->
+<!--&lt;!&ndash;<input type="radio" name="reviewer" id="me" ng-value="1" ng-model="reviewedByMe"> {{"me"|translate}}&ndash;&gt;-->
+<!--&lt;!&ndash;</label>&ndash;&gt;-->
+<!--&lt;!&ndash;<label class="radio-inline" for="anyone">&ndash;&gt;-->
+<!--&lt;!&ndash;<input type="radio" name="reviewer" id="anyone" ng-value="0" ng-model="reviewedByMe"> {{ "anyone_else"|translate}}&ndash;&gt;-->
+<!--&lt;!&ndash;</label>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;<hr>&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+<!--&lt;!&ndash;<label class="control-label col-sm-3">{{"indications"|translate}} :</label>&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="col-sm-9 row">&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="inline col-xs-12" ng-repeat="indication in indications">&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="checkbox">&ndash;&gt;-->
+<!--&lt;!&ndash;<label for="indication_{{indication.Id}}">&ndash;&gt;-->
+<!--&lt;!&ndash;<input type="checkbox" id="indication_{{indication.Id}}" name="indication" ng-model="indication.Selected" ng-checked="indication.Selected">&ndash;&gt;-->
+<!--&lt;!&ndash;{{indication.Name}}&ndash;&gt;-->
+<!--&lt;!&ndash;</label>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;<div class="form-group" ng-if="findings.length > 0">&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="row">&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="col-xs-12">&ndash;&gt;-->
+<!--&lt;!&ndash;<ul class="nav nav-tabs ml60">&ndash;&gt;-->
+<!--&lt;!&ndash;<li class="active"><a data-toggle="tab" href="javascript:void(0)">{{"tags"|translate}}</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;</ul>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;<div class="tab-content">&ndash;&gt;-->
+<!--&lt;!&ndash;<div id="tag" class="tab-pane fade in active">&ndash;&gt;-->
+<!--&lt;!&ndash;<div ng-if="finding.Type !== 'number'" ng-repeat="finding in findings">&ndash;&gt;-->
+<!--&lt;!&ndash;<label class="control-label col-sm-3">{{ finding.Name}} :</label>&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="col-sm-9">&ndash;&gt;-->
+<!--&lt;!&ndash;<label class="radio-inline" for="finding_option_{{finding.Id}}{{option.Name}}" ng-repeat="option in finding.Options">&ndash;&gt;-->
+<!--&lt;!&ndash;<input type="radio" name="{{finding.Name}}" id="finding_option_{{finding.Id}}{{option.Name}}"&ndash;&gt;-->
+<!--&lt;!&ndash;ng-value="option.Id" ng-model="finding.selectedOptionId" ng-selected="$index === 0 ? true : false"&ndash;&gt;-->
+<!--&lt;!&ndash;ng-change="findingChanged()">&ndash;&gt;-->
+<!--&lt;!&ndash;<span ng-bind-html="option.Name | trustAsHtml"></span>&ndash;&gt;-->
+<!--&lt;!&ndash;</label>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="clear-fix"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;</form>&ndash;&gt;-->
+
+<!--&lt;!&ndash; search result container &ndash;&gt;-->
+
+<!--&lt;!&ndash;<div class="search-results-container" ng-show="!isNullOrUndefined(files) && files.length > 0 && isNullOrUndefined(selectedFile)">&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="search-results">&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="history-table-wrapper" ng-show="!isNullOrUndefined(files) && files.length > 0 && isNullOrUndefined(selectedFile)">&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="table-responsive white-bg">&ndash;&gt;-->
+<!--&lt;!&ndash;<div id="history-table-header-group">&ndash;&gt;-->
+<!--&lt;!&ndash;<table class="table">&ndash;&gt;-->
+<!--&lt;!&ndash;<thead>&ndash;&gt;-->
+<!--&lt;!&ndash;<tr>&ndash;&gt;-->
+<!--&lt;!&ndash;<td width="30%" class="history-table-header">{{"image"|translate}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;<td width="40%" class="history-table-header">{{"uploaded_by"|translate}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;<td width="30%" class="history-table-header">{{"upload_date"|translate}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;</tr>&ndash;&gt;-->
+<!--&lt;!&ndash;</thead>&ndash;&gt;-->
+<!--&lt;!&ndash;</table>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;<div id="scrolling">&ndash;&gt;-->
+<!--&lt;!&ndash;<table class="table table-bordered table-hover">&ndash;&gt;-->
+<!--&lt;!&ndash;<tbody>&ndash;&gt;-->
+<!--&lt;!&ndash;<tr class="file-result" ng-repeat="file in files" ng-click="showFileDetails(file)">&ndash;&gt;-->
+<!--&lt;!&ndash;<td width="30%">&ndash;&gt;-->
+<!--&lt;!&ndash;<h4 class="thumbnail-identification" ng-if="!isVideoFile(file.Filepath)"><i class="fa fa-file-image-o" aria-hidden="true"></i></h4>&ndash;&gt;-->
+<!--&lt;!&ndash;<h4 class="thumbnail-identification" ng-if="isVideoFile(file.Filepath)"><i class="fa fa-file-video-o" aria-hidden="true"></i></h4>&ndash;&gt;-->
+<!--&lt;!&ndash;<img class="img-responsive search-thumbnail" alt="{{file.ViewName}}" ng-src="{{file.Filepath}}" width="150px"&ndash;&gt;-->
+<!--&lt;!&ndash;ng-if="!isVideoFile(file.Filepath)" />&ndash;&gt;-->
+<!--&lt;!&ndash;<video loop class="img-responsive search-thumbnail" ng-if="isVideoFile(file.Filepath)">&ndash;&gt;-->
+<!--&lt;!&ndash;<source ng-src="{{file.Filepath | trustUrl}}" />&ndash;&gt;-->
+<!--&lt;!&ndash;</video>&ndash;&gt;-->
+<!--&lt;!&ndash;</td>&ndash;&gt;-->
+<!--&lt;!&ndash;<td width="40%" align="center" class="vertical-align-middle"> {{file.UploadedBy}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;<td width="30%" align="center" class="vertical-align-middle"> {{toLocalDate(file.UploadedOn) | date: 'short'}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;</tr>&ndash;&gt;-->
+<!--&lt;!&ndash;</tbody>&ndash;&gt;-->
+<!--&lt;!&ndash;</table>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash; <ul uib-pagination total-items="totalRecords" ng-model="pageNumber" max-size="5" class="pagination-sm" boundary-link-numbers="true"&ndash;&gt;-->
+<!--&lt;!&ndash;ng-change="search()"></ul> &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+<!--&lt;!&ndash; search result container &ndash;&gt;-->
+<!--&lt;!&ndash; another oart &ndash;&gt;-->
+
+<!--<div class="search-image-details" ng-if="!isNullOrUndefined(selectedFile)">-->
+<!--<div class="image-details">-->
+<!--<div class="row">-->
+<!--<div class="col-md-5">-->
+<!--<table class="table table-img-preview table-responsive">-->
+<!--<tbody>-->
+<!--<tr>-->
+<!--<td class="v-align-middle">-->
+<!--<div class="image">-->
+<!--<img alt="{{selectedFile.ViewName}}" ng-src="{{selectedFile.Filepath}}" class="img-responsive"-->
+<!--ng-if="!isVideoFile(selectedFile.Filepath)" />-->
+<!--<video loop class="img-responsive" ng-if="isVideoFile(selectedFile.Filepath)">-->
+<!--<source ng-src="{{selectedFile.Filepath}}" />-->
+<!--</video>-->
+<!--<div class="play-icon">-->
+<!--<i class="fa glow-icon" ng-class="isVideoFile(selectedFile.Filepath) ? 'fa-play-circle-o' :'fa-search-plus'"-->
+<!--aria-hidden="true" ng-click="enlarge(selectedFile.Filepath)"></i>-->
+<!--</div>-->
+<!--</div>-->
+<!--</td>-->
+<!--</tr>-->
+<!--</tbody>-->
+<!--</table>-->
+
+<!--</div>-->
+<!--</div>-->
+
+<!--<div>-->
+<!--<div class="form-group">-->
+<!--<label class="control-label col-sm-2" for="view">{{"view"|translate}}:</label>-->
+<!--<div class="col-sm-10">-->
+<!--<p class="form-control-static"> {{selectedFile.ViewName}}</p>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="form-group">-->
+<!--<label class="control-label col-sm-2">{{"finding"|translate}}:</label>-->
+<!--<div class="col-sm-10">-->
+<!--<dl class="dl-horizontal">-->
+<!--<span ng-repeat="finding in selectedFile.selectedFindings">-->
+<!--<dt>{{finding.findingName}}</dt>-->
+<!--<dd><span ng-bind-html="finding.optionName | trustAsHtml"></span></dd>-->
+<!--</span>-->
+<!--</dl>-->
+
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!---->
+<!--</div>-->
+<!--&lt;!&ndash; another oart &ndash;&gt;-->
+<!--</div>-->
+
+<!--<div class="panel-footer text-right">&nbsp;-->
+
+<!--<span ng-if="isNullOrUndefined(files) || files.length === 0"> -->
+<!--<button class="btn btn-default" ng-click="clearSearchCriteria()">{{"clear"|translate}}</button> &nbsp;-->
+<!--<button type="button" class="btn btn-primary pull-right" ng-click="search()">{{"search"|translate}}</button>-->
+<!--</span>-->
+<!--<span ng-if="!isNullOrUndefined(selectedFile)"> -->
+<!--<button type="button" class="btn btn-default" ng-click="backToList()">{{"back_to_results"|translate}}</button> &nbsp;-->
+<!--<a class="btn btn-primary" ng-href="{{selectedFile.Filepath}}" target="_blank">{{"download"|translate}}</a>-->
+<!--</span>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</section>-->

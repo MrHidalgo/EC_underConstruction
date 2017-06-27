@@ -1,0 +1,228 @@
+﻿<div class="container">
+    <div class="row">
+
+        <div class="shape">
+            <div class="shape__header">
+                {{"replies" | translate}}
+            </div>
+
+            <div class="shape__body clearfix">
+                <div class="shape__body-header shape__body-header_replice">
+                    <table class="table__replice table__replice_subheader">
+                        <thead>
+                            <tr>
+                                <th width="40%" class="history-table-header">{{"upload"|translate}}</th>
+                                <th width="35%" class="history-table-header">{{"expert_review"|translate}}</th>
+                                <th width="25%" class="history-table-header">{{"student_reply"|translate}}</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+                <div class="shape__body-header shape__body-header_main">
+                    <table class="table__replice table__replice_header">
+                        <thead>
+                            <tr>
+                                <th width="25%" class="history-table-header">{{"date"|translate}}</th>
+                                <th width="15%" class="history-table-header">{{"Registration Type"}}</th>
+                                <th width="15%" class="history-table-header">{{"approved_rejected"|translate}}</th>
+                                <th width="20%" class="history-table-header">{{"date_reviewed"|translate}}</th>
+                                <th width="25%" class="history-table-header">{{"reply_status"|translate}}</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+                <div class="shape__body-scroll">
+                    <table class="table__replice table__replice_body">
+                        <tbody onload="getReplies()">
+                            <tr ng-show="submissions.length < 1">
+                                <td style="height: 70px;">-</td>
+                                <td style="height: 70px;">-</td>
+                                <td style="height: 70px;">-</td>
+                                <td style="height: 70px;">-</td>
+                                <td style="height: 70px;">-</td>
+                                <td style="height: 70px;">-</td>
+                            </tr>
+                            <tr ng-repeat="submission in submissions" ng-if="submission.HasStudentReplied">
+                                <td width="25%" align="center">{{toLocalDate(submission.SubmittedOn) | date:'dd/MM/yyyy HH:mm'}}</td>
+                                <td width="15%" align="center">{{submission.UltrasoundTypeName.join()}}</td>
+                                <td width="15%" align="center"><img ng-src="{{'Images/' +(submission.Approved ? 'right.png' : 'wrong.png' )}}"></td>
+                                <td width="20%" align="center">{{toLocalDate(submission.ReviewedDate) | date:'dd/MM/yyyy HH:mm'}}</td>
+                                <td width="25%" align="center">
+
+                                    <!--<button ng-if="submission.UnrepliedFileMessages === 0" -->
+                                    <button ng-disabled="submission.UnrepliedFileMessages !== 0"
+                                            type="button"
+                                            class="button__c button__c_half button_c-edit"
+                                            title="{{'replied_messages'|translate}}"
+                                            ui-sref="teacher.collegereview({submissionId: submission.SubmissionId, returnState: 'teacher.collegereplies'})">
+                                        <i class="fa fa-envelope-open-o" aria-hidden="true"></i>
+                                    </button>
+
+                                    <!--<span ng-if="submission.UnrepliedFileMessages !== 0">-->
+                                    <span class="button__c-badge" ng-class="{disabled : submission.UnrepliedFileMessages === 0}">
+                                        <button type="button"
+                                                ng-disabled="submission.UnrepliedFileMessages === 0"
+                                                class="button__c button__c_half button_c-warning"
+                                                title="{{'unreplied_messages'|translate}}"
+                                                ui-sref="teacher.collegereview({submissionId: submission.SubmissionId, returnState: 'teacher.collegereplies'})">
+                                            <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                        </button>
+                                        <span class="badge message_count">{{submission.UnrepliedFileMessages}}</span>
+                                    </span>
+
+                                    <!--<button ng-if="submission.UnrepliedFileMessages === 0"-->
+                                    <button ng-disabled="submission.UnrepliedFileMessages !== 0"
+                                            type="button"
+                                            class="button__c button__c_half button__c-danger"
+                                            title="{{'close_discussion'|translate}}"
+                                            ng-click="closeDiscussion(submission.SubmissionId)">
+                                        <i class="fa fa-ban" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--
+<div class="container">
+    <div class="row">
+
+        &lt;!&ndash; MAIN SEARCH BLOCK &ndash;&gt;
+        <div class="shape">
+
+            &lt;!&ndash; header &ndash;&gt;
+            <div class="shape__header">
+                {{"replies" | translate}}
+            </div>
+            &lt;!&ndash; end header &ndash;&gt;
+
+            &lt;!&ndash; body &ndash;&gt;
+            <div class="shape__body clearfix">
+
+                <div class="history-table-wrapper">
+                    <div class="table-responsive white-bg">
+                        <div id="history-table-header-group">
+                            &lt;!&ndash;<table class="table">
+                                <thead>
+                                <tr>
+                                    <td colspan="2" width="30%" class="history-table-header">{{"upload"|translate}}</td>
+                                    <td colspan="2" width="30%" class="history-table-header">{{"expert_review"|translate}}</td>
+                                    <td width="40%" class="history-table-header">{{"student_reply"|translate}}</td>
+                                </tr>
+                                <tr>
+                                    <td width="25%" class="history-table-subheader">{{"date"|translate}}</td>
+                                    <td width="15%" class="history-table-subheader">{{"ultrasound_type"|translate}}</td>
+                                    <td width="15%" class="history-table-subheader">{{"approved_rejected"|translate}}</td>
+                                    <td width="25%" class="history-table-subheader">{{"date_reviewed"|translate}}</td>
+                                    <td width="20%" class="history-table-subheader">{{"reply_status"|translate}}</td>
+                                </tr>
+                                </thead>
+                            </table>&ndash;&gt;
+                        </div>
+                        <div id="scrolling">
+                            <table class="table table-bordered">
+                                <tbody>
+                                <tr ng-repeat="submission in submissions" ng-if="submission.HasStudentReplied">
+                                    <td width="25%" align="center">{{toLocalDate(submission.SubmittedOn) | date:'dd/MM/yyyy HH:mm'}}</td>
+                                    <td width="15%" align="center">{{submission.UltrasoundTypeName}}</td>
+                                    <td width="15%" align="center"><img ng-src="{{'Images/' +(submission.Approved ? 'right.png' : 'wrong.png' )}}"></td>
+                                    <td width="25%" align="center">{{toLocalDate(submission.ReviewedDate) | date:'dd/MM/yyyy HH:mm'}}</td>
+                                    <td width="20%" align="center">
+                                        <button ng-if="submission.UnrepliedFileMessages === 0" type="button" class="btn btn-success btn-sm" title="{{'replied_messages'|translate}}"
+                                                ui-sref="teacher.review({submissionId: submission.SubmissionId, returnState: 'teacher.replies'})">
+                                            <i class="fa fa-envelope-open-o" aria-hidden="true"></i>
+                                        </button>
+                                        <span ng-if="submission.UnrepliedFileMessages !== 0">
+                                                <button type="button" class="btn btn-warning btn-sm" title="{{'unreplied_messages'|translate}}"
+                                                        ui-sref="teacher.review({submissionId: submission.SubmissionId, returnState: 'teacher.replies'})">
+                                                    <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                                </button>
+                                                <span class="badge message_count">{{submission.UnrepliedFileMessages}}</span>
+                                            </span>
+                                        <button ng-if="submission.UnrepliedFileMessages === 0" type="button" class="btn btn-danger btn-sm" title="{{'Close discussion'}}" ng-click="closeDiscussion(submission.SubmissionId)">
+                                            <i class="fa fa-ban" aria-hidden="true"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            &lt;!&ndash; end body &ndash;&gt;
+
+        </div>
+        &lt;!&ndash; end MAIN SEARCH BLOCK &ndash;&gt;
+
+    </div>
+</div>-->
+<!--<section class="body" onload="getReplies()">-->
+<!--<div class="container-fluid">-->
+<!--<div class="row">-->
+<!--<div class="col-md-offset-2 col-md-8">-->
+<!--<div class="history-table-wrapper">-->
+<!--<div class="table-responsive white-bg">-->
+<!--<div id="history-table-header-group">-->
+<!--<table class="table">-->
+<!--<thead>-->
+<!--<tr>-->
+<!--<td colspan="2" width="30%" class="history-table-header">{{"upload"|translate}}</td>-->
+<!--<td colspan="2" width="30%" class="history-table-header">{{"expert_review"|translate}}</td>-->
+<!--<td width="40%" class="history-table-header">{{"student_reply"|translate}}</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td width="25%" class="history-table-subheader">{{"date"|translate}}</td>-->
+<!--<td width="15%" class="history-table-subheader">{{"ultrasound_type"|translate}}</td>-->
+<!--<td width="15%" class="history-table-subheader">{{"approved_rejected"|translate}}</td>-->
+<!--<td width="25%" class="history-table-subheader">{{"date_reviewed"|translate}}</td>-->
+<!--<td width="20%" class="history-table-subheader">{{"reply_status"|translate}}</td>-->
+<!--</tr>-->
+<!--</thead>-->
+<!--</table>-->
+<!--</div>-->
+<!--<div id="scrolling">-->
+<!--<table class="table table-bordered">-->
+<!--<tbody>-->
+<!--<tr ng-repeat="submission in submissions" ng-if="submission.HasStudentReplied">-->
+<!--<td width="25%" align="center">{{toLocalDate(submission.SubmittedOn) | date:'dd/MM/yyyy HH:mm'}}</td>-->
+<!--<td width="15%" align="center">{{submission.UltrasoundTypeName}}</td>-->
+<!--<td width="15%" align="center"><img ng-src="{{'Images/' +(submission.Approved ? 'right.png' : 'wrong.png' )}}"></td>-->
+<!--<td width="25%" align="center">{{toLocalDate(submission.ReviewedDate) | date:'dd/MM/yyyy HH:mm'}}</td>-->
+<!--<td width="20%" align="center">-->
+<!--<button ng-if="submission.UnrepliedFileMessages === 0" type="button" class="btn btn-success btn-sm" title="{{'replied_messages'|translate}}"-->
+<!--ui-sref="teacher.review({submissionId: submission.SubmissionId, returnState: 'teacher.replies'})">-->
+<!--<i class="fa fa-envelope-open-o" aria-hidden="true"></i>-->
+<!--</button>-->
+<!--<span ng-if="submission.UnrepliedFileMessages !== 0">-->
+<!--<button type="button" class="btn btn-warning btn-sm" title="{{'unreplied_messages'|translate}}"-->
+<!--ui-sref="teacher.review({submissionId: submission.SubmissionId, returnState: 'teacher.replies'})">-->
+<!--<i class="fa fa-envelope-o" aria-hidden="true"></i>-->
+<!--</button>-->
+<!--<span class="badge message_count">{{submission.UnrepliedFileMessages}}</span>-->
+<!--</span>-->
+<!--<button ng-if="submission.UnrepliedFileMessages === 0" type="button" class="btn btn-danger btn-sm" title="{{'Close discussion'}}" ng-click="closeDiscussion(submission.SubmissionId)">-->
+<!--<i class="fa fa-ban" aria-hidden="true"></i>-->
+<!--</button>-->
+<!--</td>-->
+<!--</tr>-->
+<!--</tbody>-->
+<!--</table>-->
+<!--&lt;!&ndash; <ul uib-pagination total-items="totalRecords" ng-model="pageNumber" max-size="5" class="pagination-sm" boundary-link-numbers="true"-->
+<!--ng-change="getReplies()"></ul> &ndash;&gt;-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</section>-->

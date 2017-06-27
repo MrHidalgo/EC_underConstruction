@@ -1,0 +1,102 @@
+﻿<div class="container" ng-init="loadRegistrationTypes()">
+
+    <div class="shape">
+        <div class="shape__header">
+            {{"progress"|translate }}
+        </div>
+
+        <div class="shape__body clearfix">
+
+            <!-- select value -->
+            <hr class="shape__line_transparent clearfix">
+
+            <div class="row">
+                <div class="col-md-offset-3 col-md-6 col-xs-offset-2 col-xs-8">
+                    <select class="forms__input" id="ultrasoundType" ng-model="registrationType" ng-change="loadProgress()"
+                            ng-options="registrationType.Name for registrationType in registrationTypes track by registrationType.Id">
+                        <option value="" disabled selected>{{'select_a_value'|translate}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="">
+                <hr class="shape__line_medium clearfix">
+
+                <h4 style="padding-left: 15px;border-right: 1px solid #eee;">{{"Progress" }}</h4>
+
+                <hr class="shape__line_medium clearfix">
+
+                <div class="shape__body shape__body-padding shape__body-graph" style="border-right: 1px solid #eee;">
+
+                    <button type="button"
+                            data-toggle="tooltip"
+                            class="button__c button__c-left"
+                            title={{"older"|translate}}
+                            ng-click="loadOlder(true)">
+                        <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                    </button>
+
+                    <canvas class="chart chart-line" chart-data="normalData"
+                            chart-labels="normaLabels" chart-series="series" chart-options="options"
+                            chart-dataset-override="datasetOverride"></canvas>
+
+                    <button type="button"
+                            data-toggle="tooltip"
+                            class="button__c button__c-right"
+                            title={{"newer"|translate}}
+                            ng-click="loadNewer(true)" ng-disabled="normalReferenceDate >= currentDate">
+                        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    </button>
+
+                </div>
+            </div>
+
+            <!--<div class="shape_half shape_half_right">
+                <hr class="shape__line_medium clearfix">
+
+                <h4 style="padding-left: 15px;border-left: 1px solid #eee;">{{"progress_nonnormal_ultrasounds"|translate }}</h4>
+
+                <hr class="shape__line_medium clearfix">
+
+                <div class="shape__body shape__body-padding shape__body-graph" style="border-left: 1px solid #eee;">
+
+                    <button type="button"
+                            class="button__c button__c-left"
+                            data-toggle="tooltip"
+                            title={{"older"|translate}}
+                            ng-click="loadOlder(false)">
+                        <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                    </button>
+
+                    <canvas class="chart chart-line" chart-data="nonNormalData"
+                            chart-labels="nonNormalLabels" chart-series="series" chart-options="options"
+                            chart-dataset-override="datasetOverride"></canvas>
+
+                    <button type="button"
+                            title={{"newer"|translate}}
+                            data-toggle="tooltip"
+                            class="button__c button__c-right"
+                            ng-click="loadNewer(false)" ng-disabled="nonNormalReferenceDate >= currentDate">
+                        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    </button>
+
+                </div>
+            </div>-->
+
+        </div>
+
+
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip({
+            placement : "top"
+            , trigger : "hover"
+        }).on('click', function () {
+            $(this).tooltip('hide')
+        });
+    });
+</script>

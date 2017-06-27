@@ -1,0 +1,220 @@
+﻿<div class="nav__btn-wrap" ng-show="isPTeacher">
+    <a href="/teacher-dashboard-portfolio"
+       ui-sref="teacher.dashboard.portfolio"
+       ng-class="{'active' : state.current.name === 'teacher.dashboard.portfolio'}"
+       class="nav__btn">
+        <i class="nav__btn-icon glyphicon glyphicon-dashboard"></i>
+        {{"dashboard" | translate}}
+    </a>
+
+    <a href="/teacher-add"
+       ui-sref="teacher.add"
+       ng-class="{'active' : state.current.name === 'teacher.add'|| state.current.name === 'teacher.add.kpb'}"
+       class="nav__btn">
+        <i class="nav__btn-icon glyphicon glyphicon-plus"></i>
+        {{"forms" | translate}}
+    </a>
+
+    <a href="/teacher-epa"
+       ui-sref="teacher.epa"
+       ng-class="{'active' : state.current.name === 'teacher.epa'}"
+       class="nav__btn">
+        <i class="nav__btn-icon glyphicon glyphicon-check"></i>
+        {{"epa" | translate}}
+    </a>
+</div>
+
+<div class="nav__btn-wrap" ng-show="isUsTeacher">
+
+    <a href="/teacher-dashboard"
+       ui-sref="teacher.dashboard"
+       ng-class="{'active' : state.current.name === 'teacher.dashboard'}"
+       class="nav__btn">
+        <i class="nav__btn-icon glyphicon glyphicon-dashboard"></i>
+        {{"dashboard" | translate}}
+    </a>
+    <a href="/teacher-submission"
+       ui-sref="teacher.submission"
+       ng-class="{'active' : state.current.name  === 'teacher.submission'}"
+       class="nav__btn">
+        <i class="nav__btn-icon fa fa-upload"></i>
+        {{"upload" | translate}}
+    </a>
+
+    <a href="/teacher-submission-history"
+       ui-sref="teacher.submissionHistory"
+       ng-class="{'active' : state.current.name  === 'teacher.submissionHistory'}"
+       class="nav__btn">
+        <i class="nav__btn-icon fa fa-history"></i>
+        {{"upload_history" | translate}}
+    </a>
+    <a href="/teacher-reviews"
+       ui-sref="teacher.reviews"
+       ng-class="{'active' : state.current.name === 'teacher.reviews'}"
+       class="nav__btn">
+        <i class="nav__btn-icon fa fa-file-text-o"></i>
+        {{"reviews" | translate}}
+    </a>
+
+    <a href="/teacher-replies"
+       ui-sref="teacher.replies"
+       ng-class="{'active' : state.current.name === 'teacher.replies'}"
+       class="nav__btn">
+        <i class="nav__btn-icon fa fa-reply-all"></i>
+        {{"replies" | translate}}
+    </a>
+
+    <a href="/teacher-search"
+       ui-sref="teacher.search"
+       ng-class="{'active' : state.current.name === 'teacher.search'}"
+       class="nav__btn">
+        <i class="nav__btn-icon fa fa-search"></i>
+        {{"search" | translate}}
+    </a>
+
+    <a href="/teacher-progress"
+       ui-sref="teacher.progress"
+       ng-class="{'active' : state.current.name === 'teacher.progress'}"
+       class="nav__btn">
+        <i class="nav__btn-icon fa fa-line-chart"></i>
+        {{"progress" | translate}}
+    </a>
+
+</div>
+<div class="nav__btn-wrap" ng-show="isteacherCollege">
+
+    <a href="/teacher-collegedashboard"
+       ui-sref="teacher.collegedashboard"
+       ng-class="{'active' : state.current.name === 'teacher.collegedashboard'}"
+       class="nav__btn">
+        <i class="nav__btn-icon glyphicon glyphicon-dashboard"></i>
+        {{"dashboard" | translate}}
+    </a>
+    <!--<a href="/teacher-submission"
+       ui-sref="teacher.submission"
+       ng-class="{'active' : state.current.name  === 'teacher.submission'}"
+       class="nav__btn">
+        <i class="nav__btn-icon fa fa-upload"></i>
+        {{"upload" | translate}}
+    </a>-->
+
+    <!--<a href="/teacher-submission-history"
+       ui-sref="teacher.submissionHistory"
+       ng-class="{'active' : state.current.name  === 'teacher.submissionHistory'}"
+       class="nav__btn">
+        <i class="nav__btn-icon fa fa-history"></i>
+        {{"upload_history" | translate}}
+    </a>-->
+    <a href="/teacher-collegereviews"
+       ui-sref="teacher.collegereviews"
+       ng-class="{'active' : state.current.name === 'teacher.collegereviews'}"
+       class="nav__btn">
+        <i class="nav__btn-icon fa fa-file-text-o"></i>
+        {{"reviews" | translate}}
+    </a>
+
+    <a href="/teacher-collegereplies"
+       ui-sref="teacher.collegereplies"
+       ng-class="{'active' : state.current.name === 'teacher.collegereplies'}"
+       class="nav__btn">
+        <i class="nav__btn-icon fa fa-reply-all"></i>
+        {{"replies" | translate}}
+    </a>
+
+    <a href="/teachercollege-search"
+       ui-sref="teacher.collegesearch"
+       ng-class="{'active' : state.current.name === 'teacher.collegesearch'}"
+       class="nav__btn">
+        <i class="nav__btn-icon fa fa-search"></i>
+        {{"search" | translate}}
+    </a>
+
+    <a href="/teacher-collegeprogress"
+       ui-sref="teacher.collegeprogress"
+       ng-class="{'active' : state.current.name === 'teacher.collegeprogress'}"
+       class="nav__btn">
+        <i class="nav__btn-icon fa fa-line-chart"></i>
+        {{"progress" | translate}}
+    </a>
+
+</div>
+
+<!--<a href="/teacher-profile"-->
+   <!--ui-sref="teacher.profile"-->
+   <!--ng-class="{'active' : state.current.name === 'teacher.profile' || state.current.name === 'teacher.editprofile'}"-->
+   <!--class="nav__btn">-->
+    <!--<i class="nav__btn-icon glyphicon glyphicon-user"></i>-->
+    <!--{{"profile" | translate}}-->
+<!--</a>-->
+
+<script>
+    /* LEFT MENU */
+    var menuBtn         = $(".nav__btn"),
+        menuContainer   = $(".navigation");
+
+    menuBtn.on("click", function(){
+        menuContainer.removeClass("active");
+        $("html, body").removeClass("open-menu");
+    });
+</script>
+
+
+<!--<ul class="nav navbar-nav" ng-show="isPTeacher">-->
+    <!--&lt;!&ndash;<li ng-class="{'active' : state.current.name === 'teacher.dashboard.portfolio'}">&ndash;&gt;-->
+        <!--&lt;!&ndash;<a href="/teacher-dashboard-portfolio" ui-sref="teacher.dashboard.portfolio">&ndash;&gt;-->
+            <!--&lt;!&ndash;<i class="glyphicon glyphicon-dashboard"> </i>&ndash;&gt;-->
+            <!--&lt;!&ndash;Dashboard&ndash;&gt;-->
+        <!--&lt;!&ndash;</a>&ndash;&gt;-->
+    <!--&lt;!&ndash;</li>&ndash;&gt;-->
+    <!--&lt;!&ndash;<li ng-class="{'active' : state.current.name === 'teacher.add'|| state.current.name === 'teacher.add.kpb'}">&ndash;&gt;-->
+        <!--&lt;!&ndash;<a href="/teacher-add" ui-sref="teacher.add">&ndash;&gt;-->
+            <!--&lt;!&ndash;<i class="glyphicon glyphicon-plus"> </i>&ndash;&gt;-->
+            <!--&lt;!&ndash;Forms&ndash;&gt;-->
+        <!--&lt;!&ndash;</a>&ndash;&gt;-->
+    <!--&lt;!&ndash;</li>&ndash;&gt;-->
+    <!--&lt;!&ndash;<li ng-class="{'active' : state.current.name === 'teacher.epa'}">&ndash;&gt;-->
+        <!--&lt;!&ndash;<a href="/teacher-epa" ui-sref="teacher.epa">&ndash;&gt;-->
+            <!--&lt;!&ndash;<i class="glyphicon glyphicon-check"> </i>&ndash;&gt;-->
+            <!--&lt;!&ndash;EPA&ndash;&gt;-->
+        <!--&lt;!&ndash;</a>&ndash;&gt;-->
+    <!--&lt;!&ndash;</li>&ndash;&gt;-->
+<!--</ul>-->
+
+<!--<ul class="nav navbar-nav" ng-show="isUsTeacher">-->
+    <!--&lt;!&ndash;<li ng-class="{'active' : state.current.name === 'teacher.dashboard'}">&ndash;&gt;-->
+        <!--&lt;!&ndash;<a href="/teacher-dashboard" ui-sref="teacher.dashboard">&ndash;&gt;-->
+            <!--&lt;!&ndash;<i class="glyphicon glyphicon-dashboard"> </i>&ndash;&gt;-->
+            <!--&lt;!&ndash;Dashboard&ndash;&gt;-->
+        <!--&lt;!&ndash;</a>&ndash;&gt;-->
+    <!--&lt;!&ndash;</li>&ndash;&gt;-->
+    <!--&lt;!&ndash;<li ng-class="{'active' : state.current.name === 'teacher.reviews'}">&ndash;&gt;-->
+        <!--&lt;!&ndash;<a href="/teacher-reviews" ui-sref="teacher.reviews"> <i class="fa fa-file-text-o" aria-hidden="true"></i>&ndash;&gt;-->
+            <!--&lt;!&ndash;Reviews&ndash;&gt;-->
+        <!--&lt;!&ndash;</a>&ndash;&gt;-->
+    <!--&lt;!&ndash;</li>&ndash;&gt;-->
+    <!--&lt;!&ndash;<li ng-class="{'active' : state.current.name === 'teacher.replies'}">&ndash;&gt;-->
+        <!--&lt;!&ndash;<a href="/teacher-replies" ui-sref="teacher.replies"><i class="fa fa-reply-all" aria-hidden="true"></i>&ndash;&gt;-->
+            <!--&lt;!&ndash;Replies&ndash;&gt;-->
+        <!--&lt;!&ndash;</a>&ndash;&gt;-->
+    <!--&lt;!&ndash;</li>&ndash;&gt;-->
+    <!--&lt;!&ndash;<li ng-class="{'active' : state.current.name === 'teacher.search'}">&ndash;&gt;-->
+        <!--&lt;!&ndash;<a href="/teacher-search" ui-sref="teacher.search"><i class="fa fa-search" aria-hidden="true"></i>&ndash;&gt;-->
+            <!--&lt;!&ndash;Search&ndash;&gt;-->
+        <!--&lt;!&ndash;</a>&ndash;&gt;-->
+    <!--&lt;!&ndash;</li>&ndash;&gt;-->
+    <!--&lt;!&ndash;<li ng-class="{'active' : state.current.name === 'teacher.progress'}">&ndash;&gt;-->
+        <!--&lt;!&ndash;<a href="/teacher-progress" ui-sref="teacher.progress"><i class="fa fa-line-chart" aria-hidden="true"></i>&ndash;&gt;-->
+            <!--&lt;!&ndash;Progress&ndash;&gt;-->
+        <!--&lt;!&ndash;</a>&ndash;&gt;-->
+    <!--&lt;!&ndash;</li>&ndash;&gt;-->
+
+<!--</ul>-->
+
+<!--<ul class="nav navbar-nav" ng-show="isPTeacher || isUsTeacher">-->
+    <!--&lt;!&ndash;<li ng-class="{'active' : state.current.name === 'teacher.profile' || state.current.name === 'teacher.editprofile'}">&ndash;&gt;-->
+        <!--&lt;!&ndash;<a href="/teacher-profile" ui-sref="teacher.profile">&ndash;&gt;-->
+            <!--&lt;!&ndash;<i class="glyphicon glyphicon-user"> </i>&ndash;&gt;-->
+            <!--&lt;!&ndash;Profile&ndash;&gt;-->
+        <!--&lt;!&ndash;</a>&ndash;&gt;-->
+    <!--&lt;!&ndash;</li>&ndash;&gt;-->
+<!--</ul>-->

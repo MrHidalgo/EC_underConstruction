@@ -1,0 +1,253 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <title>Expertfolio</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=0" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <link rel="shortcut icon" href="Images/favicon.png" type="image/png" />
+    <!--css-->
+    <link rel="stylesheet" href="/Content/bootstrap.css">
+    <link href="Content/daterangepicker.css" rel="stylesheet" />
+    <link href="Content/ui-bootstrap-csp.css" rel="stylesheet" />
+    <link href="Content/loading-bar.min.css" rel="stylesheet" />
+    <link href="Content/angular-ui-notification.css" rel="stylesheet" />
+    <link href="Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="Content/ExpertCollege.css" rel="stylesheet" />
+    <link href="Content/eportfolio.css" rel="stylesheet" />
+    <link href="Content/iconmoon-font.css" rel="stylesheet" />
+    <link href="Content/_sprite.css" rel="stylesheet" />
+    <link href="Content/select.css" rel="stylesheet" />
+    <link href="Content/kendo/2017.1.223-source/web/kendo.common.css" rel="stylesheet" />
+    <link href="Content/kendo/2017.1.223-source/web/kendo.bootstrap.css" rel="stylesheet" />
+
+    <!-- fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
+</head>
+<body ng-app="Eportfolio" class="bg fixed">
+
+    <div class="k-overlay" ng-show="loading">
+        <div class="loader"></div>
+    </div>
+
+    <header class="header animated" ng-controller="headerController" ng-include="headerPath"></header>
+
+    <div class="navigation">
+
+        <div class="navigation__wrap animated slideInLeft">
+            <div class="navigation__header">
+
+                <div class="logotype logotype__navigation">
+                    <img src="../Images/logotype.png"
+                         alt="ExpertFolio"
+                         title="ExpertFolio"
+                         class="logotype__img" />
+                </div>
+
+                <a href="javascript:void(0);" class="navigation__btn menu_close-js">
+                    <span class="navigation__btn-text">{{"close"|translate}}</span>
+                    <span class="navigation__btn-line navigation__btn-line-0"></span>
+                    <span class="navigation__btn-line navigation__btn-line-1"></span>
+                </a>
+            </div>
+
+            <div class="navigation__body animated fadeIn" ng-controller="menuController" ng-include="menuPath"></div>
+        </div>
+
+    </div>
+
+    <main class="main">
+
+        <div class="main__container">
+
+            <div ui-view></div>
+
+        </div>
+
+    </main>
+
+    <footer class="footer clearfix">
+        <p class="copyright">
+            <span class="copyright__text">&copy; ExpertCollege 2017</span>
+            <span class="copyright__line copyright__line-0"> | </span>
+            <a href="javascript:void(0);" class="copyright__btn">ALL RIGHTS RESERVED</a>
+            <span class="copyright__line copyright__line-1"> | </span>
+            <a href="javascript:void(0);" class="copyright__btn">DISCLAIMER</a>
+        </p>
+
+        <div class="social">
+            <a href="javascript:void(0);" class="social__btn">
+                <i class="icon-facebook"></i>
+            </a>
+            <a href="javascript:void(0);" class="social__btn">
+                <i class="icon-google"></i>
+            </a>
+            <a href="javascript:void(0);" class="social__btn">
+                <i class="icon-twitter"></i>
+            </a>
+            <a href="javascript:void(0);" class="social__btn">
+                <i class="icon-rss"></i>
+            </a>
+        </div>
+    </footer>
+
+    <div class="modals">
+        <div class="modals__container">
+            <div class="modals__content animated slideInDown" ng-controller="contactController" ng-include="contactsPath"></div>
+        </div>
+    </div>
+
+    <script src="Scripts/jquery-3.1.1.min.js"></script>
+    <script src="Scripts/common.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+    <script src="Scripts/tether-1.3.3/tether-1.3.3/dist/js/tether.min.js"></script>
+    <script src="Scripts/angular.js"></script>
+    <script src="Scripts/oclazyload/dist/ocLazyLoad.min.js"></script>
+    <script src="Scripts/angular-ui-router.min.js"></script>
+    <script src="Scripts/angular-sanitize.min.js"></script>
+    <script src="Scripts/angular-translate.js"></script>
+    <script src="Scripts/angular-loader.js"></script>
+    <script src="Scripts/angular-translate-loader-url.js"></script>
+    <script src="Scripts/angular-animate.min.js"></script>
+    <script src="Scripts/angular-ui/ui-bootstrap.min.js"></script>
+    <script src="Scripts/angular-ui/ui-bootstrap-tpls.min.js"></script>
+    <script src="Scripts/ngStorage.min.js"></script>
+    <script src="Scripts/angular-loader.min.js"></script>
+    <script src="Scripts/angular-idle.js"></script>
+    <script src="Scripts/underscore.js"></script>
+    <script src="Scripts/moment.js"></script>
+    <script src="Scripts/json3.min.js"></script>
+    <script src="Scripts/angular-local-storage.js"></script>
+    <script src="Scripts/ng-file-upload-shim.min.js"></script>
+    <script src="Scripts/ng-file-upload.min.js"></script>
+    <script src="Scripts/angular-ui-notification.js"></script>
+    <script src="Scripts/daterangepicker.js"></script>
+    <script src="Scripts/Chart.js"></script>
+    <script src="Scripts/kendo/2017.1.223/kendo.ui.core.min.js"></script>
+    <script src="Scripts/kendo/2017.1.223/kendo.all.min.js"></script>
+    <script src="Scripts/kendo/2017.1.223/cultures/kendo.culture.nl-NL.min.js"></script>
+    <script src="Scripts/kendo/2017.1.223/cultures/kendo.culture.en-US.min.js"></script>
+
+
+    <script src="Scripts/ng-dicom-viewer/Dwv/dicom/dicomParser.js"></script>
+    <script src="Scripts/ng-dicom-viewer/Dwv/dicom/dictionary.js"></script>
+    <script src="Scripts/ng-dicom-viewer/Dwv/gui/browser.js"></script>
+    <script src="Scripts/ng-dicom-viewer/Dwv/image/image.js"></script>
+    <script src="Scripts/ng-dicom-viewer/Dwv/image/view.js"></script>
+    <script src="Scripts/ng-dicom-viewer/Dwv/image/luts.js"></script>
+    <script src="Scripts/ng-dicom-viewer/Dwv/utils/string.js"></script>
+    <script src="Scripts/ng-dicom-viewer/NgDicomViewer.js"></script>
+    <script src="Scripts/ng-dicom-viewer/FrameWork/openjpeg.js"></script>
+    <script src="Scripts/select.js"></script>
+
+    <!--config, consts, filters-->
+
+    <script src="Scripts/angular-daterangepicker.min.js"></script>
+    <script src="Scripts/angular-chart.min.js"></script>
+    <script type="text/javascript" src="app/app.module.js"></script>
+    <script type="text/javascript" src="app/app.config.js"></script>
+    <script type="text/javascript" src="app/app.run.js"></script>
+    <script type="text/javascript" src="app/filters/trust-as-html.filter.js"></script>
+    <script type="text/javascript" src="app/filters/trust-url.filter.js"></script>
+    <script type="text/javascript" src="app/app.const.js"></script>
+    <script type="text/javascript" src="app/values.js"></script>
+    <!--services-->
+    <script type="text/javascript" src="app/services/AuthHttpResponseInterceptor.js"></script>
+    <script type="text/javascript" src="app/services/authService.js"></script>
+    <script type="text/javascript" src="app/services/dataService.js"></script>
+    <script type="text/javascript" src="app/services/userService.js"></script>
+    <script type="text/javascript" src="app/services/adminService.js"></script>
+    <script type="text/javascript" src="app/services/formService.js"></script>
+    <script src="app/services/conslusion.service.js"></script>
+    <script type="text/javascript" src="app/services/modal.service.js"></script>
+    <script type="text/javascript" src="app/common/media-popup.controller.js"></script>
+    <script type="text/javascript" src="app/common/media-popup-dicom.controller.js"></script>
+    <script type="text/javascript" src="app/modal/alert-modal.controller.js"></script>
+    <script type="text/javascript" src="app/modal/confirm-modal.controller.js"></script>
+    <!--directives-->
+    <script src="app/directives/forms/attachment.js"></script>
+
+    <!-- test test -->
+    <script src="app/headerMain.js"></script>
+    <script src="app/menuMain.js"></script>
+    <script src="app/contactsMain.js"></script>
+    <!-- end test test -->
+    <!-- home -->
+    <script type="text/javascript" src="app/home/home.module.js"></script>
+    <script type="text/javascript" src="app/home/homeCtrl.js"></script>
+    <script type="text/javascript" src="app/home/headerCtrl.js"></script>
+    <script type="text/javascript" src="app/home/ContactUsCtrl.js"></script>
+
+    <!-- account -->
+    <script type="text/javascript" src="app/login/accountModule.js"></script>
+    <script type="text/javascript" src="app/login/registerCtrl.js"></script>
+    <script type="text/javascript" src="app/confirm-register/confirm-register.js"></script>
+    <script type="text/javascript" src="app/login/loginCtrl.js"></script>
+    <script type="text/javascript" src="app/forgot-password/forgot-password.js"></script>
+    <script type="text/javascript" src="app/conditions/conditions.js"></script>
+    <script type="text/javascript" src="app/cancel-register/cancel-register.js"></script>
+    <script type="text/javascript" src="app/change-password/change-password.js"></script>
+
+    <!-- admin module -->
+    <script type="text/javascript" src="app/admin/admin.module.js"></script>
+    <script type="text/javascript" src="app/admin/admin.menu.controller.js"></script>
+    <script type="text/javascript" src="app/admin/admin-user-db.controller.js"></script>
+    <script type="text/javascript" src="app/admin/adminformmanagerCtrl.js"></script>
+    <script type="text/javascript" src="app/admin/admin-us-manager.controller.js"></script>
+    <script type="text/javascript" src="app/admin/admin-upload-manager.controller.js"></script>
+
+    <!--student ultrasound-->
+
+    <script type="text/javascript" src="app/student/student.module.js"></script>
+    <script type="text/javascript" src="app/student/student-menu.controller.js"></script>
+    <script type="text/javascript" src="app/student/ultrasound/student-submission.controller.js"></script>
+    <script type="text/javascript" src="app/student/ultrasound/student-submission-history.controller.js"></script>
+    <script type="text/javascript" src="app/student/ultrasound/student-progress.controller.js"></script>
+    <script type="text/javascript" src="app/student/ultrasound/student-submission-preview.controller.js"></script>
+    <script src="app/student/ultrasound/student-search.controller.js"></script>
+    <!-- college student -->
+    <script src="app/student/college/studentcollege-submission.controller.js"></script>
+    <script src="app/student/college/studentcollege-submissionhistory.controller.js"></script>
+    <script src="app/student/college/studentcollege-submission-preview.controller.js"></script>
+    <script src="app/student/college/studentcollege-search.controller.js"></script>
+    <script src="app/student/college/studentcollege-progress.controller.js"></script>
+    <!--teacher ultrasound-->
+    <script type="text/javascript" src="app/teacher/teacher.module.js"></script>
+    <script type="text/javascript" src="app/teacher/teacher-menu.controller.js"></script>
+    <script type="text/javascript" src="app/teacher/ultrasound/teacher-dashboard.controller.js"></script>
+    <script type="text/javascript" src="app/teacher/ultrasound/teacher-reviews.controller.js"></script>
+    <script type="text/javascript" src="app/teacher/ultrasound/teacher-review.controller.js"></script>
+    <script type="text/javascript" src="app/teacher/ultrasound/teacher-search.controller.js"></script>
+    <script type="text/javascript" src="app/teacher/ultrasound/teacher-progress.controller.js"></script>
+    <script type="text/javascript" src="app/teacher/ultrasound/teacher-replies.controller.js"></script>
+    <script type="text/javascript" src="app/teacher/ultrasound/review-summary.controller.js"></script>
+    <script type="text/javascript" src="app/teacher/ultrasound/submission-reply.controller.js"></script>
+    <script type="text/javascript" src="app/teacher/ultrasound/teacher-submission.controller.js"></script>
+    <script type="text/javascript" src="app/teacher/ultrasound/teacher-submission-history.controller.js"></script>
+    <!-- college teacher -->
+    <script src="app/teacher/college/college-dashboard.controller.js"></script>
+    <script src="app/teacher/college/teacher-coleggereviews.controller.js"></script>
+    <script src="app/teacher/college/teacher-coleggereview.controller.js"></script>
+    <script src="app/teacher/college/teachercollege-search.controller.js"></script>
+    <script src="app/teacher/college/teachercollege-progress.controller.js"></script>
+    <script src="app/teacher/college/teacher-college-replies.controller.js"></script>
+    <!--US services-->
+    <script type="text/javascript" src="app/services/teacher.service.js"></script>
+    <script type="text/javascript" src="app/services/submission.service.js"></script>
+    <script type="text/javascript" src="app/services/submitted-file.service.js"></script>
+    <script type="text/javascript" src="app/services/error.service.js"></script>
+
+    <!-- user portfolio -->
+    <script src="app/student/portfolio/procedure-register/procedure-register.js"></script>
+    <script src="app/student/portfolio/procedure-register/forms-number.controller.js"></script>
+
+    <script type="text/javascript" src="app/user/dashboard/user.dashboard.controller.js"></script>
+    <script type="text/javascript" src="app/user/add/user.add.controller.js"></script>
+    <script type="text/javascript" src="app/user/add/kpb/kpb.controller.js"></script>
+    <script type="text/javascript" src="app/user/profile/user.profile.controller.js"></script>
+    <script type="text/javascript" src="app/user/profile/user.editprofile.controller.js"></script>
+    <script type="text/javascript" src="app/user/epa/user.epa.controller.js"></script>
+
+</body>
+</html>
+

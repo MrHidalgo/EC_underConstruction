@@ -1,0 +1,131 @@
+﻿
+<div class="forms">
+    <div class="forms__block">
+
+        <!-- header -->
+        <div class="forms__header clearfix">
+            <p class="forms__header-text">{{"registration_confirmation" | translate}}</p>
+        </div>
+
+        <!-- body -->
+        <div class="forms__body forms__body-confirmation">
+
+            <form name="userForm" class="userForm" autocomplete="off">
+
+                <div class="forms__group">
+
+                    <label class="control-label col-sm-3">{{"dear" | translate}}, </label>
+
+                    <div class="col-sm-9 col-xs-12"
+                         ng-show="user != null">
+                        <strong>{{user.Firstname}} {{user.MiddleName}} {{user.SurName}}</strong>
+                    </div>
+                </div>
+
+                <div class="forms__group"
+                     ng-class="{ 'has-error' : userForm.confirmedEmail.$invalid && !userForm.confirmedEmail.$pristine}">
+
+                    <label class="control-label col-sm-3">{{"please_confirm_email" | translate}}:</label>
+
+                    <div class="col-sm-9 col-xs-12">
+                        <input required readonly disabled type="email" name="confirmedEmail" class="forms__input" ng-model="user.ConfirmedEmail">
+
+                        <p class="help-block"
+                           ng-show="userForm.confirmedEmail.$invalid  && !userForm.confirmedEmail.$pristine">
+                            Enter a valid email.</p>
+                    </div>
+                </div>
+
+                <div class="forms__group"
+                     ng-class="{ 'has-error' : userForm.password.$invalid && !userForm.password.$pristine }">
+
+                    <label class="control-label col-sm-3">{{"add_password" | translate}}:</label>
+
+                    <div class="col-sm-9 col-xs-12">
+                        <input required type="password" name="password" class="forms__input" ng-minlength="6" ng-model="user.Password">
+
+                        <p class="help-block"
+                           ng-show="userForm.password.$invalid && !userForm.password.$pristine">
+                            Password is to short.</p>
+                    </div>
+                </div>
+
+                <div class="forms__group"
+                     ng-class="{ 'has-error' : userForm.confirmPassword.$invalid && !userForm.confirmPassword.$pristine || checkPwds() && userForm.confirmPassword.$valid}">
+
+                    <label class="control-label col-sm-3">{{"confirm_password" | translate}}:</label>
+
+                    <div class="col-sm-9 col-xs-12">
+                        <input required type="password" name="confirmPassword" class="forms__input" ng-minlength="6" ng-model="user.ConfirmPassword">
+
+                        <p ng-show="userForm.confirmPassword.$invalid && !userForm.confirmPassword.$pristine"
+                           class="help-block">
+                            Confirmed password is to short.</p>
+
+                        <p ng-show="checkPwds() && userForm.confirmPassword.$valid"
+                           class="help-block">
+                            Passwords isn`t the same.</p>
+                    </div>
+                </div>
+
+                <div class="forms__group">
+
+                    <label class="control-label col-sm-3"></label>
+
+                    <div class="col-sm-9 col-xs-12">
+
+                        <div class="forms__checkbox">
+                            <input type="checkbox" value="false" ng-model="accepted" class="checkbox__btn" id="general_conditions_and_terms">
+                            <label class="checkbox__label" for="general_conditions_and_terms">
+                                <i class="checkbox__icon"></i>
+                                <span class="checkbox__text">
+                                    {{"i_hereby_declare_to_have_read_and_accept_the" | translate}}
+                                     <a href="javascript:void(0);"
+                                        ng-click="openConditions('conditions')">{{"general_conditions_and_terms" | translate}}</a> {{"for_using_my_expertfolio" | translate}}
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="forms__group">
+
+                    <label class="control-label col-sm-3"></label>
+
+                    <div class="col-sm-9 col-xs-12">
+
+                        <div class="forms__checkbox">
+                            <input type="checkbox" value="false" class="checkbox__btn" id="patient_privacy_rules">
+                            <label class="checkbox__label" for="patient_privacy_rules">
+                                <i class="checkbox__icon"></i>
+                                <span class="checkbox__text">
+                                    I hereby declare to have read and to accept the
+                                     <a href="javascript:void(0);"
+                                        ng-click="openConditions('privacy')">patient privacy rules</a>
+                                    of Expertfolio
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+        <!-- footer -->
+        <div class="forms__footer">
+            <button type="button"
+                    class="button__c button__c-danger"
+                    ng-click="cancelRegister()">
+                {{"cancel_registration" | translate}}
+            </button>
+
+            <button type="button"
+                    class="button__c"
+                    ng-click="confirmRegister()"
+                    ng-disabled="!accepted || !userForm.$valid || checkPwds()">
+                {{"confirm_registration" | translate}}
+            </button>
+        </div>
+    </div>
+</div>

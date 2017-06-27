@@ -1,0 +1,22 @@
+<!--<a href="javascript:void(0);" class="nav__btn">-->
+    <!--<i class="nav__btn-icon icon-info"></i>-->
+    <!--{{"about" | translate}}-->
+<!--</a>-->
+
+<a href="javascript:void(0);"
+   ng-click="contactUs()"
+   class="nav__btn">
+    <i class="nav__btn-icon icon-address-book"></i>
+    {{"contacts" | translate}}
+</a>
+
+<script>
+    /* LEFT MENU */
+    var menuBtn         = $(".nav__btn"),
+        menuContainer   = $(".navigation");
+
+    menuBtn.on("click", function(){
+        menuContainer.removeClass("active");
+        $("html, body").removeClass("open-menu");
+    });
+</script>

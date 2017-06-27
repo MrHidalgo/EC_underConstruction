@@ -1,0 +1,72 @@
+﻿<div class="container">
+    <div class="row">
+
+        <!-- MAIN SEARCH BLOCK -->
+        <div class="shape">
+
+            <!-- header -->
+            <div class="shape__header">
+                {{"numbers_of_procedures" | translate}}
+            </div>
+            <!-- end header -->
+            <!-- body -->
+            <div class="shape__body clearfix">
+                <div class="history-table-wrapper">
+                    <div class="white-bg">
+
+                        <div id="history-table-header-group">
+                   
+
+                            <div class="table_header clearfix">
+                                <!--<div style="width:40%;" class="table_header-text">{{"upload_date"|translate}}</div>-->
+                                <div class="table_header-text">{{"Procedures"|translate}}</div>
+                                <!--<div style="width:40%;" class="table_header-text">{{"ultrasound_type"|translate}}</div>-->
+                                <div class="table_header-text">{{"Number_of_registrations"|translate}}</div>
+                                <!--<div style="width:20%;" class="table_header-text">{{"status"|translate}}</div>-->
+                                <div class="table_header-text">{{"Complications"|translate}}</div>
+                            </div>
+                        </div>
+
+                        <div id="scrolling">
+                            <table class="table table-bordered table_fixed">
+                                <thead>
+                                    <tr>
+                                        <th width="40%" class="history-table-header">{{"procedures"|translate}}</th>
+                                        <th width="40%" class="history-table-header">{{"Number_of_registrations"|translate}}</th>
+                                        <th width="20%" class="history-table-header">{{"Complications"|translate}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-show="procedures.length < 1">
+                                        <td style="height: 64px;" align="center">-</td>
+                                        <td style="height: 64px;" align="center">-</td>
+                                        <td style="height: 64px;" align="center">-</td>
+                                  
+                                    </tr>
+                                    <tr ng-repeat="procedure in procedures">
+                                        <td width="40%" align="center">{{procedure.Name|translate}}</td>
+                                        <td width="40%" align="center">{{procedure.Complications}}</td>
+                                        <td width="20%" align="center">
+                                     {{procedure.NumberRegistrations}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <!--  <ul uib-pagination total-items="totalRecords" ng-model="pageNumber" max-size="5" class="pagination-sm" boundary-link-numbers="true"
+                                                  ng-change="getSubmissions(pageNumber)"></ul> -->
+
+                    </div>
+                </div>
+            </div>
+            <!-- end body -->
+
+        </div>
+        <!-- end MAIN SEARCH BLOCK -->
+
+    </div>
+</div>
+
+

@@ -1,0 +1,95 @@
+﻿<!--<div class="k-loading-image k-overlay" ng-show="loading"></div>-->
+
+<!--<div ng-include="'/app/home/header.html'"></div>-->
+
+<div class="forms">
+    <div class="forms__block">
+
+        <!-- header -->
+        <div class="forms__header clearfix">
+            <a href="javascript:void(0);"
+               class="forms__btn forms__btn-login active"
+               ng-click="navigationTMPL('/app/login/loginTMPL.html')">
+                <i class="forms__btn-icon fa fa-user"></i>
+                {{"login"|translate}}
+            </a>
+
+            <a href="javascript:void(0);"
+               class="forms__btn forms__btn-register"
+               ng-click="navigationTMPL('/app/login/registerTMPL.html')">
+                <i class="forms__btn-icon fa fa-user-plus"></i>
+                {{"register"|translate}}
+                
+            </a>
+        </div>
+
+        <!-- body [login, register, forget] -->
+        <div class="forms__body slide-animate" ng-include="filePath"></div>
+
+    </div>
+</div>
+
+
+<script>
+    /* header btn [login, register] */
+    $(".forms__btn").on("click", function() {
+        var _this   = $(this);
+
+        $(".forms__btn").removeClass("active");
+        _this.addClass("active");
+    });
+</script>
+
+<!--
+<div class="row" style="margin-top:40px">
+    <div class="col-md-offset-4 col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading medium-blue">
+                <strong>Login with Expertfolio</strong>
+            </div>
+            <div class="panel-body">
+
+                <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+                <form id="loginform" name="loginForm" role="form" class="form-horizontal col-xs-offset-1 col-xs-10" role="form">
+                    <div class="form-group" ng-class="{ 'has-error' : loginForm.email.$invalid && loginForm.email.$dirty}">
+
+                        <div  class="input-group">
+                            <span class="input-group-addon">@</span>
+                            <input id="login-username" autocomplete="on" type="email" class="form-control" name="email" ng-model="username" required ng-keypress="$event.which === 13 && loginUser()">
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div style="margin-bottom: 10px" class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input id="login-password" autocomplete="off" type="password" class="form-control" name="password" ng-model="password" required ng-keypress="$event.which === 13 && loginUser()"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top:10px">
+                        <button type="button" class="btn btn-block btn-primary" ng-click="loginUser()" ng-disabled="loginForm.$invalid || isSubmited">login</button>
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-offset-1 col-md-5" style="margin-left:48px">
+                        <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+                        <em class="light-blue">
+                            <a id="btn-fblogin" ui-sref="register" href="/register">
+                                Register
+                            </a>
+                        </em>
+                    </div>
+                    <div class="col-md-5 text-right">
+                        <em class="light-blue">
+                            <a ui-sref="forgot" href="/forgot">Forgot password?</a>
+                        </em>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>-->

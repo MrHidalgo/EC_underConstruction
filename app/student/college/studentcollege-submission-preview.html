@@ -1,0 +1,328 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="col-md-offset-1 col-md-10">
+
+            <div class="shape shape__upload">
+
+                <div class="shape__header">
+                    <span>{{"files_tagged"|translate }} : {{filesTagged || 0}} / {{files.length}}</span>
+
+                    <button type="button"
+                            class="button__c button_c-warning"
+                            title="{{'unreplied_messages'|translate }}"
+                            ng-if="submission.messages && submission.messages.length > 0 && submission.messages[submission.messages.length -1].username !== currentUser"
+                            ng-click="goToSubmission()">
+                        {{"General Conclusion Message" }}
+                        <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                    </button>
+
+                    <div class="shape__header_right">
+                        <a href="javascript:void(0);"
+                           class="modals__close modals__close_white"
+                           style="padding: 10px 0 10px 15px;"
+                           ng-click="goToRoleState()">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="shape__body">
+
+                    <div class="shape_top shape__body-padding animated fadeIn">
+                        <div class="thumb-container teacher-review animated fadeIn"
+                             ng-class="whatClassIsIt(files.length)"
+                             ng-if="!isNullOrUndefined(files) && files.length > 0">
+
+                            <div class="teacher-review__image"
+                                 ng-repeat="file in files"
+                                 title="{{file.Name}}"
+                                 ng-click="loadFileDetails(file.Id, this)">
+
+                                <div class="keep-ratio" ng-class="file.Id && selectedFile && file.Id === selectedFile.FileId ? 'selected' : ''">
+                                    <img class="keep-ratio__image" ng-if="!isVideoFile(file.Filepath)"
+                                         ng-src="{{file.Filepath}}" />
+                                    <img class="keep-ratio__image" ng-if="isVideoFile(file.Filepath)"
+                                         ng-src="{{file.Thumbnail}}" />
+                                </div>
+
+                                <div class="envolep-notification"
+                                     ng-class="{'visibiliy_zero' : !file.HasUnrepliedMessages}">
+                                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                                </div>
+
+                                <div class="submission-status" ng-class="{
+                                     'approved' : file.Approved,
+                                     'rejected' : file.Approved === false,
+                                     'pending' : file.Approved === null || file.Approved === undefined}"></div>
+                            </div>
+                        </div>
+                        <!-- btn details info current image -->
+                        <div class="shape__btn-wrap" ng-show="!isNullUndefinedOrWhitespace(selectedFile)">
+                            <button type="button"
+                                    class="button__c button__c-fixed"
+                                    ng-click="enlarge(selectedFile.Filepath)">
+                                <i ng-if="selectedFile"
+                                   ng-show="(selectedFile.name != null && !isVideoFile(selectedFile.name)) || (selectedFile.Filepath!=null && !isVideoFile(selectedFile.Filepath))"
+                                   class="glyphicon glyphicon-picture"></i>
+
+                                <i ng-if="selectedFile"
+                                   ng-show="(selectedFile.name != null && isVideoFile(selectedFile.name)) || (selectedFile.Filepath!=null && isVideoFile(selectedFile.Filepath))"
+                                   class="glyphicon glyphicon-facetime-video"></i>
+                                {{"preview_file"|translate}}
+                            </button>
+                        </div>
+                        <!-- end btn details info current image -->
+                    </div>
+
+                    <div class="shape_bottom shape__body-padding">
+
+
+
+                        <!-- title -->
+                        <p class="shape__name" ng-if="isNullUndefinedOrWhitespace(selectedFile)">{{"general_information"|translate}}</p>
+                        <!-- end title -->
+
+                        <form class="form-horizontal clearfix" ng-show="isNullUndefinedOrWhitespace(selectedFile)">
+
+                            <div class="shape__groups clearfix">
+                                <span class="shape__label col-sm-3">{{"Registration types"}}:</span>
+                                <span class="shape__info col-sm-8">{{ submission.ultrasoundTypes.join() }}</span>
+                            </div>
+
+                            <hr class="shape__line shape__line_transparent">
+
+                            <div class="shape__groups clearfix">
+                                <span class="shape__label col-sm-3">{{"Date of Registration"}}:</span>
+                                <span class="shape__info col-sm-8">{{ toLocalDate(submission.VideoDate)| date:'dd/MM/yyyy HH:mm' }}</span>
+                            </div>
+                            <hr class="shape__line shape__line_transparent">
+                            <div class="shape__groups clearfix">
+                                <span class="shape__label col-sm-3">{{"Teacher"}}:</span>
+                                <span class="shape__info col-sm-8">{{ submission.teacher }}</span>
+                            </div>
+                            <hr class="shape__line shape__line_transparent">
+
+                       
+
+                            <hr class="shape__line">
+
+                      
+
+                            <hr class="shape__line shape__line_transparent" ng-if="!isNullUndefinedOrWhitespace(submission.remarks)">
+
+                            <!--todo-->
+                            <!--<div class="shape__body-collapse--wrap">
+                                <p class="shape__name shape__name_medium shape__name_two shape__name-collapse">
+                                    {{"comments"|translate}}
+
+                                    <span>
+                                        <span class="shape__name_hide">{{"hide"|translate}}</span>
+                                        <span class="shape__name_show">{{"show"|translate}}</span>
+                                        <i class="fa fa-angle-double-up" aria-hidden="true"></i>
+                                    </span>
+                                </p>
+
+                                <div class="shape__body-collapse">
+                                    <div class="row messages-container"
+                                         ng-if="submission.messages && submission.messages.length > 0 || !isNullUndefinedOrWhitespace(submission.Approved)">
+                                        <div class="message__body">
+                                            <dl class="dl-horizontal chat  chart-panel">
+                                                <div class="message__body-wrap" ng-repeat="message in submission.messages | orderBy : 'sentOn'">
+                                                    <dt>
+                                                        <span class="medium-blue" ng-if="currentUser === message.Username">{{"me"|translate}}</span>
+                                                        <span class="medium-blue" ng-if="currentUser !== message.Username">{{"teacher"|translate}}</span><br />
+                                                        <br />
+                                                        <small class="text-muted light-blue">
+                                                            <span class="glyphicon glyphicon-time"></span> {{toLocalDate(message.SentOn) | date : "short"}}
+                                                        </small>
+                                                    </dt>
+                                                    <dd>{{message.Text}}</dd>
+                                                    <hr>
+                                                </div>
+                                            </dl>
+                                        </div>
+
+                                        <div class="message__body clearfix" ng-if="!isNullUndefinedOrWhitespace(submission.approved) && !submission.closed">
+                                            <div class="col-sm-11">
+                                                <div class="forms__group">
+                                                    <label class="control-label col-sm-2">{{"message"|translate}}:</label>
+                                                    <div class="col-sm-10 col-xs-12">
+                                                        <textarea class="forms__input forms__input_textarea" id="submissionComment" ng-model="submission.message" ng-disabled="isAdmin"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <div class="forms__group">
+                                                    <button type="button" class="button__c button__c-marginTL" ng-click="submissionReply()" title="{{'send'|translate}}">
+                                                        <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>-->
+                            <!--todo end-->
+
+                        </form>
+
+                        <form class="form-horizontal" id="common_data" ng-show="!isNullUndefinedOrWhitespace(selectedFile)">
+
+                            <!--<div class="shape__body-collapse--wrap">
+                                <p class="shape__name shape__name_medium shape__name_two shape__name-collapse active"
+                                   ng-show="!isNullUndefinedOrWhitespace(selectedFile)">
+                                    {{"student_interpretation"|translate}}
+
+                                    <span>
+                                        <span class="shape__name_hide">{{"hide"|translate}}</span>
+                                        <span class="shape__name_show">{{"show"|translate}}</span>
+                                        <i class="fa fa-angle-double-up" aria-hidden="true"></i>
+                                    </span>
+                                </p>
+
+                                <div class="shape__body-collapse active">
+                                    <hr class="shape__line shape__line_transparent">
+
+                                    <div class="shape__groups clearfix">
+                                        <span class="shape__label col-sm-3">{{"view"|translate}}:</span>
+                                        <span class="shape__info col-sm-8">{{selectedFile.ViewTypeName|translate}}</span>
+                                    </div>
+
+                                    <hr class="shape__line shape__line_transparent">
+
+                                    <div class="shape__groups clearfix">
+                                        <span class="shape__label col-sm-3">{{"finding"|translate}}:</span>
+                                        <span class="shape__info col-sm-8">
+                                            <span class="shape__info-column" ng-repeat="finding in selectedFile.SelectedFindings">
+                                                <span>{{ finding.FindingName|translate}}</span> -
+                                                <span ng-if="finding.Type === 'number'"> {{finding.Value}} </span>
+                                                <span ng-bind-html="finding.OptionName|translate | trustAsHtml"></span>
+                                                <br>
+                                            </span>
+                                        </span>
+                                    </div>
+
+                                    <hr class="shape__line shape__line_transparent">
+
+                                    <div class="shape__groups clearfix">
+                                        <span class="shape__label col-sm-3">{{"other"|translate}}:</span>
+                                        <span class="shape__info col-sm-8">{{selectedFile.Observations}}</span>
+                                    </div>
+
+                                    <hr class="shape__line shape__line_transparent">
+                                </div>
+                            </div>-->
+
+                            <div class="shape__body-collapse--wrap">
+                                <p class="shape__name shape__name_medium shape__name_two shape__name-collapse"
+                                   ng-show="!isNullUndefinedOrWhitespace(selectedFile)">
+                                    {{"comments"|translate}}
+
+                                    <span>
+                                        <span class="shape__name_hide">{{"hide"|translate}}</span>
+                                        <span class="shape__name_show">{{"show"|translate}}</span>
+                                        <i class="fa fa-angle-double-up" aria-hidden="true"></i>
+                                    </span>
+                                </p>
+
+                                <div class="shape__body-collapse">
+
+                                    <div class="row messages-container">
+
+                                        <div class="message__body" ng-if="selectedFile.Messages && selectedFile.Messages.length > 0">
+
+                                            <div class="message__body-wrap" ng-repeat="message in selectedFile.Messages | orderBy : 'sentOn'">
+                                                <dt>
+                                                    <span class="medium-blue" ng-if="currentUser === message.Username">{{"me"|translate}}</span>
+                                                    <span class="medium-blue" ng-if="currentUser !== message.Username">{{ "teacher"|translate}}</span>
+                                                    <br />
+                                                    <small class="text-muted light-blue">
+                                                        <span class="glyphicon glyphicon-time"></span> {{toLocalDate(message.SentOn) | date : "short"}}
+                                                    </small>
+                                                </dt>
+                                                <dd>{{message.Text}}</dd>
+                                                <hr>
+                                            </div>
+                                        </div>
+
+                                        <div class="message__body clearfix" ng-if="!selectedFile.Messages || selectedFile.Messages.length === 0 || selectedFile.Messages[selectedFile.Messages.length -1].Username !== currentUser">
+                                            <div class="col-sm-11">
+                                                <div class="forms__group">
+
+                                                    <label class="control-label col-sm-2">{{"message"|translate}}:</label>
+
+                                                    <div class="col-sm-10 col-xs-12">
+                                                        <textarea class="forms__input forms__input_textarea" id="comment" ng-model="selectedFile.Remarks" ng-disabled="isAdmin"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-1">
+                                                <div class="forms__group">
+                                                    <button type="button" class="button__c button__c-marginTL"
+                                                            title="{{'send'|translate}}"
+                                                            ng-click="fileReply(selectedFile.Remarks, selectedFile.FileId)" ng-disabled="isAdmin">
+                                                        <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+
+                <div class="shape__footer">
+
+                    <span style="margin-left: auto">
+
+                        <span class="shape__footer_right" ng-if="isNullUndefinedOrWhitespace(selectedFile)">
+                            <button type="button"
+                                    class="button__c"
+                                    ng-disabled="selectedFileIndex >= (files.length - 1)"
+                                    ng-click="loadFileDetails(files[selectedFileIndex + 1].Id, this)">
+                                {{"next"|translate}}
+                            </button>
+                        </span>
+
+                        <span class="shape__footer-right" ng-if="!isNullUndefinedOrWhitespace(selectedFile)">
+                            <button type="button"
+                                    class="button__c button_c-info"
+                                    ng-click="goToSubmission()"
+                                    title="{{'view_submission_details'|translate}}">
+                                {{"view_submission_details"|translate}}
+                            </button>
+                        </span>
+
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function titleCollapse() {
+        $(".shape__name-collapse").on("click", function () {
+            if ($(this).hasClass("active")) {
+                $(this).removeClass("active");
+                $(this).siblings(".shape__body-collapse").slideUp(250);
+            } else {
+                $(this).addClass("active");
+                $(this).siblings(".shape__body-collapse").slideDown(250);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        titleCollapse();
+    });
+</script>
+
+
+

@@ -1,0 +1,227 @@
+﻿<div class="forms__body_register animated fadeIn">
+    <form action="" name="userForm" class="forms__form clearfix" autocomplete="off" kendo-validator="registerValidator" k-options="registerRules">
+
+        <!-- Name filed -->
+        <div class="forms__group"
+             ng-class="{ 'has-error' : userForm.name.$invalid && !userForm.name.$pristine }">
+
+            <label for="name" class="control-label col-sm-3">{{"name" | translate}}:</label>
+
+            <div class="col-sm-9 col-xs-12">
+                <input type="text"
+                       id="name" class="forms__input"
+                       name="name" required
+                       ng-model="user.name">
+
+                <p class="help-block"
+                   ng-show="userForm.name.$invalid && !userForm.name.$pristine">
+                    Name is required
+                </p>
+            </div>
+        </div>
+
+        <!-- Middlename filed -->
+        <div class="forms__group">
+
+            <label for="middlename" class="control-label col-sm-3">{{"middle_name" | translate}}:</label>
+
+            <div class="col-sm-9 col-xs-12">
+                <input type="text"
+                       id="middlename" class="forms__input"
+                       name="middlename"
+                       ng-model="user.middlename">
+            </div>
+        </div>
+
+        <!-- Surname filed -->
+        <div class="forms__group"
+             ng-class="{ 'has-error' : userForm.surname.$invalid && !userForm.surname.$pristine }">
+
+            <label for="surname" class="control-label col-sm-3">{{"surname" | translate}}:</label>
+
+            <div class="col-sm-9 col-xs-12">
+                <input type="text"
+                       id="surname" class="forms__input"
+                       name="surname" required
+                       ng-model="user.surname">
+                <p class="help-block"
+                   ng-show="userForm.surname.$invalid && !userForm.surname.$pristine">
+                    Surname is required
+                </p>
+            </div>
+        </div>
+
+        <!-- Gender filed -->
+        <div class="forms__group forms__group-radio">
+            <label class="control-label col-sm-3">{{"gender" | translate}}:</label>
+            <div class="col-sm-9 col-xs-12">
+
+                <div class="forms__radio">
+                    <input type="radio" id="male" class="radio__btn" value="male" name="gender" ng-model="user.gender" required>
+                    <label for="male" class="radio__label">
+                        <i class="radio__icon"></i>
+                        <span class="radio__text">{{"male"|translate}} </span>
+                    </label>
+                </div>
+
+                <div class="forms__radio">
+                    <input type="radio" id="female" class="radio__btn" value="female" name="gender" ng-model="user.gender">
+                    <label for="female" class="radio__label">
+                        <i class="radio__icon"></i>
+                        <span class="radio__text">{{"female"|translate}}</span>
+                    </label>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Title filed -->
+        <div class="forms__group">
+
+            <label class="control-label col-sm-3">{{"title" | translate}}:</label>
+
+            <div class="col-sm-9 col-xs-12">
+                <select required class="forms__select" name="title"
+                        ng-model="user.Title" ng-options="title.Id as title.Name for title in userTitles">
+                    <option value="">--{{"select_title" | translate}}--</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Email filed -->
+        <div class="forms__group"
+             ng-class="{ 'has-error' : userForm.Email.$invalid && !userForm.Email.$pristine}">
+
+            <label class="control-label col-sm-3">{{"email" | translate}}:</label>
+
+            <div class="col-sm-9 col-xs-12">
+                <div class="input-group">
+                    <input name="Email" autocomplete="on"
+                           class="forms__input"
+                           required
+                           ng-model="user.email">
+                    <span class="k-invalid-msg" data-for="validregisterEmail"></span><br />
+                    <span class="input-group-addon" title="Used for login and communication">
+                        <i class="glyphicon glyphicon-info-sign"></i>
+                    </span>
+                </div>
+
+                <p id="emailError" class="help-block"
+                   ng-show="userForm.email.$invalid && emailExist">
+                    Current email is already exist.
+                </p>
+            </div>
+        </div>
+        <div class="forms__group forms__group-radio">
+            <label class="control-label col-sm-3">{{"type_of_institution" | translate}}:</label>
+            <div class="col-sm-9 col-xs-12">
+
+                <div class="forms__radio">
+                    <input type="radio" id="hospitaltype" class="radio__btn" value="false" name="type_of_institution" ng-change="updateInstittutionList(false)" ng-model="user.IsSchool" required>
+                    <label for="hospitaltype" class="radio__label">
+                        <i class="radio__icon"></i>
+                        <span class="radio__text">{{"hospital"|translate}} </span>
+                    </label>
+                </div>
+
+                <div class="forms__radio">
+                    <input type="radio" id="schooltype" class="radio__btn" value="true" name="type_of_institution" ng-change="updateInstittutionList(true)" ng-model="user.IsSchool">
+                    <label for="schooltype" class="radio__label">
+                        <i class="radio__icon"></i>
+                        <span class="radio__text">{{"School"|translate}}</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Speciality filed -->
+        <div class="forms__group" ng-show="!iSSchoolselected">
+
+            <label class="control-label col-sm-3">{{"speciality" | translate}}:</label>
+
+            <div class="col-sm-9 col-xs-12">
+                <select ng-required="!iSSchoolselected" class="forms__select" name="Speciality"
+                        ng-model="user.speciality"
+                        ng-options="speciality.Id as speciality.Name|translate for speciality in specialities">
+                    <option value="">--{{"select_speciality" | translate}}--</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Level Of Training filed -->
+        <div class="forms__group" ng-show="!iSSchoolselected">
+
+            <label class="control-label col-sm-3">{{"level_of_training" | translate}}:</label>
+
+            <div class="col-sm-9 col-xs-12">
+                <select ng-required="!iSSchoolselected" name="Level" class="forms__select"
+                        ng-model="user.userLoT"
+                        ng-options="level.Id as level.Name|translate for level in levelOfTainings">
+                    <option value="">--{{"select_level_of_training" | translate}}--</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Hospital filed -->
+        <div class="forms__group" ng-show="!iSSchoolselected">
+
+            <label class="control-label col-sm-3">{{"hospital"|translate}}:</label>
+
+            <div class="col-sm-9 col-xs-12">
+                <select  ng-required="!iSSchoolselected" name="Hospital" class="forms__select"
+                        ng-model="user.userHospital"
+                        ng-options="hospital.Id as hospital.Name for hospital in hospitals">
+                    <option value="">--{{"select_hospital" | translate}}--</option>
+                </select>
+            </div>
+        </div>
+        <!-- school filled -->
+        <div class="forms__group" ng-show="iSSchoolselected">
+
+            <label class="control-label col-sm-3">{{"School"|translate}}:</label>
+
+            <div class="col-sm-9 col-xs-12">
+                <select ng-required="iSSchoolselected" name="School" class="forms__select"
+                        ng-model="user.ShcoolId"
+                        ng-options="school.Id as school.Name for school in colleges">
+                    <option value="">--{{"select_school" | translate}}--</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Country filed -->
+        <div class="forms__group">
+
+            <label class="control-label col-sm-3">{{"country" | translate}}:</label>
+
+            <div class="col-sm-9 col-xs-12">
+                <select required name="country" class="forms__select"
+                        ng-model="user.country"
+                        ng-options="country.Id as country.Name|translate for country in countries">
+                    <option value="">--{{"select_country" | translate}}--</option>
+                </select>
+            </div>
+        </div>
+        <div class="forms__group">
+
+            <label class="control-label col-sm-3">{{"Language" | translate}}:</label>
+
+            <div class="col-sm-9 col-xs-12">
+                <select required name="country" class="forms__select"
+                        ng-model="user.language"
+                        ng-options="language as language.Name |translate for language in languages" ng-change="updatelanguages()">
+                    <option value="">--{{"select_language" | translate}}--</option>
+                </select>
+            </div>
+        </div>
+
+    </form>
+
+    <button type="submit"
+            class="button__c btn__register"
+            ng-disabled="userForm.$invalid||!registerValidator.validate()"
+            ng-click="register()">
+        {{"sign_up" | translate}}
+        <i class="fa fa-sign-in"></i>
+    </button>
+</div>

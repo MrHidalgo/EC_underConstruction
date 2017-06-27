@@ -1,0 +1,179 @@
+﻿<div class="k-overlay" ng-show="loading">
+    <div class="loader"></div>
+</div>
+<div class="container">
+    <div class="col-sm-offset-2 col-sm-8">
+
+        <div class="shape">
+            <div class="shape__header">
+                {{"Verrichtingen registratie"}}
+            </div>
+
+            <div class="shape__body clearfix" style="margin:20px;">
+
+                <form class="form-horizontal" name="procedure" autocomplete="on">
+                    <div class="shape__container shape__container-0 active">
+
+                        <div class="forms__group">
+
+                            <label class="control-label col-sm-3">
+                                {{"procedure_date"|translate}}:
+                                <span class="shape__info-star">*</span>
+                            </label>
+
+                            <div class="col-sm-9 col-xs-12 ">
+
+                                <input required data-kendo-date-picker k-options="popDateDateDateOptions" style="width:100%;" k-ng-model="ProcedureForm.ProcedureDate" />
+
+                            </div>
+                        </div>
+
+                        <div class="forms__group form-group_customize">
+
+                            <label class="control-label col-sm-3">{{"procedure_type"|translate}}:<span class="shape__info-star">*</span></label>
+
+                            <div class="col-sm-9 col-xs-12">
+                                <!--ng-change="translateName"-->
+                                <!--<select kendo-drop-down-list type="text" k-options="KOptsTypes" class="forms__input" ng-model="ProcedureForm.ProcedureType" ></select>-->
+
+                                <input type="text" kendo-combobox k-options="KOptsTypes" k-ng-model="ProcedureForm.ProcedureType" style="width:100%" ng-required="ProcedureForm.ProcedureType==null" />
+                            </div>
+                        </div>
+
+
+                        <div class="forms__group">
+
+                            <label class="control-label col-sm-3">
+                                {{"completion_level"|translate}}:
+                                <span class="shape__info-star">*</span>
+                            </label>
+
+                            <div class="col-sm-9 col-xs-12">
+                                <select required class="forms__input"
+                                        ng-model="ProcedureForm.CompletionLevel" ng-options="item.Id as item.Name | translate for item in CompletionLevels">
+                                    <option value="">--{{"select"|translate}}--</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="forms__group">
+
+                            <label class="control-label col-sm-3">
+                                {{"supervisor"|translate}}:
+                                <span class="shape__info-star">*</span>
+                            </label>
+
+                            <div class="col-sm-9 col-xs-12">
+                                <select required class="forms__input"
+                                        ng-model="ProcedureForm.Supervisor" ng-options="item.Id as item.Name | translate for item in Supervisors">
+                                    <option value="">--{{"select"|translate}}--</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="forms__group">
+
+                            <label class="control-label col-sm-3 ng-binding">
+                                {{"complication"|translate}}:
+                                <span class="shape__info-star">*</span>
+                            </label>
+
+                            <div class="col-sm-9 col-xs-12">
+
+                                <div class="btn-group">
+                                    <label class="btn btn-default" required
+                                           ng-model="ProcedureForm.Complication" uncheckable
+                                           ng-change="onConplicationChanged()"
+                                           uib-btn-radio="true">{{"yes"|translate}}</label>
+                                    <label class="btn btn-default"
+                                           ng-model="ProcedureForm.Complication" uncheckable
+                                           ng-change="onConplicationChanged()"
+                                           uib-btn-radio="false">{{"no"|translate}}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div ng-if="ProcedureForm.Complication == true">
+                            <div class="forms__group">
+
+                                <label class="control-label col-sm-3 ng-binding">
+                                    {{"severity"|translate}}:
+                                    <span class="shape__info-star">*</span>
+                                </label>
+
+                                <div class="col-sm-9 col-xs-12">
+                                    <select required class="forms__input"
+                                            ng-model="ProcedureForm.Severity" ng-options="item.Id as item.Name | translate for item in Severities">
+                                        <option value="">--{{"select"|translate}}--</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="forms__group">
+
+                                <label class="control-label col-sm-3 ng-binding">
+                                    {{"complication_desc"|translate}}:
+                                    <span class="shape__info-star">*</span>
+                                </label>
+
+                                <div class="col-sm-9 col-xs-12">
+                                    <textarea required class="forms__input forms__input_textarea" ng-model="ProcedureForm.ComplicationDescription" />
+                                </div>
+                            </div>
+
+
+                            <div class="forms__group">
+
+                                <label class="control-label col-sm-3 ng-binding">
+                                    {{"intervention"|translate}}:
+                                    <span class="shape__info-star">*</span>
+                                </label>
+
+                                <div class="col-sm-9 col-xs-12">
+
+                                    <div class="btn-group">
+                                        <label class="btn btn-default" required
+                                               ng-model="ProcedureForm.Intervention" uncheckable
+                                               ng-change="onInterventionChanged()"
+                                               uib-btn-radio="true">{{"yes"|translate}}</label>
+                                        <label class="btn btn-default"
+                                               ng-model="ProcedureForm.Intervention" uncheckable
+                                               ng-change="onInterventionChanged()"
+                                               uib-btn-radio="false">{{"no"|translate}}</label>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="forms__group" ng-if="ProcedureForm.Intervention == true">
+
+                                <label class="control-label col-sm-3 ng-binding">
+                                    {{"intervention_desc"|translate}}:
+                                    <span class="shape__info-star">*</span>
+                                </label>
+
+
+                                <div class="col-sm-9 col-xs-12">
+                                    <textarea required class="forms__input forms__input_textarea" ng-model="ProcedureForm.InterventionDescription" />
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </form>
+            </div>
+            <div class="shape__footer">
+                <span style="margin-left: auto">
+                    <button type="button" class="button__c" ng-disabled="!procedure.$valid||isvalidProcedureType()" ng-click="save()">{{"save"|translate}}</button>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+

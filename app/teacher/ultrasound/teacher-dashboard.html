@@ -1,0 +1,39 @@
+﻿
+<div class="container">
+    <div class="row">
+
+        <div class="shape shape__teacherDashboard">
+
+            <!-- header -->
+            <div class="shape__header">
+              {{"teacher_dashboard"|translate}}  
+            </div>
+
+            <!-- body -->
+            <div class="shape__body clearfix">
+
+                <a href="javascript:void(0);" ui-sref="teacher.reviews" class="btn__teacherDashboard">
+                    <i class="btn__teacherDashboard-icon icon-rate_review"></i>
+
+                    <span class="btn__teacherDashboard-num--wrap">
+                        <span class="btn__teacherDashboard-num">{{dashboard.PendingReviewCount}}</span>
+                    </span>
+
+                    <span class="btn__teacherDashboard-text">{{"pending_reviews"|translate}}</span>
+                </a>
+
+                <a href="javascript:void(0);" ui-sref="teacher.replies" class="btn__teacherDashboard">
+                    <i class="btn__teacherDashboard-icon icon-playlist_add_check"></i>
+
+                    <span class="btn__teacherDashboard-num--wrap">
+                        <span class="btn__teacherDashboard-num">{{dashboard.UnreadReplyCount}}</span>
+                    </span>
+
+                    <span class="btn__teacherDashboard-text">{{"replies_to_check"|translate}}</span>
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+</div>

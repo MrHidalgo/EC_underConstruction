@@ -1,0 +1,258 @@
+﻿<div class="container">
+    <div class="row">
+
+        <div class="col-md-offset-1 col-md-10">
+
+            <div class="shape">
+                <div class="shape__header">
+
+                <span>
+                    Teacher Review Summary
+                </span>
+
+                    <span class="button__c-badge"
+                          ng-if="submission.messages && submission.messages.length > 0 && submission.messages[submission.messages.length -1].username !== currentUser">
+                    <button type="button"
+                            class="button__c button_c-warning"
+                            title="{{'unreplied_messages'|translate}}">
+                        <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                    </button>
+                    <span class="badge message_count">{{unreadMessageCount}}</span>
+                </span>
+
+
+                    <div class="shape__header_right">
+                        <a href="javascript:void(0);"
+                           class="modals__close modals__close_white"
+                           title="{{(returnState === 'teacher.reviews' ? 'go_back_to_reviews' : 'go_back_to_replies')}}"
+                           style="padding: 10px 0 10px 15px;"
+                           ng-click="close()">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="shape__body shape__body-padding">
+
+                    <form class="form-horizontal">
+
+                        <div class="shape__groups clearfix">
+                            <span class="shape__label col-sm-3">{{"ultrasound_type"|translate}}:</span>
+                            <span class="shape__info col-sm-8">
+                            <span class="shape__info-column" ng-repeat="ultrasound in submission.ultrasoundType">{{ultrasound.Name|translate}}</span>
+                        </span>
+                        </div>
+
+                        <hr class="shape__line">
+
+                        <div class="shape__groups clearfix">
+                            <div class="shape__label col-sm-3">{{ "patient_age"|translate}}:</div>
+                            <div class="shape__info col-sm-8">{{submission.patientAge}}</div>
+                        </div>
+
+                        <hr class="shape__line shape__line_transparent">
+
+                        <div class="shape__groups clearfix">
+                            <div class="shape__label col-sm-3">{{ "patient_gender"|translate}}:</div>
+                            <div class="shape__info col-sm-8">{{submission.patientGender ? "male" : "female" |translate}}</div>
+                        </div>
+
+                        <hr class="shape__line">
+
+                        <div class="shape__groups clearfix">
+                            <div class="shape__label col-sm-3">{{ "conclusion"|translate}}:</div>
+                            <div class="shape__info col-sm-8">{{submission.conclusion ? "normal" : "not_normal"|translate }}</div>
+                        </div>
+
+                        <hr class="shape__line" ng-show="submission.remarks">
+
+                        <div class="shape__groups clearfix" ng-show="submission.remarks">
+                            <div class="shape__label col-sm-3">{{"remark"|translate}}:</div>
+                            <div class="shape__info col-sm-8">{{submission.remarks}}</div>
+                        </div>
+
+                        <hr class="shape__line">
+
+                        <div class="row messages-container">
+
+                            <div class="message__body">
+                                <div class="message__body-wrap" ng-repeat="message in submission.messages | orderBy : 'SentOn'">
+                                    <dt>
+                                        <span class="medium-blue" ng-if="currentUser === message.Username">{{"me"|translate}}</span>
+                                        <span class="medium-blue" ng-if="currentUser !== message.Username">{{"student"|translate}}</span><br/>
+                                        <small class="pull-right text-muted light-blue">
+                                            <span class="glyphicon glyphicon-time"> </span>{{toLocalDate(message.SentOn) | date : "short"}}
+                                        </small>
+                                    </dt>
+                                    <dd>{{message.Text}}</dd>
+                                    <hr>
+                                </div>
+                            </div>
+
+                            <div class="message__body clearfix">
+                                <div class="col-sm-11">
+
+                                    <div class="forms__group">
+
+                                        <label class="control-label col-sm-2 text-center">{{ "message"|translate}} :</label>
+
+                                        <div class="col-sm-10 col-xs-12">
+                                            <textarea class="forms__input forms__input_textarea" ng-model="submission.message"></textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-sm-1"
+                                     ng-if="!isNullOrUndefined(submission.approved) && submission.messages && submission.messages[submission.messages.length -1].Username !== currentUser">
+
+                                    <div class="forms__group">
+                                        <button type="button"
+                                                class="button__c button__c-marginTL"
+                                                title="{{'send'|translate}}"
+                                                ng-click="submissionReply(submission.message)">
+                                            <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </form>
+
+                </div>
+
+                <div class="shape__footer">
+
+                    <button type="button"
+                            class="button__c"
+                            ui-sref="teacher.review({submissionId: submission.submissionId, returnState: 'teacher.reviews'})"
+                            title="Back to General information">
+                        <i class="fa fa-reply" aria-hidden="true"></i>
+                    </button>
+
+                    <div class="shape__footer_right">
+                        <button type="button"
+                                class="button__c button__c-danger"
+                                ng-click="review(false)">{{"reject"|translate}}
+                        </button>
+
+                        <button type="button"
+                                class="button__c button_c-edit"
+                                ng-click="review(true)">{{"approve"|translate}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!--<section class="body">-->
+<!--<div class="container-fluid">-->
+<!--<div class="row">-->
+<!--<div class="col-md-offset-2 col-md-8">-->
+<!--<div class="panel panel-default">-->
+<!--<div class="status-bar">
+&lt;!&ndash; <span>{{"files_reviewed"|translate}} : {{filesReviewed || 0}} / {{files.length}}</span> &ndash;&gt;
+<span ng-if="submission.messages && submission.messages.length > 0 && submission.messages[submission.messages.length -1].username !== currentUser">
+    <button type="button"
+            class="btn btn-warning btn-xs ml60"
+            title="{{'unreplied_messages'|translate}}">
+        <i class="fa fa-envelope-o" aria-hidden="true"></i>
+    </button>
+<span class="badge message_count">{{unreadMessageCount}}</span></span>
+    &lt;!&ndash; <span>{{"unreplied_messages"|translate}} : {{unreadMessageCount}}</span> &ndash;&gt;
+    &nbsp;
+    &lt;!&ndash;<span class="pull-right upload-close" title="{{(returnState === 'teacher.reviews' ? 'go_back_to_reviews' : 'go_back_to_replies')}}"&ndash;&gt;
+          &lt;!&ndash;ng-click="close()">&ndash;&gt;
+        &lt;!&ndash;<i class="fa fa-times" aria-hidden="true"></i>&ndash;&gt;
+    &lt;!&ndash;</span>&ndash;&gt;
+</div>-->
+
+<!--<div class="panel-body">-->
+<!--<form class="form-horizontal">-->
+
+<!--<button type="button" class="btn btn-default pull-right np-button" ui-sref="teacher.review({submissionId: submission.submissionId})" title="Back to General information"><i class="fa fa-reply" aria-hidden="true"></i></button>-->
+<!--<div class="clear-fix"></div>-->
+<!--<div class="form-group">
+    <label class="control-label col-sm-4">{{"ultrasound_type"|translate}} :</label>
+    <div class="col-sm-7">
+        <p class="form-control-static"ng-repeat="ultrasound in submission.ultrasoundType">{{ultrasound.Name|translate}}</p>
+    </div>
+</div>
+<div class="form-group">
+    <label class="control-label col-sm-4">{{ "patient_age"|translate}} :</label>
+    <div class="col-sm-8">
+        <p class="form-control-static">{{submission.patientAge}}</p>
+    </div>
+</div>
+<div class="form-group">
+    <label class="control-label col-sm-4">{{ "patient_gender"|translate}} :</label>
+    <div class="col-sm-8">
+        <p class="form-control-static">{{submission.patientGender ? "male" : "female" |translate}}</p>
+    </div>
+</div>-->
+<!--<div class="form-group">
+    <label class="control-label col-sm-4">{{ "conclusion"|translate}} :</label>
+    <div class="col-sm-8">
+        <p class="form-control-static">{{submission.conclusion ? "normal" : "not_normal"|translate }}</p>
+    </div>
+</div>
+<div class="form-group">
+    <label class="control-label col-sm-4">{{"remark"|translate}} :</label>
+    <div class="col-sm-8">
+        <p class="form-control-static">{{submission.remarks}}</p>
+    </div>
+</div>-->
+<!--<div class="row messages-container">
+   <dl class="dl-horizontal chat  chart-panel">
+       <div ng-repeat="message in submission.messages | orderBy : 'SentOn'">
+           <dt>
+               <span class="medium-blue" ng-if="currentUser === message.Username">{{"me"|translate}}</span>
+               <span class="medium-blue" ng-if="currentUser !== message.Username">{{"student"|translate}}</span><br/>
+               <small class="pull-right text-muted light-blue">
+                   <span class="glyphicon glyphicon-time"> </span>{{toLocalDate(message.SentOn) | date : "short"}}
+               </small>
+           </dt>
+           <dd>{{message.Text}}</dd>
+           <hr>
+       </div>
+   </dl>
+   <div class="form-horizontal">
+     <div class="col-sm-10">
+   <div class="form-group">
+       <label class="control-label col-sm-4">{{ "message"|translate}} :</label>
+       <div class="col-sm-8">
+           <textarea rows="5" class="form-control" ng-model="submission.message"></textarea>
+       </div>
+    </div>
+    </div>
+        <div class="col-sm-2" ng-if="!isNullOrUndefined(submission.approved) && submission.messages && submission.messages[submission.messages.length -1].Username !== currentUser">
+       <div class="form-group">
+           <button type="button" class="btn-plane" title="{{'send'|translate}}" ng-click="submissionReply(submission.message)">
+               <i class="fa fa-paper-plane" aria-hidden="true"></i>
+           </button>
+       </div>
+   </div>
+
+   </div>
+   </div>-->
+
+<!--</form>-->
+<!--</div>-->
+<!-- <div class="panel-footer text-right">
+     <button type="button" class="btn btn-success" ng-click="review(true)">{{"approve"|translate}}</button>
+     <button type="button" class="btn btn-danger" ng-click="review(false)">{{"reject"|translate}}</button>
+ </div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</section>-->

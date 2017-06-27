@@ -1,0 +1,395 @@
+﻿<div class="container">
+    <div class="row">
+
+        <div class="shape" ng-init="fillProfile()">
+
+            <!-- header -->
+            <div class="shape__header">{{"edit_profile"|translate}}</div>
+
+            <!-- body -->
+            <div class="shape__body clearfix">
+
+                <!-- shape left -->
+                <div class="shape__left">
+
+                    <!-- avatar -->
+                    <div class="shape__profile">
+                        <div class="shape__profile-wrap">
+                            <i class="shape__profile-icon icon-user"></i>
+                        </div>
+                    </div>
+
+                    <!-- link -->
+                    <div class="shape__link-wrap">
+                        <a href="javascript:void(0);"
+                           data-link="0" class="shape__link active">
+                            {{"general_info"|translate}}
+                        </a>
+                        <a href="javascript:void(0);"
+                           data-link="1" class="shape__link">
+                           {{"profession"|translate}}
+                        </a>
+                        <a href="javascript:void(0);"
+                           data-link="2" class="shape__link" ng-show="!isInCollege">
+                            {{"supervisor"|translate}}
+                        </a>
+                        <a href="javascript:void(0);"
+                           data-link="3" class="shape__link">
+                            {{"password"|translate}}
+                        </a>
+                    </div>
+                </div>
+
+                <!-- shape right -->
+                <div class="shape__right">
+                    <div class="shape__right-wrap">
+                        <div class="row">
+
+                            <form class="forms__body-editProfile" name="userForm" kendo-validator="validator" k-options="validatorrules" autocomplete="off">
+
+                                <div class="shape__container shape__container-0 active">
+
+                                    <div class="forms__group"
+                                         ng-class="{ 'has-error' : userForm.name.$invalid && !userForm.name.$pristine }">
+
+                                        <label class="control-label col-sm-3">{{"name"|translate}}:</label>
+
+                                        <div class="col-sm-9 col-xs-12">
+                                            <input type="text"
+                                                   class="forms__input"
+                                                   name="name"
+                                                   ng-model="user.Name" required>
+
+                                            <!--<p class="help-block"
+                                               ng-show="userForm.name.$invalid && !userForm.name.$pristine">
+                                                Name is required</p>-->
+                                        </div>
+                                    </div>
+
+                                    <div class="forms__group">
+
+                                        <label class="control-label col-sm-3">{{"middle_name"|translate}}:</label>
+
+                                        <div class="col-sm-9 col-xs-12">
+                                            <input type="text" class="forms__input" ng-model="user.MiddleName">
+                                        </div>
+                                    </div>
+
+                                    <div class="forms__group"
+                                         ng-class="{ 'has-error' : userForm.surname.$invalid && !userForm.surname.$pristine }">
+
+                                        <label class="control-label col-sm-3">{{"surname"|translate}}:</label>
+
+                                        <div class="col-sm-9 col-xs-12">
+                                            <input type="text" class="forms__input" name="surname" ng-model="user.Surname" required>
+
+                                            <!--<p class="help-block"
+                                               ng-show="userForm.surname.$invalid && !userForm.surname.$pristine">
+                                                Surname is required</p>-->
+                                        </div>
+                                    </div>
+
+                                    <div class="forms__group">
+
+                                        <label class="control-label col-sm-3">{{"title"|translate}}:</label>
+
+                                        <div class="col-sm-9 col-xs-12">
+                                            <select required class="forms__input" name="title"
+                                                    ng-model="user.Title" ng-options="title.Name as title.Name for title in userTitles">
+                                                <option value="">--{{"select_title"|translate}}--</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <hr class="shape__line">
+
+                                    <div class="forms__group">
+
+                                        <label class="control-label col-sm-3">{{"Language"|translate}}:</label>
+
+                                        <div class="col-sm-9 col-xs-12">
+                                            <select required class="forms__input" name="Language"
+                                                    ng-model="user.Key" ng-options="language.Key as language.Name |translate for language in userLanguages" ng-change="updatelanguage()">
+                                                <option value="">--{{"select_language"|translate}}--</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <hr class="shape__line">
+
+                                    <div class="forms__group">
+
+                                        <label class="control-label col-sm-3">{{"gender"|translate}}:</label>
+
+                                        <div class="col-sm-9 col-xs-12">
+
+                                            <label class="radio-inline">
+                                                <input type="radio" value="male" name="gender" ng-model="user.Gender">{{"male"|translate}}
+                                            </label>
+
+                                            <label class="radio-inline">
+                                                <input type="radio" value="female" name="gender" ng-model="user.Gender">{{"female"|translate}}
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <hr class="shape__line">
+
+                                    <div class="forms__group">
+
+                                        <label class="control-label col-sm-3">{{"email"|translate}}:</label>
+
+                                        <div class="col-sm-9 col-xs-12">
+                                            <input type="email" name="email" class="forms__input" ng-model="user.Email" disabled>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="shape__container shape__container-1" >
+
+                                    <div class="forms__group" ng-show="!isInCollege">
+
+                                        <label class="control-label col-sm-3">{{"level_of_training"|translate}}:</label>
+
+                                        <div class="col-sm-9 col-xs-12">
+                                            <select required name="userLoT" class="forms__input"
+                                                    ng-model="user.UserLoT"
+                                                    ng-options="level.Name as level.Name|translate for level in levelOfTainings">
+                                                <option value="">--Select Level Of Training--</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="forms__group" ng-show="user.UserLoT=='AIOS'">
+
+                                        <label class="control-label col-sm-3">{{"year_of_studying"|translate}}:</label>
+
+                                        <div class="col-sm-9 col-xs-12">
+                                            <select type="number" class="forms__input" id="YearStudying"
+                                                    ng-model="user.YearOfStudying" ng-options="year.Id as year.Name for year in years">
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="forms__group" ng-show="user.UserLoT=='AIOS'">
+
+                                        <label class="control-label col-sm-3">{{"semester_of_studying"|translate}}:</label>
+
+                                        <div class="col-sm-9 col-xs-12">
+                                            <select class="forms__input" id="SemestrStudying"
+                                                    ng-model="user.SemesterStudying"
+                                                    ng-options="semester.Id as semester.Name for semester in semesters">
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="forms__group" ng-show="!isInCollege">
+
+                                        <label class="control-label col-sm-3">{{"speciality"|translate}}:</label>
+
+                                        <div class="col-sm-9 col-xs-12">
+                                            <select ng-required="!isInCollege" class="forms__input" name="speciality"
+                                                    ng-model="user.Speciality"
+                                                    ng-options="speciality.Name as speciality.Name|translate for speciality in specialities">
+                                                <option value="">--Select Speciality--</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <hr class="shape__line">
+
+                                    <div class="forms__group" ng-show="!isInCollege">
+
+                                        <label class="control-label col-sm-3">{{"hospital"|translate}}:</label>
+
+                                        <div class="col-sm-9 col-xs-12">
+                                            <select ng-required="!isInCollege" class="forms__input" type="number" name="userHospital"
+                                                    ng-model="user.UserHospital"
+                                                    ng-options="hospital.Name as hospital.Name for hospital in hospitals"/>
+                                        </div>
+                                    </div>
+                                    <div class="forms__group" ng-show="isInCollege">
+
+                                        <label class="control-label col-sm-3">{{"School"|translate}}:</label>
+
+                                        <div class="col-sm-9 col-xs-12">
+                                            <select ng-required="isInCollege" class="forms__input" type="number" name="userHospital"
+                                                    ng-model="user.College"
+                                                    ng-options="college.Name as college.Name for college in colleges" />
+                                        </div>
+                                    </div>
+
+                                    <div class="forms__group">
+
+                                        <label class="control-label col-sm-3">{{"country"|translate}}:</label>
+
+                                        <div class="col-sm-9 col-xs-12">
+                                            <select required name="country" class="forms__input"
+                                                    ng-model="user.Country"
+                                                    ng-options="country.Name as country.Name|translate for country in countries">
+                                                <option value="">--{{"select_country"|translate}}--</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="shape__container shape__container-2">
+
+                                    <div class="forms__group form-group_customize" ng-show="isInPortfolio()">
+
+                                        <label class="control-label col-sm-3">Portfolio supervisor:</label>
+
+                                        <div class="col-sm-9 col-xs-12">
+                                            <select kendo-drop-down-list="portfolioSupDDL" style="width: 100%;" k-options="portfolioSupDDLOptions" ng-required="true"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="forms__group form-group_customize" ng-show="isInPortfolio()">
+
+                                        <label class="control-label col-sm-3">{{"select"|translate}}:</label>
+
+                                        <div class="col-sm-9 col-xs-12">
+                                            <select kendo-combo-box="selecteerPtfCbx"  style="width: 100%;" k-options="selecteerPtfCbxOptions" required validationMessage="selecteer is required"></select>
+                                          
+                                        </div>
+                                    </div>
+
+                                    <div class="forms__group form-group_customize" ng-show="isInUS()">
+
+                                        <label class="control-label col-sm-3">{{"supervisor_for_ultrasound"|translate}}:</label>
+
+                                        <div class="col-sm-9 col-xs-12">
+                                            <select kendo-drop-down-list="portfolioUSDDL" style="width: 100%;" k-options="portfolioUsSupDDLOptions" ng-required="true"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="forms__group form-group_customize" ng-show="isInUS()">
+
+                                        <label class="control-label col-sm-3">{{"select"|translate}}:</label>
+
+                                        <div class="col-sm-9 col-xs-12">
+                                            <select kendo-combo-box="SelecteerUSCbx" autocomplete="off"  style="width: 100%;" k-options="USselecteerCbxOptions" required validationMessage="selecteer is required"/>
+                                           
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="shape__container shape__container-3" >
+
+                                    <div class="forms__group"
+                                        >
+
+                                        <label class="control-label col-sm-3">{{"old_password"|translate}}:</label>
+
+                                        <div class="col-sm-9 col-xs-12">
+                                            <input  class="forms__input" type="password" data-password="oldPassword" autocomplete="off" style="width:100%;"
+                                                   ng-model="user.oldPassword">
+                                        </div>
+                                    </div>
+
+                                    <div class="forms__group"
+                                        >
+
+                                        <label class="control-label col-sm-3">{{"new_password"|translate}}:</label>
+
+                                        <div class="col-sm-9 col-xs-12">
+                                            <input type="password" data-password="newPassword"  autocomplete="off" style="width:100%;" class="forms__input"  ng-model="user.newPassword">
+                                            <span class="k-invalid-msg" data-for="requiredLength"></span><br />
+                                            <!--<p ng-show="userForm.newPassword.$invalid && !userForm.newPassword.$pristine" class="help-block">Password is to short.</p>-->
+                                        </div>
+                                    </div>
+
+                                    <div class="forms__group"
+                                        >
+
+                                        <label class="control-label col-sm-3">{{"repeat_new_password"|translate}}:</label>
+
+                                        <div class="col-sm-9 col-xs-12">
+                                            <input type="password"  style="width:100%;" autocomplete="off" class="forms__input"
+                                                   ng-model="user.repeatedNewPassword" data-password="repeatedNewPassword">
+                                            <span class="k-invalid-msg" data-for="repeatedNewPassword"></span><br />
+                                            <span class="k-invalid-msg" data-for="requiredLength"></span><br />
+                                            <!--<p ng-show="userForm.repeatedNewPassword.$invalid && !userForm.repeatedNewPassword.$pristine" class="help-block">Repeated password is to short.</p>
+                                            <p ng-show="checknewPwds() && userForm.repeatedNewPassword.$valid" class="help-block">Passwords isn`t the same.</p>-->
+                                        </div>
+                                    </div>
+                                    <!--class="forms__input"-->
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- footer -->
+            <div class="shape__footer">
+
+                <span style="margin-left: auto">
+                    <button type="button" class="button__c button__c-danger"
+                            ng-click="cancelEdit()">
+                        {{"cancel"|translate}}
+                    </button>
+
+                    <button type="button" class="button__c"
+                            ng-click="save()">
+                        {{"save"|translate}}
+                    </button>
+                </span>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    $(".shape__link").on("click", function () {
+        var btnAttr         = $(this).attr("data-link");
+
+        $(".shape__container").removeClass("active");
+        $(".shape__container-" + btnAttr).addClass("active");
+
+        $(".shape__link").removeClass("active");
+        $(this).addClass("active");
+    });
+</script>
+
+
+<div>
+    <div kendo-window="confirmModify" k-width="400"
+         k-height="100"
+         id="filesWindow"
+         k-visible="false"
+         modal="true">
+        <div>
+            {{"are_you_sure_you_want_to_modify_your_profile"|translate}}
+        </div>
+        <div class="form-group row" style="margin-top: 2%">
+            <div class="col-md-5 col-md-offset-5">
+                <input id="saveMem" type="button" class='btn btn-primary' value="{{'confirm'|translate}}" ng-click="confirmSave()" />
+                <input id="cancelMem" type="button" class='btn btn-danger' value='{{"cancel"|translate}}' ng-click="closeConfirm()" />
+            </div>
+        </div>
+    </div>
+
+    <div kendo-window="responseResultwind" k-width="400"
+         k-height="100"
+         id="filesWindow"
+         k-visible="false"
+         modal="true">
+        <div>
+            <input type="text" ng-model="message" />
+        </div>
+        <div class="form-group row" style="margin-top: 2%">
+            <div class="col-md-5 col-md-offset-5">
+                <input id="saveMem" type="button" class='btn btn-primary' value='Ok' ng-click="closeresponsewind()" />
+            </div>
+        </div>
+    </div>
+</div>

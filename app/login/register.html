@@ -1,0 +1,115 @@
+﻿<div class="k-loading-image k-overlay" ng-show="loading"></div>
+
+<!--<div ng-include="'/app/home/header.html'"></div>-->
+
+<div class="container">
+    <div class="panel-button-wrapper col-md-offset-2 col-md-8" style="margin-top:40px">
+        <div class="panel panel-primary">
+            <div class="panel-heading text-center">Registration</div>
+            <div class="panel-body">
+                <form class="form-horizontal" name="userForm" autocomplete="off">
+
+                    <div class="form-group" ng-class="{ 'has-error' : userForm.name.$invalid && !userForm.name.$pristine }">
+                        <label class="control-label col-sm-3">Name:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="name" ng-model="user.name" required>
+                            <p ng-show="userForm.name.$invalid && !userForm.name.$pristine" class="help-block">Name is required</p>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error' : userForm.middlename.$invalid && !userForm.middlename.$pristine }">
+                        <label class="control-label col-sm-3">Middlename:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="middlename" ng-model="user.middlename" >
+                            <p ng-show="userForm.middlename.$invalid && !userForm.middlename.$pristine" class="help-block">Middlename is required</p>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error' : userForm.surname.$invalid && !userForm.surname.$pristine }">
+                        <label class="control-label col-sm-3">Surname:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="surname" ng-model="user.surname" required>
+                            <p ng-show="userForm.surname.$invalid && !userForm.surname.$pristine" class="help-block">Surname is required</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Gender:</label>
+                        <div class="col-sm-8">
+                            <label class="radio-inline">
+                                <input type="radio" value="male" name="gender" ng-model="user.gender" required>male
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" value="female" name="gender" ng-model="user.gender">female
+                            </label>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Title:</label>
+                        <div class="col-sm-8">
+                            <select required class="form-control" name="title" ng-model="user.Title" ng-options="title.Id as title.Name for title in userTitles">
+                                <option value="">--Select title--</option>
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error' : userForm.email.$invalid && !userForm.email.$pristine}">
+                        <label class="control-label col-sm-3">Email:</label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <input type="email" name="email" autocomplete="on" class="form-control" ng-model="user.email" required>
+                                <span class="input-group-addon" title="Used for login and communication"> <i class="glyphicon glyphicon-info-sign"></i></span>
+                            </div>
+                            <p ng-show="userForm.email.$invalid && !userForm.email.$pristine && !emailExist" class="help-block">Enter a valid email.</p>
+
+                            <p id="emailError" ng-show="userForm.email.$invalid && emailExist" class="help-block">Current email is already exist.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Speciality:</label>
+                        <div class="col-sm-8">
+                            <select required class="form-control" name="speciality" ng-model="user.speciality" ng-options="speciality.Id as speciality.Name for speciality in specialities">
+                                <option value="">--Select Speciality--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Level Of Training:</label>
+                        <div class="col-sm-8">
+                            <select required name="userLoT" class="form-control" ng-model="user.userLoT" ng-options="level.Id as level.Name for level in levelOfTainings">
+                                <option value="">--Select Level Of Training--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Hospital:</label>
+                        <div class="col-sm-8">
+                            <select required name="userHospital" class="form-control" ng-model="user.userHospital" ng-options="hospital.Id as hospital.Name for hospital in hospitals">
+                                <option value="">--Select Hospital--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Country:</label>
+                        <div class="col-sm-8">
+                            <select required name="country" class="form-control" ng-model="user.country" ng-options="country.Id as country.Name for country in countries">
+                                <option value="">--Select Country--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-8">
+                            <button type="button" class="btn btn-primary" ng-click="backToLogin()">Back</button>
+                            <button type="submit" class="btn btn-primary pull-right" ng-disabled="userForm.$invalid" ng-click="register()">Register</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

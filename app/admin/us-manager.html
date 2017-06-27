@@ -1,0 +1,1302 @@
+﻿<div class="k-loading-image k-overlay" ng-show="loading"></div>
+<!--<span kendo-notification="notfadmin" k-append-to="'#container'"></span>-->
+
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="row_padding">
+
+            <!-- ADMIN US MANAGER -->
+            <div class="shape">
+
+                <!-- header -->
+                <div class="shape__header">
+                    {{"us_manager" | translate}}
+                </div>
+                <!-- end header -->
+
+                <!-- body -->
+                <div class="shape__body">
+                    <div class="panel-body">
+                        <div kendo-tab-strip="Strips">
+                            <!-- tab list -->
+                            <ul>
+                                <!--<li>Ultrasound Types</li>
+                                <li>Indications</li>
+                                <li>Views</li>
+                                <li>Tags</li>-->
+                                <li>Specialities</li>
+                                <li class="k-state-active">Specific conclusion</li>
+                                <!--<li class="k-state-active">Specialities</li>-->
+                                <!--<li>Specific conclusion</li>-->
+                            </ul>
+                            <!--<div style="padding: 1em">
+                                <div>
+                                    <div kendo-toolbar="ultrasoundTb" k-options="ultrasoundTbOptions"></div>
+                                    <div kendo-grid="ultrasoundGrid" options="USTypesGroupsOptions">
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="padding: 1em">
+                                <div kendo-toolbar="indicationsTb" k-options="indicationsTbOptions"></div>
+                                <div kendo-grid="indicationsGrid" options="indicationsGridOptions">
+                                </div>
+                            </div>
+                            <div style="padding: 1em">
+                                <div kendo-toolbar="viewsTb" k-options="viewsTbOptions"></div>
+                                <div kendo-grid="viewsGrid" options="viewsGridOptions">
+                                </div>
+                            </div>
+                            <div style="padding: 1em">
+                                <div kendo-toolbar="tagsTb" k-options="tagsGridTbOptions"></div>
+                                <div kendo-grid="tagsGrid" options="tagsGridOptions">
+                                </div>
+                            </div>-->
+                            <div style="padding: 1em">
+                                <div>
+                                    <div kendo-toolbar="ultrasoundtypesTb" k-options="ultrasoundtypesTbOptions">
+                                        <select kendo-drop-down-list="specialiytyDDL" style="width:20%;" k-options="specialiytyDDLOptions"></select>
+                                    </div>
+                                 
+                                        <div kendo-grid="ultrasoundtypesGrid" id="ultrasoundtypesGrid" k-data-source="gridUSGroupsSource" k-options="ultrasoundtypesGridOptions">
+                                            <div k-detail-template>
+                                                <div kendo-grid="viewGd" k-options="detailGridOptions(dataItem)">
+                                                    <div k-detail-template>
+                                                        <div kendo-grid="tgGrd" k-options="detailTagGridOptions(dataItem)">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                   
+                                </div>
+                            </div>
+                            <div kendo-window="specialityWnd" k-visible="false"
+                                 modal="true" k-on-close="closespecialityWnd()">
+                                <div ng-show="view.IsUStypes">
+                                    <form class="form-horizontal" name="US">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Ultrasound Type:</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" name="ustype" style="width:100%;" class="k-textbox" ng-model="ustype">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Speciality:</label>
+                                            <div class="col-sm-6">
+                                                <select kendo-multi-select="specialityUSDDL" style="width:100%;" k-options="specialityDDLOptions" k-ng-model="Speciality" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-5 col-md-offset-5">
+                                                <input id="saveMem" type="button" class='btn btn-primary' value='Save' ng-click="addUsItem()" />
+                                                <input id="cancelMem" type="button" class='btn btn-danger' value='Cancel' ng-click="cancelAdd()" />
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div ng-show="view.AddUS">
+                                    <div class="form-group row">
+                                        <div class="col-md-5 col-md-offset-5">
+                                            <input id="saveMem" type="button" class='btn btn-primary' value='Yes' ng-click="confirmAdd()" />
+                                            <input id="cancelMem" type="button" class='btn btn-danger' value='No' ng-click="cancelAdd()" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div ng-show="view.IsModify">
+                                    <form class="form-horizontal" name="US">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3">Ultrasound type:</label>
+                                            <div class="col-sm-6">
+                                                <input id="ustypeName" class="k-textbox" type="text" ng-model="ustypeName" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-5 col-md-offset-5">
+                                                <input id="saveMem" type="button" class='btn btn-primary' value='Save' ng-click="SaveUltrasound()" />
+                                                <input id="cancelMem" type="button" class='btn btn-danger' value='Cancel' ng-click="cancelAdd()" />
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div ng-show="view.IsIndications">
+
+                                    <form class="form-horizontal" name="US">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Indication:</label>
+                                            <div class="col-sm-6">
+                                                <input id="indicationName" class="k-textbox" type="text" style="width:100%;" ng-model="indicationName" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Speciality:</label>
+                                            <div class="col-sm-6">
+                                                <select kendo-drop-down-list="specialityIndicationDDL" style="width:100%;" k-options="specialityDDLOptions" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Ultrasound type:</label>
+                                            <div class="col-sm-6">
+                                                <select kendo-drop-down-list="USDDl" style="width:100%;" k-options="USDDLOptions" ng-disabled="IsSelectedSpeciality()" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-5 col-md-offset-5">
+                                                <input id="saveMem" type="button" class='btn btn-primary' value='Save' ng-click="addIndication()" />
+                                                <input id="cancelMem" type="button" class='btn btn-danger' value='Cancel' ng-click="cancelAdd()" />
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!-- ADD VIEW -->
+                                <div ng-show="view.IsView">
+                                    <form class="form-horizontal" name="US">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">View:</label>
+                                            <div class="col-sm-6">
+                                                <input id="indicationName" class="k-textbox" type="text" style="width:100%;" ng-model="viewName" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Speciality:</label>
+                                            <div class="col-sm-6">
+                                                <select kendo-drop-down-list="specialityViewDDL" style="width:100%;" k-options="ViewspecialityDDLOptions" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Ultrasound type:</label>
+                                            <div class="col-sm-6">
+                                                <select kendo-drop-down-list="ViewUSDDl" style="width:100%;" k-options="USViewsDDLOptions" ng-disabled="IsSelectedSpeciality()" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-5 col-md-offset-5">
+                                                <input id="saveMem" type="button" class='btn btn-primary' value='Save' ng-click="addView()" />
+                                                <input id="cancelMem" type="button" class='btn btn-danger' value='Cancel' ng-click="cancelAdd()" />
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!-- ADD TAG -->
+                                <div ng-show="view.IsTags">
+                                    <form class="form-horizontal" name="US">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Name:</label>
+                                            <div class="col-sm-6">
+                                                <input id="indicationName" class="k-textbox" type="text" style="width:100%;" ng-model="tagName" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Speciality:</label>
+                                            <div class="col-sm-6">
+                                                <select kendo-drop-down-list="ViewsSpecialityDDL" style="width:100%;" k-options="ViewsSpecialityDDLOptions" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">View:</label>
+                                            <div class="col-sm-6">
+                                                <select kendo-drop-down-list="ViewsDDL" style="width:100%;" k-options="ViewsDDLOptions" ng-model="ViewId" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group" ng-repeat="answer in Answers">
+                                            <label class="control-label col-sm-3">{{"Answer "}}{{$index+1}}:</label>
+                                            <div class="col-sm-6">
+                                                <input class="k-textbox" type="text" style="width:100%;" ng-change="addAnswer($index)" ng-model="answer.Value" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Fixed answer :</label>
+                                            <div class="col-sm-6">
+                                                <input class="k-textbox" type="text" style="width:100%;" ng-model="fixedAnswer" ng-disabled="true" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-5 col-md-offset-5">
+                                                <input id="saveMem" type="button" class='btn btn-primary' value='Save' ng-click="addTag()" />
+                                                <input id="cancelMem" type="button" class='btn btn-danger' value='Cancel' ng-click="cancelAdd()" />
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div ng-show="view.EditUSItem">
+                                    <form class="form-horizontal" name="US">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Ultrasound type:</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="k-textbox" style="width:100%;" name="name" ng-model="us.Name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Speciality:</label>
+                                            <div class="col-sm-6">
+                                                <select kendo-drop-down-list="specialityModifyUS" style="width:100%;" k-options="specialityModifyUSDDLOptions" />
+                                                <!--<input type="text" class="k-textbox" style="width:100%;" name="name" ng-model="us.Speciality">-->
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-3"></div>
+                                            <div class="col-md-6">
+
+                                                <button type="button" class="btn btn-primary pull-right" ng-click="SaveUS()">Save</button>
+                                                <button type="button" class="btn btn-danger pull-left" ng-click="cancelAdd()">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div ng-show="view.EditIndication">
+                                    <form class="form-horizontal" name="US">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Indication:</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="k-textbox" style="width:100%;" name="name" ng-model="in.Name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Ultrasound type:</label>
+                                            <div class="col-sm-6">
+                                                <select kendo-drop-down-list="ultrasoundIndicationsDDL" style="width:100%;" k-options="ultrasoundIndicationsDDLOptions" />
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Speciality:</label>
+                                            <div class="col-sm-6">
+                                                <select kendo-drop-down-list="specialityIndicationsDDL" style="width:100%;" k-options="specialityIndicationsDDLOptions" />
+                                                <!--<input type="text" class="k-textbox" style="width:100%;" name="name" ng-model="us.Speciality">-->
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-3"></div>
+                                            <div class="col-md-6">
+
+                                                <button type="button" class="btn btn-primary pull-right" ng-click="SaveIndication()">Save</button>
+                                                <button type="button" class="btn btn-danger pull-left" ng-click="cancelAdd()">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div ng-show="view.EditView">
+                                    <form class="form-horizontal" name="US">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">View:</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="k-textbox" style="width:100%;" name="name" ng-model="v.Name">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Speciality:</label>
+                                            <div class="col-sm-6">
+                                                <select kendo-drop-down-list="editViewDDL" style="width:100%;" k-options="editViewDDLOptions" ng-model="currentSpeciality" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Ultrasound type:</label>
+                                            <div class="col-sm-6">
+                                                <select kendo-drop-down-list="ultrasoundViewsDDL" style="width:100%;" k-options="ultrasoundViewsDDLOptions" ng-model="currentUsType" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-3"></div>
+                                            <div class="col-md-6">
+                                                <button type="button" class="btn btn-primary pull-right" ng-click="SaveView()">Save</button>
+                                                <button type="button" class="btn btn-danger pull-left" ng-click="cancelAdd()">Cancel</button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+
+                                <div ng-show="view.EditTags">
+                                    <form class="form-horizontal" name="US">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Tag Name:</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="k-textbox" style="width:100%;" name="name" ng-model="tagsName">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">View:</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="k-textbox" style="width:100%;" name="name" ng-model="viewName" ng-disabled="true">
+                                            </div>
+                                        </div>
+                                        <div class="form-group" ng-repeat="answer in Answers">
+                                            <label class="control-label col-sm-3">{{"Answer "}}{{$index+1}}:</label>
+                                            <div class="col-sm-6">
+                                                <input class="k-textbox" type="text" style="width:100%;" ng-change="addAnswer($index)" ng-model="answer.Value" ng-disabled="iSNotAssessable(answer.Value)" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-3"></div>
+                                            <div class="col-md-6">
+
+                                                <button type="button" class="btn btn-primary pull-right" ng-click="EditTag()">Save</button>
+                                                <button type="button" class="btn btn-danger pull-left" ng-click="cancelAdd()">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div ng-show="view.DeleteView">
+                                    <form class="form-horizontal" name="US">
+                                        <div>
+                                            Are you sure you want to delete this Item?
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-5 col-md-offset-5">
+                                                <input id="saveMem" type="button" class='btn btn-primary' value='Yes' ng-click="deleteView()" />
+                                                <input id="cancelMem" type="button" class='btn btn-danger' value='No' ng-click="cancelAdd()" />
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                                <div ng-show="view.DeleteIndication">
+                                    <form class="form-horizontal" name="US">
+                                        <div>
+                                            Are you sure you want to delete this Item?
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-5 col-md-offset-5">
+                                                <input id="saveMem" type="button" class='btn btn-primary' value='Yes' ng-click="deleteIndication()" />
+                                                <input id="cancelMem" type="button" class='btn btn-danger' value='No' ng-click="cancelAdd()" />
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                                <div ng-show="view.DeleteTags">
+                                    <form class="form-horizontal" name="US">
+                                        <div>
+                                            Are you sure you want to delete this Item?
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-5 col-md-offset-5">
+                                                <input id="saveMem" type="button" class='btn btn-primary' value='Yes' ng-click="deleteTag()" />
+                                                <input id="cancelMem" type="button" class='btn btn-danger' value='No' ng-click="cancelAdd()" />
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                                <div ng-show="view.editIndications">
+                                    <form class="form-horizontal" name="US">
+                                        <div class="form-group" ng-repeat="indication in Indications">
+                                            <label class="control-label col-sm-3">{{"Indication "}}{{$index+1}}:</label>
+                                            <div class="col-sm-6">
+                                                <input class="k-textbox" type="text" style="width:100%;" ng-change="addAnswer($index)" ng-model="indication.Value" ng-disabled="iSNotAssessable(answer.Value)" />
+                                            </div>
+                                            <a ng-click="moveUp($index)">
+                                                <i class="fa fa-chevron-up"></i>
+                                            </a>
+                                            <a ng-click="moveDown($index)">
+                                                <i class="fa fa-chevron-down"></i>
+                                            </a>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-5 col-md-offset-5">
+                                                <input id="saveMem" type="button" class='btn btn-primary' value='Save' ng-click="SaveIndication()" />
+                                                <input id="cancelMem" type="button" class='btn btn-danger' value='Cancel' ng-click="cancelAdd()" />
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+
+                                <div ng-show="view.editView">
+                                    <form class="form-horizontal" name="US">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3">View:</label>
+                                            <div class="col-sm-6">
+                                                <input id="ustypeName" class="k-textbox" type="text" ng-model="viewname" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3">Sort Criteria:</label>
+                                            <div class="col-sm-6">
+                                                <input id="ustypeName" class="k-textbox" type="text" ng-model="viewSort" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-5 col-md-offset-5">
+                                                <input id="saveMem" type="button" class='btn btn-primary' value='Save' ng-click="SaveView()" />
+                                                <input id="cancelMem" type="button" class='btn btn-danger' value='Cancel' ng-click="cancelAdd()" />
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div ng-show="view.editTag">
+                                    <form class="form-horizontal" name="US">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3">Tag:</label>
+                                            <div class="col-sm-6">
+                                                <input id="tagname" class="k-textbox" type="text" ng-model="TagName" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3">Sort Criteria:</label>
+                                            <div class="col-sm-6">
+                                                <input id="tagname" class="k-textbox" type="text" ng-model="tagSortCriteria" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-5 col-md-offset-5">
+                                                <input id="saveMem" type="button" class='btn btn-primary' value='Save' ng-click="EditTag()" />
+                                                <input id="cancelMem" type="button" class='btn btn-danger' value='Cancel' ng-click="cancelAdd()" />
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div ng-show="view.editAnsw">
+                                    <form class="form-horizontal" name="US">
+                                        <div class="form-group" ng-repeat="answer in Answers">
+                                            <label class="control-label col-sm-3">{{"Answer "}}{{$index+1}}:</label>
+                                            <div class="col-sm-6">
+                                                <input class="k-textbox" type="text" style="width:100%;" ng-change="addAnswer($index)" ng-model="answer.Value" ng-disabled="iSNotAssessable(answer.Value)" />
+                                            </div>
+                                            <a ng-click="moveUpAnswer($index)">
+                                                <i class="fa fa-chevron-up"></i>
+                                            </a>
+                                            <a ng-click="moveDownAnswer($index)">
+                                                <i class="fa fa-chevron-down"></i>
+                                            </a>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-5 col-md-offset-5">
+                                                <input id="saveMem" type="button" class='btn btn-primary' value='Save' ng-click="modifyAsws()" />
+                                                <input id="cancelMem" type="button" class='btn btn-danger' value='Cancel' ng-click="cancelAdd()" />
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div ng-show="view.AddNewUs">
+                                    <form class="form-horizontal" name="US">
+
+                                        <div class="forms__group" ng-show="current.index==0">
+                                            <label class="control-label col-sm-3">Ultrasound Name:</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="k-textbox forms__input" name="name" ng-model="us.ultrasoundName">
+                                            </div>
+                                        </div>
+
+                                        <div ng-show="current.index==1">
+                                            <div class="forms__group" ng-repeat="indication in us.Indications">
+                                                <label class="control-label col-sm-3">{{"Indication "}}{{$index+1}}:</label>
+                                                <div class="col-sm-9">
+                                                    <input class="k-textbox forms__input" type="text" ng-change="addUsItems(us.Indications,$index)" ng-model="indication.Value" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div ng-show="current.index==2">
+                                            <div class="forms__group" ng-repeat="view in us.Views">
+                                                <label class="control-label col-sm-3">{{"View "}}{{$index+1}}:</label>
+                                                <div class="col-sm-9">
+                                                    <input class="k-textbox forms__input" type="text" style="width:100%;" ng-change="addUsTagItems(us.Views,$index)" ng-model="view.Value" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="create__last">
+                                            <div ng-show="current.index==3">
+                                                <div class="create__last-wrap" ng-repeat="view in us.Views">
+
+                                                    <div class="forms__group">
+                                                        <label class="control-label col-sm-1">{{"View "}}{{$index+1}}:</label>
+
+                                                        <div class="col-sm-9">
+                                                            <input class="k-textbox forms__input" type="text" ng-model="view.Value" disabled />
+                                                        </div>
+
+                                                        <a ng-click="Addinput(view)" class="btn_add">
+                                                            <i class="fa fa-plus"></i>
+                                                        </a>
+
+                                                        <a class="btn_remove">
+                                                            <i class="fa fa-minus"></i>
+                                                        </a>
+                                                    </div>
+
+                                                    <div class="" ng-repeat="tag in view.tags track by $index" style="margin-top:10px;">
+                                                        <div class="forms__group">
+                                                            <label class="control-label col-sm-2">{{"Tag "}}{{$index+1}}:</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text" class="k-textbox forms__input" ng-model="tag.tagName">
+                                                            </div>
+                                                            <a ng-click="addAnswer(tag)" class="btn_add">
+                                                                <i class="fa fa-plus"></i>
+                                                            </a>
+                                                            <a class="btn_remove">
+                                                                <i class="fa fa-minus"></i>
+                                                            </a>
+                                                        </div>
+
+                                                        <div class="forms__group" ng-repeat="answer in tag.answers track by $index" style="margin-top:10px;">
+                                                            <label class="control-label col-sm-3">{{"Answer "}}{{$index+1}}:</label>
+                                                            <div class="col-sm-7">
+                                                                <input type="text" class="k-textbox forms__input" ng-model="answer.Name">
+                                                            </div>
+                                                            <a class="btn_add btn_add_disabled">
+                                                                <i class="fa fa-plus"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+
+                                                    <hr class="shape__line">
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <!--<div class="form-group" ng-show="current.index == 4">
+                                            <div class="form-group" ng-repeat="tag in us.Views">
+                                                <div class="row" >
+                                                    <label class="control-label col-sm-3">{{"Tag "}}{{$index+1}}:</label>
+                                                    <div class="col-sm-6">
+                                                        <input class="k-textbox" type="text" style="width:100%;" ng-model="tag.Value" disabled />
+                                                    </div>
+                                                    <a ng-click="Addinput(view)" class="btn_add">
+                                                        <i class="fa fa-plus"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="form-group" ng-repeat="answer in Answers track by $index" style="margin-top:10px;">
+                                                    <label class="control-label col-sm-3">{{"Answer "}}{{$index+1}}:</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="k-textbox" style="width:100%;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>-->
+                                        <div class="shape__footer">
+
+                                            <button type="button" class="button__c button_c-info"
+                                                    ng-click="goPrev()" ng-disabled="isInexFirst()">Prev</button>
+
+                                            <button type="button" class="button__c"
+                                                    ng-disabled="isModelValid()" ng-show="current.index <= 2" ng-click="goNext(currentIndex)">Next</button>
+
+                                            <button type="button" class="button__c"
+                                                    ng-show="current.index == 3" ng-click="addUltrasound()">Save</button>
+
+                                        </div>
+                                        <!--</div>
+                                        <!--<div class="form-group">
+                                            <label class="control-label col-sm-3">Indication:</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="k-textbox" style="width:100%;" name="name" ng-model="viewName" ng-disabled="true">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Indication:</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="k-textbox" style="width:100%;" name="name" ng-model="viewName" ng-disabled="true">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" ng-repeat="answer in Answers">
+                                            <label class="control-label col-sm-3">{{"Answer "}}{{$index+1}}:</label>
+                                            <div class="col-sm-6">
+                                                <input class="k-textbox" type="text" style="width:100%;" ng-change="addAnswer($index)" ng-model="answer.Value" ng-disabled="iSNotAssessable(answer.Value)" />
+                                            </div>
+                                        </div>-->
+                                    </form>
+                                </div>
+                            </div>
+                            
+                            <!--specific conclusion-->
+                            <div class="form-horizontal">
+                                <div class="row">
+                                    <div class="form-group form-group_customize">
+                                        <!--<div class="col-xs-1">-->
+                                            <label class="col-xs-1 control-label">{{"speciality"|translate}}:</label>
+                                        <!--</div>-->
+                                        <div class="col-xs-5">
+                                            <select style="width:100%" kendo-drop-down-list="ConclusionSpecialities" k-on-change="OnChangeConclusionSpeciality()" k-ng-model="conclusionSpecialitySelected" k-options="ConclusionSpecialities"></select>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <hr class="shape__line">
+                                    <!--ng-if="conclusionSpecialitySelected.Id"-->
+
+                                <div ng-repeat="view in SpecificConclusionQuestions" >
+                                    <div class="form-group">
+                                        <div class="row">
+
+                                            <label class="col-xs-1 control-label">View {{$index+1}}: </label>
+
+                                            <div class="col-xs-5">
+                                                <input class="form-control none-padding" ng-model="view.Name" />
+                                            </div>
+                                            <div class="col-xs-1">
+                                                <span class="btn_add" ng-click="addConclusionView()"><i class="fa fa-plus"></i></span>
+                                                <span class="btn_remove" ng-hide="SpecificConclusionQuestions.length == 1 || view.Id" ng-click="removeConclusionView($index)"><i class="fa fa-minus"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div ng-repeat="item in view.Tags">
+                                        <div class="form-group">
+                                            <div class="row">
+
+                                                <label class="col-xs-2 control-label">Tag {{$index+1}}: </label>
+
+                                                <div class="col-xs-4">
+                                                    <input class="form-control none-padding" ng-model="item.Name" />
+                                                </div>
+                                                <div class="col-xs-1">
+                                                    <span class="btn_add" ng-click="addConclusionTag($parent.$index)"><i class="fa fa-plus"></i></span>
+                                                    <span class="btn_remove" ng-hide="view.Tags.length == 1 || item.Id" ng-click="removeConclusionTag($parent.$index,$index)"><i class="fa fa-minus"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div ng-repeat="answerItem in item.Answers" class="form-group">
+                                            <div class="row">
+                                                <label class="col-xs-3 control-label">Answer {{$index+1}}: </label>
+                                                <div class="col-xs-3">
+                                                    <input type="text" class="form-control none-padding" ng-model="answerItem.Name" data-id="{{answerItem.Id}}" />
+                                                </div>
+                                                <div class="col-xs-1">
+                                                    <span class="btn_add" ng-click="addConclusionAnswer($parent.$parent.$index,$parent.$index)"><i class="fa fa-plus"></i></span>
+                                                    <span class="btn_remove" ng-hide="item.Answers.length<3 || answerItem.Id" ng-click="removeConclusionAnswer($parent.$parent.$index, $parent.$index, $index)"><i class="fa fa-minus"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                    <hr class="shape__line">
+                                </div>
+                                <!--<div ng-repeat="item in SpecificConclusionQuestions">
+                                    <div class="form-group">
+                                        <div class="row">
+
+                                            <label class="col-xs-1 control-label">Tag {{$index+1}}: </label>
+
+                                            <div class="col-xs-5">
+                                                <input class="form-control none-padding" ng-model="item.Name" />
+                                            </div>
+                                            <div class="col-xs-1">
+                                                <span class="btn_add" ng-click="addConclusionTag()"><i class="fa fa-plus"></i></span>
+                                                <span class="btn_remove" ng-disabled="SpecificConclusionQuestions.length == 1 || item.Id" ng-click="removeConclusionTag($index)"><i class="fa fa-minus"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div ng-repeat="answerItem in item.Answers" class="form-group">
+                                        <div class="row">
+                                            <label class="col-xs-1 control-label">Answer {{$index+1}}: </label>
+                                            <div class="col-xs-offset-1 col-xs-4">
+                                                <input type="text" class="form-control none-padding" ng-model="answerItem.Name" data-id="{{answerItem.Id}}" />
+                                            </div>
+                                            <div class="col-xs-1">
+                                                <span class="btn_add" ng-click="addConclusionAnswer($parent.$index)"><i class="fa fa-plus"></i></span>
+                                                <span class="btn_remove" ng-disabled="item.Answers.length<3 || answerItem.Id" ng-click="removeConclusionAnswer($parent.$index, $index)"><i class="fa fa-minus"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr class="shape__line">
+                                </div>-->
+                               <div class="form-group">
+
+                                    <div class="col-xs-6">
+                                        <button class="button__c " ng-click="saveConslusion()">{{"save"|translate}}</button>
+                                    </div>
+                               </div>
+                             
+                                                 
+
+                                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end body -->
+
+            </div>
+            <!-- end ADMIN US MANAGER -->
+
+        </div>
+
+    </div>
+</div>
+
+<!--<div class="col-md-12">-->
+    <!--<div class="panel panel-default" style="margin-left: 30px; margin-right: 30px;">-->
+        <!--<div class="panel-body">-->
+            <!--<div kendo-tab-strip="Strips">-->
+                <!--&lt;!&ndash; tab list &ndash;&gt;-->
+                <!--<ul>-->
+                    <!--&lt;!&ndash;<li>Ultrasound Types</li>-->
+                    <!--<li>Indications</li>-->
+                    <!--<li>Views</li>-->
+                    <!--<li>Tags</li>&ndash;&gt;-->
+                    <!--<li class="k-state-active">Specialities</li>-->
+
+
+                <!--</ul>-->
+                <!--&lt;!&ndash;<div style="padding: 1em">-->
+                    <!--<div>-->
+                        <!--<div kendo-toolbar="ultrasoundTb" k-options="ultrasoundTbOptions"></div>-->
+                        <!--<div kendo-grid="ultrasoundGrid" options="USTypesGroupsOptions">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div style="padding: 1em">-->
+                    <!--<div kendo-toolbar="indicationsTb" k-options="indicationsTbOptions"></div>-->
+                    <!--<div kendo-grid="indicationsGrid" options="indicationsGridOptions">-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div style="padding: 1em">-->
+                    <!--<div kendo-toolbar="viewsTb" k-options="viewsTbOptions"></div>-->
+                    <!--<div kendo-grid="viewsGrid" options="viewsGridOptions">-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div style="padding: 1em">-->
+                    <!--<div kendo-toolbar="tagsTb" k-options="tagsGridTbOptions"></div>-->
+                    <!--<div kendo-grid="tagsGrid" options="tagsGridOptions">-->
+                    <!--</div>-->
+                <!--</div>&ndash;&gt;-->
+                <!--<div style="padding: 1em">-->
+                    <!--<div>-->
+                        <!--<div kendo-toolbar="ultrasoundtypesTb" k-options="ultrasoundtypesTbOptions">-->
+                            <!--<select kendo-drop-down-list="specialiytyDDL" style="width:20%;" k-options="specialiytyDDLOptions"></select>-->
+                        <!--</div>-->
+                        <!--<div kendo-grid="ultrasoundtypesGrid" k-data-source="gridUSGroupsSource" k-options="ultrasoundtypesGridOptions">-->
+                            <!--<div k-detail-template>-->
+                                <!--<div kendo-grid="viewGd" k-options="detailGridOptions(dataItem)">-->
+                                    <!--<div k-detail-template>-->
+                                        <!--<div kendo-grid="tgGrd" k-options="detailTagGridOptions(dataItem)">-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div kendo-window="specialityWnd" k-visible="false"-->
+                     <!--modal="true" k-on-close="closespecialityWnd()">-->
+                    <!--<div ng-show="view.IsUStypes">-->
+                        <!--<form class="form-horizontal" name="US">-->
+                            <!--<div class="form-group">-->
+                                <!--<label class="control-label col-sm-3">Ultrasound Type:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<input type="text" name="ustype" style="width:100%;" class="k-textbox" ng-model="ustype">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<label class="control-label col-sm-3">Speciality:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<select kendo-multi-select="specialityUSDDL" style="width:100%;" k-options="specialityDDLOptions" k-ng-model="Speciality" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group row">-->
+                                <!--<div class="col-md-5 col-md-offset-5">-->
+                                    <!--<input id="saveMem" type="button" class='btn btn-primary' value='Save' ng-click="addUsItem()" />-->
+                                    <!--<input id="cancelMem" type="button" class='btn btn-danger' value='Cancel' ng-click="cancelAdd()" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</form>-->
+                    <!--</div>-->
+                    <!--<div ng-show="view.AddUS">-->
+                        <!--<div class="form-group row">-->
+                            <!--<div class="col-md-5 col-md-offset-5">-->
+                                <!--<input id="saveMem" type="button" class='btn btn-primary' value='Yes' ng-click="confirmAdd()" />-->
+                                <!--<input id="cancelMem" type="button" class='btn btn-danger' value='No' ng-click="cancelAdd()" />-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div ng-show="view.IsModify">-->
+                        <!--<form class="form-horizontal" name="US">-->
+                            <!--<div class="form-group row">-->
+                                <!--<label class="col-sm-3">Ultrasound type:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<input id="ustypeName" class="k-textbox" type="text" ng-model="ustypeName" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group row">-->
+                                <!--<div class="col-md-5 col-md-offset-5">-->
+                                    <!--<input id="saveMem" type="button" class='btn btn-primary' value='Save' ng-click="SaveUltrasound()" />-->
+                                    <!--<input id="cancelMem" type="button" class='btn btn-danger' value='Cancel' ng-click="cancelAdd()" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</form>-->
+                    <!--</div>-->
+                    <!--<div ng-show="view.IsIndications">-->
+
+                        <!--<form class="form-horizontal" name="US">-->
+                            <!--<div class="form-group">-->
+                                <!--<label class="control-label col-sm-3">Indication:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<input id="indicationName" class="k-textbox" type="text" style="width:100%;" ng-model="indicationName" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <!--<div class="form-group">-->
+                                <!--<label class="control-label col-sm-3">Speciality:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<select kendo-drop-down-list="specialityIndicationDDL" style="width:100%;" k-options="specialityDDLOptions" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<label class="control-label col-sm-3">Ultrasound type:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<select kendo-drop-down-list="USDDl" style="width:100%;" k-options="USDDLOptions" ng-disabled="IsSelectedSpeciality()" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group row">-->
+                                <!--<div class="col-md-5 col-md-offset-5">-->
+                                    <!--<input id="saveMem" type="button" class='btn btn-primary' value='Save' ng-click="addIndication()" />-->
+                                    <!--<input id="cancelMem" type="button" class='btn btn-danger' value='Cancel' ng-click="cancelAdd()" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</form>-->
+                    <!--</div>-->
+
+                    <!--&lt;!&ndash; ADD VIEW &ndash;&gt;-->
+                    <!--<div ng-show="view.IsView">-->
+                        <!--<form class="form-horizontal" name="US">-->
+                            <!--<div class="form-group">-->
+                                <!--<label class="control-label col-sm-3">View:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<input id="indicationName" class="k-textbox" type="text" style="width:100%;" ng-model="viewName" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <!--<div class="form-group">-->
+                                <!--<label class="control-label col-sm-3">Speciality:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<select kendo-drop-down-list="specialityViewDDL" style="width:100%;" k-options="ViewspecialityDDLOptions" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<label class="control-label col-sm-3">Ultrasound type:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<select kendo-drop-down-list="ViewUSDDl" style="width:100%;" k-options="USViewsDDLOptions" ng-disabled="IsSelectedSpeciality()" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group row">-->
+                                <!--<div class="col-md-5 col-md-offset-5">-->
+                                    <!--<input id="saveMem" type="button" class='btn btn-primary' value='Save' ng-click="addView()" />-->
+                                    <!--<input id="cancelMem" type="button" class='btn btn-danger' value='Cancel' ng-click="cancelAdd()" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</form>-->
+                    <!--</div>-->
+
+                    <!--&lt;!&ndash; ADD TAG &ndash;&gt;-->
+                    <!--<div ng-show="view.IsTags">-->
+                        <!--<form class="form-horizontal" name="US">-->
+                            <!--<div class="form-group">-->
+                                <!--<label class="control-label col-sm-3">Name:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<input id="indicationName" class="k-textbox" type="text" style="width:100%;" ng-model="tagName" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<label class="control-label col-sm-3">Speciality:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<select kendo-drop-down-list="ViewsSpecialityDDL" style="width:100%;" k-options="ViewsSpecialityDDLOptions" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<label class="control-label col-sm-3">View:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<select kendo-drop-down-list="ViewsDDL" style="width:100%;" k-options="ViewsDDLOptions" ng-model="ViewId" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group" ng-repeat="answer in Answers">-->
+                                <!--<label class="control-label col-sm-3">{{"Answer "}}{{$index+1}}:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<input class="k-textbox" type="text" style="width:100%;" ng-change="addAnswer($index)" ng-model="answer.Value" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<label class="control-label col-sm-3">Fixed answer :</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<input class="k-textbox" type="text" style="width:100%;" ng-model="fixedAnswer" ng-disabled="true" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group row">-->
+                                <!--<div class="col-md-5 col-md-offset-5">-->
+                                    <!--<input id="saveMem" type="button" class='btn btn-primary' value='Save' ng-click="addTag()" />-->
+                                    <!--<input id="cancelMem" type="button" class='btn btn-danger' value='Cancel' ng-click="cancelAdd()" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</form>-->
+                    <!--</div>-->
+
+                    <!--<div ng-show="view.EditUSItem">-->
+                        <!--<form class="form-horizontal" name="US">-->
+                            <!--<div class="form-group">-->
+                                <!--<label class="control-label col-sm-3">Ultrasound type:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<input type="text" class="k-textbox" style="width:100%;" name="name" ng-model="us.Name">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<label class="control-label col-sm-3">Speciality:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<select kendo-drop-down-list="specialityModifyUS" style="width:100%;" k-options="specialityModifyUSDDLOptions" />-->
+                                    <!--&lt;!&ndash;<input type="text" class="k-textbox" style="width:100%;" name="name" ng-model="us.Speciality">&ndash;&gt;-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<div class="col-md-3"></div>-->
+                                <!--<div class="col-md-6">-->
+
+                                    <!--<button type="button" class="btn btn-primary pull-right" ng-click="SaveUS()">Save</button>-->
+                                    <!--<button type="button" class="btn btn-danger pull-left" ng-click="cancelAdd()">Cancel</button>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</form>-->
+                    <!--</div>-->
+
+                    <!--<div ng-show="view.EditIndication">-->
+                        <!--<form class="form-horizontal" name="US">-->
+                            <!--<div class="form-group">-->
+                                <!--<label class="control-label col-sm-3">Indication:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<input type="text" class="k-textbox" style="width:100%;" name="name" ng-model="in.Name">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<label class="control-label col-sm-3">Ultrasound type:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<select kendo-drop-down-list="ultrasoundIndicationsDDL" style="width:100%;" k-options="ultrasoundIndicationsDDLOptions" />-->
+
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<label class="control-label col-sm-3">Speciality:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<select kendo-drop-down-list="specialityIndicationsDDL" style="width:100%;" k-options="specialityIndicationsDDLOptions" />-->
+                                    <!--&lt;!&ndash;<input type="text" class="k-textbox" style="width:100%;" name="name" ng-model="us.Speciality">&ndash;&gt;-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<div class="col-md-3"></div>-->
+                                <!--<div class="col-md-6">-->
+
+                                    <!--<button type="button" class="btn btn-primary pull-right" ng-click="SaveIndication()">Save</button>-->
+                                    <!--<button type="button" class="btn btn-danger pull-left" ng-click="cancelAdd()">Cancel</button>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</form>-->
+                    <!--</div>-->
+
+                    <!--<div ng-show="view.EditView">-->
+                        <!--<form class="form-horizontal" name="US">-->
+                            <!--<div class="form-group">-->
+                                <!--<label class="control-label col-sm-3">View:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<input type="text" class="k-textbox" style="width:100%;" name="name" ng-model="v.Name">-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <!--<div class="form-group">-->
+                                <!--<label class="control-label col-sm-3">Speciality:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<select kendo-drop-down-list="editViewDDL" style="width:100%;" k-options="editViewDDLOptions" ng-model="currentSpeciality" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<label class="control-label col-sm-3">Ultrasound type:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<select kendo-drop-down-list="ultrasoundViewsDDL" style="width:100%;" k-options="ultrasoundViewsDDLOptions" ng-model="currentUsType" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<div class="col-md-3"></div>-->
+                                <!--<div class="col-md-6">-->
+                                    <!--<button type="button" class="btn btn-primary pull-right" ng-click="SaveView()">Save</button>-->
+                                    <!--<button type="button" class="btn btn-danger pull-left" ng-click="cancelAdd()">Cancel</button>-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                        <!--</form>-->
+                    <!--</div>-->
+
+                    <!--<div ng-show="view.EditTags">-->
+                        <!--<form class="form-horizontal" name="US">-->
+                            <!--<div class="form-group">-->
+                                <!--<label class="control-label col-sm-3">Tag Name:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<input type="text" class="k-textbox" style="width:100%;" name="name" ng-model="tagsName">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<label class="control-label col-sm-3">View:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<input type="text" class="k-textbox" style="width:100%;" name="name" ng-model="viewName" ng-disabled="true">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group" ng-repeat="answer in Answers">-->
+                                <!--<label class="control-label col-sm-3">{{"Answer "}}{{$index+1}}:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<input class="k-textbox" type="text" style="width:100%;" ng-change="addAnswer($index)" ng-model="answer.Value" ng-disabled="iSNotAssessable(answer.Value)" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<div class="col-md-3"></div>-->
+                                <!--<div class="col-md-6">-->
+
+                                    <!--<button type="button" class="btn btn-primary pull-right" ng-click="EditTag()">Save</button>-->
+                                    <!--<button type="button" class="btn btn-danger pull-left" ng-click="cancelAdd()">Cancel</button>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</form>-->
+                    <!--</div>-->
+
+                    <!--<div ng-show="view.DeleteView">-->
+                        <!--<form class="form-horizontal" name="US">-->
+                            <!--<div>-->
+                                <!--Are you sure you want to delete this Item?-->
+                            <!--</div>-->
+                            <!--<div class="form-group row">-->
+                                <!--<div class="col-md-5 col-md-offset-5">-->
+                                    <!--<input id="saveMem" type="button" class='btn btn-primary' value='Yes' ng-click="deleteView()" />-->
+                                    <!--<input id="cancelMem" type="button" class='btn btn-danger' value='No' ng-click="cancelAdd()" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                        <!--</form>-->
+                    <!--</div>-->
+                    <!--<div ng-show="view.DeleteIndication">-->
+                        <!--<form class="form-horizontal" name="US">-->
+                            <!--<div>-->
+                                <!--Are you sure you want to delete this Item?-->
+                            <!--</div>-->
+                            <!--<div class="form-group row">-->
+                                <!--<div class="col-md-5 col-md-offset-5">-->
+                                    <!--<input id="saveMem" type="button" class='btn btn-primary' value='Yes' ng-click="deleteIndication()" />-->
+                                    <!--<input id="cancelMem" type="button" class='btn btn-danger' value='No' ng-click="cancelAdd()" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                        <!--</form>-->
+                    <!--</div>-->
+                    <!--<div ng-show="view.DeleteTags">-->
+                        <!--<form class="form-horizontal" name="US">-->
+                            <!--<div>-->
+                                <!--Are you sure you want to delete this Item?-->
+                            <!--</div>-->
+                            <!--<div class="form-group row">-->
+                                <!--<div class="col-md-5 col-md-offset-5">-->
+                                    <!--<input id="saveMem" type="button" class='btn btn-primary' value='Yes' ng-click="deleteTag()" />-->
+                                    <!--<input id="cancelMem" type="button" class='btn btn-danger' value='No' ng-click="cancelAdd()" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                        <!--</form>-->
+                    <!--</div>-->
+                    <!--<div ng-show="view.editIndications">-->
+                        <!--<form class="form-horizontal" name="US">-->
+                            <!--<div class="form-group" ng-repeat="indication in Indications">-->
+                                <!--<label class="control-label col-sm-3">{{"Indication "}}{{$index+1}}:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<input class="k-textbox" type="text" style="width:100%;" ng-change="addAnswer($index)" ng-model="indication.Value" ng-disabled="iSNotAssessable(answer.Value)" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group row">-->
+                                <!--<div class="col-md-5 col-md-offset-5">-->
+                                    <!--<input id="saveMem" type="button" class='btn btn-primary' value='Yes' ng-click="SaveIndication()" />-->
+                                    <!--<input id="cancelMem" type="button" class='btn btn-danger' value='No' ng-click="cancelAdd()" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</form>-->
+
+                    <!--</div>-->
+
+                    <!--<div ng-show="view.editView">-->
+                        <!--<form class="form-horizontal" name="US">-->
+                            <!--<div class="form-group row">-->
+                                <!--<label class="col-sm-3">View:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<input id="ustypeName" class="k-textbox" type="text" ng-model="viewname" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group row">-->
+                                <!--<div class="col-md-5 col-md-offset-5">-->
+                                    <!--<input id="saveMem" type="button" class='btn btn-primary' value='Save' ng-click="SaveView()" />-->
+                                    <!--<input id="cancelMem" type="button" class='btn btn-danger' value='Cancel' ng-click="cancelAdd()" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</form>-->
+                    <!--</div>-->
+                    <!--<div ng-show="view.editTag">-->
+                        <!--<form class="form-horizontal" name="US">-->
+                            <!--<div class="form-group row">-->
+                                <!--<label class="col-sm-3">Tag:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<input id="tagname" class="k-textbox" type="text" ng-model="TagName" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group row">-->
+                                <!--<div class="col-md-5 col-md-offset-5">-->
+                                    <!--<input id="saveMem" type="button" class='btn btn-primary' value='Save' ng-click="EditTag()" />-->
+                                    <!--<input id="cancelMem" type="button" class='btn btn-danger' value='Cancel' ng-click="cancelAdd()" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</form>-->
+                    <!--</div>-->
+                    <!--<div ng-show="view.editAnsw">-->
+                        <!--<form class="form-horizontal" name="US">-->
+                            <!--<div class="form-group" ng-repeat="answer in Answers">-->
+                                <!--<label class="control-label col-sm-3">{{"Answer "}}{{$index+1}}:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<input class="k-textbox" type="text" style="width:100%;" ng-change="addAnswer($index)" ng-model="answer.Value" ng-disabled="iSNotAssessable(answer.Value)" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group row">-->
+                                <!--<div class="col-md-5 col-md-offset-5">-->
+                                    <!--<input id="saveMem" type="button" class='btn btn-primary' value='Yes' ng-click="modifyAsws()" />-->
+                                    <!--<input id="cancelMem" type="button" class='btn btn-danger' value='No' ng-click="cancelAdd()" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</form>-->
+
+                    <!--</div>-->
+
+                    <!--<div ng-show="view.AddNewUs">-->
+                        <!--<form class="form-horizontal" name="US">-->
+
+                            <!--<div class="forms__group" ng-show="current.index==0">-->
+                                <!--<label class="control-label col-sm-3">Ultrasound Name:</label>-->
+                                <!--<div class="col-sm-9">-->
+                                    <!--<input type="text" class="k-textbox forms__input" name="name" ng-model="us.ultrasoundName">-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <!--<div ng-show="current.index==1">-->
+                                <!--<div class="forms__group" ng-repeat="indication in us.Indications">-->
+                                    <!--<label class="control-label col-sm-3">{{"Indication "}}{{$index+1}}:</label>-->
+                                    <!--<div class="col-sm-9">-->
+                                        <!--<input class="k-textbox forms__input" type="text" ng-change="addUsItems(us.Indications,$index)" ng-model="indication.Value" />-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <!--<div ng-show="current.index==2">-->
+                                <!--<div class="forms__group" ng-repeat="view in us.Views">-->
+                                    <!--<label class="control-label col-sm-3">{{"View "}}{{$index+1}}:</label>-->
+                                    <!--<div class="col-sm-9">-->
+                                        <!--<input class="k-textbox forms__input" type="text" style="width:100%;" ng-change="addUsTagItems(us.Views,$index)" ng-model="view.Value" />-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <!--<div class="create__last">-->
+                                <!--<div ng-show="current.index==3">-->
+                                    <!--<div class="create__last-wrap" ng-repeat="view in us.Views">-->
+
+                                        <!--<div class="forms__group">-->
+                                            <!--<label class="control-label col-sm-1">{{"View "}}{{$index+1}}:</label>-->
+
+                                            <!--<div class="col-sm-10">-->
+                                                <!--<input class="k-textbox forms__input" type="text" ng-model="view.Value" disabled />-->
+                                            <!--</div>-->
+
+                                            <!--<a ng-click="Addinput(view)" class="btn_add">-->
+                                                <!--<i class="fa fa-plus"></i>-->
+                                            <!--</a>-->
+                                        <!--</div>-->
+
+                                        <!--<div class="" ng-repeat="tag in view.tags track by $index" style="margin-top:10px;">-->
+                                            <!--<div class="forms__group">-->
+                                                <!--<label class="control-label col-sm-3">{{"Tag "}}{{$index+1}}:</label>-->
+                                                <!--<div class="col-sm-9">-->
+                                                    <!--<input type="text" class="k-textbox forms__input" ng-model="tag.tagName">-->
+                                                <!--</div>-->
+                                                <!--<a ng-click="addAnswer(tag)" class="btn_add">-->
+                                                    <!--<i class="fa fa-plus"></i>-->
+                                                <!--</a>-->
+                                            <!--</div>-->
+
+                                            <!--<div class="forms__group" ng-repeat="answer in tag.answers track by $index" style="margin-top:10px;">-->
+                                                <!--<label class="control-label col-sm-3">{{"Answer "}}{{$index+1}}:</label>-->
+                                                <!--<div class="col-sm-9">-->
+                                                    <!--<input type="text" class="k-textbox forms__input" ng-model="answer.Name">-->
+                                                <!--</div>-->
+                                                <!--<a class="btn_add btn_add_disabled">-->
+                                                    <!--<i class="fa fa-plus"></i>-->
+                                                <!--</a>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+
+                                        <!--<hr class="shape__line">-->
+
+                                    <!--</div>-->
+                                <!--</div>-->
+
+                            <!--</div>-->
+                            <!--&lt;!&ndash;<div class="form-group" ng-show="current.index == 4">-->
+                                <!--<div class="form-group" ng-repeat="tag in us.Views">-->
+                                    <!--<div class="row" >-->
+                                        <!--<label class="control-label col-sm-3">{{"Tag "}}{{$index+1}}:</label>-->
+                                        <!--<div class="col-sm-6">-->
+                                            <!--<input class="k-textbox" type="text" style="width:100%;" ng-model="tag.Value" disabled />-->
+                                        <!--</div>-->
+                                        <!--<a ng-click="Addinput(view)" class="btn_add">-->
+                                            <!--<i class="fa fa-plus"></i>-->
+                                        <!--</a>-->
+                                    <!--</div>-->
+                                    <!--<div class="form-group" ng-repeat="answer in Answers track by $index" style="margin-top:10px;">-->
+                                        <!--<label class="control-label col-sm-3">{{"Answer "}}{{$index+1}}:</label>-->
+                                        <!--<div class="col-sm-6">-->
+                                            <!--<input type="text" class="k-textbox" style="width:100%;">-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>&ndash;&gt;-->
+                            <!--<div class="shape__footer">-->
+
+                                <!--<button type="button" class="button__c button_c-info"-->
+                                        <!--ng-click="goPrev()" ng-disabled="isInexFirst()">Prev</button>-->
+
+                                <!--<button type="button" class="button__c"-->
+                                        <!--ng-disabled="isModelValid()" ng-show="current.index <= 2" ng-click="goNext(currentIndex)">Next</button>-->
+
+                                <!--<button type="button" class="button__c"-->
+                                        <!--ng-show="current.index == 3" ng-click="addUltrasound()">Save</button>-->
+
+                            <!--</div>-->
+                            <!--&lt;!&ndash;</div>-->
+                            <!--&lt;!&ndash;<div class="form-group">-->
+                                <!--<label class="control-label col-sm-3">Indication:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<input type="text" class="k-textbox" style="width:100%;" name="name" ng-model="viewName" ng-disabled="true">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<label class="control-label col-sm-3">Indication:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<input type="text" class="k-textbox" style="width:100%;" name="name" ng-model="viewName" ng-disabled="true">-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <!--<div class="form-group" ng-repeat="answer in Answers">-->
+                                <!--<label class="control-label col-sm-3">{{"Answer "}}{{$index+1}}:</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<input class="k-textbox" type="text" style="width:100%;" ng-change="addAnswer($index)" ng-model="answer.Value" ng-disabled="iSNotAssessable(answer.Value)" />-->
+                                <!--</div>-->
+                            <!--</div>&ndash;&gt;-->
+                        <!--</form>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+

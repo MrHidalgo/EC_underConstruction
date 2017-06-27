@@ -1,0 +1,194 @@
+﻿<div class="container-fluid">
+
+    <!-- number_of_reviewed_ultrasounds -->
+    <div class="shape">
+
+        <div class="shape__header">
+            {{"Number of reviewed Registration"}}
+        </div>
+
+        <div class="shape__body shape__body-padding shape__body-graph">
+
+            <button type="button"
+                    class="button__c button__c-left"
+                    data-toggle="tooltip"
+                    title={{"older"|translate}}
+                    ng-click="loadOlder()">
+                <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+            </button>
+
+            <canvas class="chart chart-line" chart-data="data"
+                    chart-labels="labels" chart-series="series" chart-options="options"
+                    chart-dataset-override="datasetOverride"></canvas>
+
+            <button type="button"
+                    data-toggle="tooltip"
+                    class="button__c button__c-right"
+                    title={{"newer"|translate}}
+                    ng-click="loadNewer()"
+                    ng-disabled="referenceDate >= currentDate">
+                <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            </button>
+
+        </div>
+
+        <div class="shape__body clearfix">
+
+            <div class="history-table-wrapper">
+                <div class="table-responsive white-bg">
+                    <div id="history-table-header-group">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <td width="20%" class="history-table-header"></td>
+                                    <td colspan="2" width="40%" class="history-table-header">{{"total"|translate}}</td>
+                                    <td colspan="2" width="40%" class="history-table-header">{{"individual"|translate}}</td>
+                                </tr>
+                                <tr>
+                                    <td width="20%" class="history-table-subheader">{{"Registration Type"}}</td>
+                                    <td width="20%" class="history-table-subheader">{{"total_reviews"|translate}}</td>
+                                    <td width="20%" class="history-table-subheader">{{"approved"|translate}}</td>
+                                    <td width="20%" class="history-table-subheader">{{"total_reviews"|translate}}</td>
+                                    <td width="20%" class="history-table-subheader">{{"approved"|translate}}</td>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div id="scrolling">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr ng-repeat="stat in stats.UltrasoundStats">
+                                    <td width="20%" align="center">{{stat.Name|translate}}</td>
+                                    <td width="20%" align="center">{{stat.TotalReviewed}}</td>
+                                    <td width="20%" align="center">{{stat.TotalApproved}}%</td>
+                                    <td width="20%" align="center">{{stat.UserReviewed}}</td>
+                                    <td width="20%" align="center">{{stat.UserApproved}}%</td>
+                                </tr>
+                                <tr>
+                                    <td width="20%" class="history-table-footer" align="center"><b>{{"total"|translate}}</b></td>
+                                    <td width="20%" class="history-table-footer" align="center"><b>{{stats.TotalReviewed}}</b></td>
+                                    <td width="20%" class="history-table-footer" align="center"><b>{{stats.TotalApproved}}%</b></td>
+                                    <td width="20%" class="history-table-footer" align="center"><b>{{stats.UserReviewed}}</b></td>
+                                    <td width="20%" class="history-table-footer" align="center"><b>{{stats.UserApproved}}%</b></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <td width="20%" class="history-table-header"></td>
+                                    <td colspan="2" width="40%" class="history-table-header"></td>
+                                    <td colspan="2" width="40%" class="history-table-header"></td>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- end number_of_reviewed_ultrasounds -->
+
+    <!--<div class="shape">
+
+        <div class="shape__header">
+            {{"progress"|translate }}
+        </div>
+
+        <div class="shape__body clearfix">
+
+           
+            <hr class="shape__line_transparent clearfix">
+
+            <div class="row">
+                <div class="col-md-offset-3 col-md-6 col-xs-offset-2 col-xs-8">
+                    <select class="forms__input" id="ultrasoundType" ng-model="sultrasoundType" ng-change="sloadProgress()"
+                            ng-options="ultrasoundType.Name|translate for ultrasoundType in sultrasoundTypes track by ultrasoundType.Id">
+                        <option value="" disabled selected>{{'select_a_value'|translate}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="shape_half shape_half_left">
+                <hr class="shape__line_medium clearfix">
+
+                <h4 style="padding-left: 15px;border-right: 1px solid #eee;">{{"progress_normal_ultrasounds"|translate }}</h4>
+
+                <hr class="shape__line_medium clearfix">
+
+                <div class="shape__body shape__body-padding shape__body-graph" style="border-right: 1px solid #eee;">
+
+                    <button type="button"
+                            data-toggle="tooltip"
+                            class="button__c button__c-left"
+                            title={{"older"|translate}}
+                            ng-click="sloadOlder(true)">
+                        <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                    </button>
+
+                    <canvas class="chart chart-line" chart-data="snormalData"
+                            chart-labels="snormaLabels" chart-series="sseries" chart-options="options"
+                            chart-dataset-override="datasetOverride"></canvas>
+
+                    <button type="button"
+                            data-toggle="tooltip"
+                            class="button__c button__c-right"
+                            title={{"newer"|translate}}
+                            ng-click="sloadNewer(true)" ng-disabled="snormalReferenceDate >= currentDate">
+                        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    </button>
+
+                </div>
+            </div>
+
+            <div class="shape_half shape_half_right">
+                <hr class="shape__line_medium clearfix">
+
+                <h4 style="padding-left: 15px;border-left: 1px solid #eee;">{{"progress_nonnormal_ultrasounds"|translate }}</h4>
+
+                <hr class="shape__line_medium clearfix">
+
+                <div class="shape__body shape__body-padding shape__body-graph" style="border-left: 1px solid #eee;">
+
+                    <button type="button"
+                            class="button__c button__c-left"
+                            data-toggle="tooltip"
+                            title={{"older"|translate}}
+                            ng-click="sloadOlder(false)">
+                        <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                    </button>
+
+                    <canvas class="chart chart-line" chart-data="snonNormalData"
+                            chart-labels="snonNormalLabels" chart-series="sseries" chart-options="options"
+                            chart-dataset-override="datasetOverride"></canvas>
+
+                    <button type="button"
+                            title={{"newer"|translate}}
+                            data-toggle="tooltip"
+                            class="button__c button__c-right"
+                            ng-click="sloadNewer(false)" ng-disabled="snonNormalReferenceDate >= currentDate">
+                        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    </button>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>-->
+
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip({
+            placement : "top"
+            , trigger : "hover"
+        }).on('click', function () {
+            $(this).tooltip('hide')
+        });
+    });
+</script>

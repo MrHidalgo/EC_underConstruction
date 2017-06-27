@@ -1,0 +1,62 @@
+﻿<!-- header -->
+<div class="modals__header">
+
+    <span class="modals__header-text">{{"Report upload"}}</span>
+
+    <a href="javascript:void(0);"
+       class="modals__close modals__close_white"
+       ng-click="cancelReport()">
+        <i class="fa fa-times"></i>
+    </a>
+</div>
+
+<!-- body -->
+<div class="modals__body">
+    <form name="contactForm" class="contactForm">
+        <div class="col-xs-12">
+            <div class="forms__checkbox ">
+                <input class="checkbox__btn" type="checkbox" id="reason1" ng-model="report.filesIncludePatient">
+                <label class="checkbox__label" for="reason1">
+                    <i class="checkbox__icon"></i>
+                    <span class="checkbox__text">{{"files_included_patient_information"|translate}}</span>
+                </label>
+            </div>
+            <br />
+            <div class="forms__checkbox">
+                <input class="checkbox__btn" type="checkbox" id="reason2" ng-model="report.filesNotSubject">
+                <label class="checkbox__label" for="reason2">
+                    <i class="checkbox__icon"></i>
+                    <span class="checkbox__text">{{"files_not_on_subject"|translate}}</span>
+                </label>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <hr class="shape__line_medium"/>
+        <div class="col-xs-12">
+            <div class="forms__group forms__group_top">
+                <label class="col-sm-3">{{"other" | translate}}</label>
+                <div class="col-sm-9 col-xs-12">
+                    <textarea class="forms__input forms__input_textarea"
+                              required rows="3" maxlength="1024" name="message"
+                              ng-model="report.Other"></textarea>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<!-- footer -->
+<div class="modals__footer">
+    <button type="button"
+            class="button__c"
+            ng-click="cancelReport()">
+        {{"cancel" | translate}}
+    </button>
+
+    <button type="button"
+            class="button__c"
+            ng-click="sendReport()">
+        {{"Report"}}
+    </button>
+</div>

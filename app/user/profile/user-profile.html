@@ -1,0 +1,118 @@
+﻿<div class="container">
+    <div class="row">
+
+        <div class="shape" ng-init="fillProfile()">
+
+            <!-- header -->
+            <div class="shape__header">{{"profile"|translate}}</div>
+
+            <!-- body -->
+            <div class="shape__body clearfix">
+
+                <!-- shape left -->
+                <div class="shape__left">
+
+                    <!-- avatar -->
+                    <div class="shape__profile">
+                        <div class="shape__profile-wrap">
+                            <i class="shape__profile-icon icon-user"></i>
+                        </div>
+                    </div>
+
+                    <!-- link -->
+                    <div class="shape__link-wrap">
+                        <!--<a href="" data-link="0" class="shape__link active">General Info</a>-->
+                    </div>
+                </div>
+
+                <!-- shape right -->
+                <div class="shape__right animated"
+                     ng-show="isResponseTrue"
+                     ng-class="{fadeIn : isResponseTrue}">
+                    <p class="shape__name">{{ userProfileInfo }}</p>
+
+                    <p class="shape__speciality" ng-show="!isInCollege">{{ user.Speciality|translate}}, {{user.UserLoT|translate}}</p>
+
+                    <div class="shape__right-wrap">
+
+                        <!--<hr class="shape__line">-->
+
+                        <!--<div class="shape__groups">-->
+                            <!--<span class="shape__label">{{"level_of_training"|translate}}:</span>-->
+                            <!--<span class="shape__info">{{ user.UserLoT|translate }}</span>-->
+                        <!--</div>-->
+
+                        <!--<hr class="shape__line">
+
+                        <div class="shape__groups">
+                            <span class="shape__label">{{"Language"|translate}}:</span>
+                            <span class="shape__info shape__info-{{user.Language.Key}}">
+                                <i class="shape__icon"></i>
+                                <span class="shape__info">{{languageName | translate}}</span>
+                            </span>
+                        </div>-->
+
+                        <!--<hr class="shape__line">-->
+
+                        <div class="shape__groups" ng-show="!isInCollege">
+                            <span class="shape__label">{{"hospital"|translate}}:</span>
+                            <span class="shape__info">{{ user.UserHospital }}</span>
+                        </div>
+                        <div class="shape__groups" ng-show="isInCollege">
+                            <span class="shape__label">{{"School"}}:</span>
+                            <span class="shape__info">{{ user.College }}</span>
+                        </div>
+
+                        <hr class="shape__line">
+
+                        <div class="shape__groups">
+                            <span class="shape__label">{{"country"|translate}}:</span>
+                            <span class="shape__info">{{ user.Country|translate }}</span>
+                        </div>
+
+                        <hr class="shape__line">
+
+                        <div class="shape__groups">
+                            <span class="shape__label">{{"email"|translate}}:</span>
+                            <span class="shape__info">
+                                <a href="mailto:{{user.Email}}">{{ user.Email }}</a>
+                            </span>
+                        </div>
+
+                        <hr class="shape__line">
+
+                        <div class="shape__groups">
+                            <span class="shape__label">{{"end_subscription"|translate}}:</span>
+                            <span class="shape__info">{{ user.EndSubscription | date:'dd/MM/yyyy' }}</span>
+                        </div>
+
+                        <hr class="shape__line" ng-show="user.UserLoT=='AIOS'">
+
+                        <div class="shape__groups" ng-show="user.UserLoT=='AIOS'">
+                            <span class="shape__label">{{"year_of_studying"|translate}}:</span>
+                            <span class="shape__info">{{ user.YearOfStudying }}</span>
+                        </div>
+
+                        <hr class="shape__line" ng-show="user.UserLoT=='AIOS'">
+
+                        <div class="shape__groups" ng-show="user.UserLoT=='AIOS'">
+                            <span class="shape__label">{{"semester_of_studying"|translate}}:</span>
+                            <span class="shape__info">{{ user.SemesterStudying }}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- footer -->
+            <div class="shape__footer">
+                <button type="button"
+                        class="button__c btn__edit"
+                        ng-click="editProfile()">
+                    {{"edit_profile"|translate}}
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,24 @@
+.language .language__drop .icon-sp-i-flag-gb {
+  background-image: url(../Images/sprite.png);
+  background-position: 0px 0px;
+  width: 32px;
+  height: 32px;
+}
+.language .language__drop .icon-sp-i-flag-nl {
+  background-image: url(../Images/sprite.png);
+  background-position: -37px 0px;
+  width: 32px;
+  height: 32px;
+}
+
+@media (-webkit-min-device-pixel-ratio: 2),
+       (min-resolution: 192dpi) {
+  .language .language__drop .icon-sp-i-flag-gb {
+    background-image: url(../Images/sprite@2x.png);
+    background-size: 69px 32px;
+  }
+  .language .language__drop .icon-sp-i-flag-nl {
+    background-image: url(../Images/sprite@2x.png);
+    background-size: 69px 32px;
+  }
+}

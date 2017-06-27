@@ -1,0 +1,20 @@
+﻿<div class="upload-box light-blue" 
+     ngf-select="uploadFiles($files)" 
+     ngf-drop="uploadFiles($files)" 
+     ng-model="files" 
+     ngf-multiple="true" 
+     ngf-pattern="settings.pattern" 
+     ngf-accept="settings.accept" 
+    
+     ngf-keep="'distinct'"
+     ngf-max-size="settings.maxSize"
+     ngf-max-files="settings.maxFiles" 
+     ngf-allow-dir="true"                
+     ngf-include-dir="true"
+     ngf-drop-available="dropAvailable">
+    <div class="text-center font100 light-blue" ng-class="isNullOrUndefined(files) || files.length === 0 ? 'font100': 'font50'">
+        <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+    </div>
+    <p class="text-center light-blue">Select or drag and drop file(s) here to upload</p>
+    
+</div>

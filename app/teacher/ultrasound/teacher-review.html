@@ -1,0 +1,902 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="swap">
+                
+                <div class="swap__body clearfix">
+
+                    <div class="swap_left">
+
+                        <div class="swap__image-preview">
+
+                            <button type="button" class="swap__image-prev"
+                                    ng-show="showBtnNextPrev()"
+                            >
+                                <i class="fa fa-angle-left"></i>
+                            </button>
+
+                            <div class="swap__image-wrap">
+
+                                <img class="keep-ratio__image"
+                                     ng-repeat="file in files"
+                                     ng-src="{{file.Filepath}}"
+                                />
+
+                                <div class="swap__main-btn">
+                                    <button type="button" class="button__c button__c-danger"
+                                            ng-disabled="isNullUndefinedOrWhitespace(selectedFile)"
+                                            ng-click="reviewFile(selectedFile.FileId, false)"
+                                    >
+                                        {{"reject"|translate}}
+                                    </button>
+
+                                    <button type="button" class="button__c button_c-edit"
+                                            ng-disabled="isNullUndefinedOrWhitespace(selectedFile)"
+                                            ng-click="reviewFile(selectedFile.FileId, true)"
+                                    >
+                                        {{"approve"|translate}}
+                                    </button>
+                                </div>
+
+                            </div>
+
+                            <button type="button" class="swap__image-next"
+                                    ng-show="showBtnNextPrev()"
+                            >
+                                <i class="fa fa-angle-right"></i>
+                            </button>
+
+                        </div>
+
+                        <div class="swap__image-btn clearfix">
+
+                            <a href="javascript:void(0);" class="swap__image-btn--full"
+                               ng-click="enlarge(selectedFile.Filepath)"
+                            >
+                                <i class="fa fa-arrows-alt"></i>
+                                Show full size
+                            </a>
+
+                        </div>
+
+                        <div class="swap__image-list"
+                             ng-class="whatClassIsIt(files.length)">
+
+                            <div ng-repeat="file in files">
+
+                                <div class="swap__image-field"
+                                     ng-init="loadFirstFileDetails()"
+                                     ng-click="loadFileDetails(file.Id, this)">
+
+                                    <img class="keep-ratio__image"
+                                         ng-if="!isVideoFile(file.Filepath)"
+                                         ng-src="{{file.Filepath}}" />
+
+                                    <img class="keep-ratio__image"
+                                         ng-if="isVideoFile(file.Filepath)"
+                                         ng-src="{{file.Thumbnail}}" />
+
+                                </div>
+
+                                <!-- file type -->
+                                <span class="swap__image-type">
+                                    {{fileName(file)}}
+                                </span>
+
+                                <!-- file status -->
+                                <span class="swap__image-status"
+                                      ng-if="file.Approved || file.Approved === false">
+                                    <i class="fa fa-check"
+                                       ng-if="file.Approved"></i>
+                                    <i class="fa fa-times"
+                                       ng-if="file.Approved === false"></i>
+                                </span>
+
+                                <!-- message indication ??? not corrects -->
+                                <span class="swap__image-message"
+                                      ng-if="file.HasUnrepliedMessages && unreadMessageCount > 0">
+                                    {{unreadMessageCount}}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="swap_right">
+
+                        <div class="swap__header clearfix">
+
+                            <div class="swap__header_left">
+                                <p class="swap__title">
+                                    {{"files_reviewed"|translate}} : {{filesReviewed || 0}} / {{files.length}}
+                                </p>
+                            </div>
+
+                            <div class="swap__header_right">
+                                <div class="shape__header_right">
+                                    <a href="javascript:void(0);"
+                                       class="modals__close swap__btn-close"
+                                       ng-click="close()">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="swap__section">
+
+                            <!-- 1 collapse tabs -->
+                            <div class="swap__collapse ">
+                                <h3 class="swap__collapse-title">
+
+                                    {{"general_information"|translate}}
+
+                                    <i class="fa fa-caret-up" aria-hidden="true"></i>
+                                </h3>
+
+                                <div class="swap__collapse-body">
+
+                                    <div class="shape__groups shape__groups-half clearfix">
+                                        <span class="shape__label col-xs-4">{{"ultrasound_type"|translate}}:</span>
+                                        <span class="col-xs-1" style="text-align: center;">-</span>
+                                        <span class="shape__info col-xs-7">
+                                            <span class="shape__info-column"
+                                                  ng-repeat="ultrasound in submission.ultrasoundType">{{ultrasound.Name|translate}}</span>
+                                        </span>
+                                    </div>
+
+                                    <hr class="shape__line shape__line_transparent">
+
+                                    <div class="shape__groups shape__groups-half clearfix">
+                                        <span class="shape__label col-xs-4">{{ "patient_age"|translate}}:</span>
+                                        <span class="col-xs-1" style="text-align: center;">-</span>
+                                        <span class="shape__info col-xs-7">{{submission.patientAge}}</span>
+                                    </div>
+
+                                    <hr class="shape__line shape__line_transparent">
+
+                                    <div class="shape__groups shape__groups-half clearfix">
+                                        <span class="shape__label col-xs-4">{{"patient_gender"|translate}}:</span>
+                                        <span class="col-xs-1" style="text-align: center;">-</span>
+                                        <span class="shape__info col-xs-7">{{submission.patientGender ? "male" : "female"|translate }}</span>
+                                    </div>
+
+                                    <hr class="shape__line shape__line_transparent">
+
+                                    <div class="shape__groups shape__groups-half clearfix" ng-if="submission.indications.length > 0">
+                                        <span class="shape__label col-xs-4">{{"indications"|translate}}:</span>
+                                        <span class="col-xs-1" style="text-align: center;">-</span>
+                                        <span class="shape__info col-xs-7">
+                                            <span ng-repeat="indication in submission.indications">{{indication|translate}}<span ng-if="!$last">, </span></span>
+                                        </span>
+                                    </div>
+
+                                    <hr class="shape__line shape__line_transparent">
+
+                                    <div class="shape__groups shape__groups-half clearfix">
+                                        <span class="shape__label col-xs-4">{{ "conclusion"|translate}}:</span>
+                                        <span class="col-xs-1" style="text-align: center;">-</span>
+                                        <span class="shape__info col-xs-7">{{ submission.conclusion ? "normal" : "not_normal"|translate}}</span>
+                                    </div>
+
+                                    <hr class="shape__line shape__line_transparent">
+
+                                    <div class="shape__groups shape__groups-half clearfix"
+                                         ng-if="!isNullUndefinedOrWhitespace(submission.remarks)">
+                                        <span class="shape__label col-xs-4">{{"remark"|translate}}:</span>
+                                        <span class="col-xs-1" style="text-align: center;">-</span>
+                                        <span class="shape__info col-xs-7">{{submission.remarks}}</span>
+                                    </div>
+
+                                    <hr class="shape__line shape__line_transparent">
+
+                                </div>
+                            </div>
+
+                            <!-- 2 collapse tabs -->
+                            <div class="swap__collapse ">
+                                <h3 class="swap__collapse-title">
+
+                                    {{"student_interpretation"|translate}}
+
+                                    <i class="fa fa-caret-up" aria-hidden="true"></i>
+                                </h3>
+
+                                <div class="swap__collapse-body">
+
+                                    <hr class="shape__line shape__line_transparent">
+
+                                    <div class="shape__groups clearfix">
+                                        <span class="shape__label col-sm-3">{{"view"|translate}}:</span>
+                                        <span class="col-xs-1" style="text-align: center;">-</span>
+                                        <span class="shape__info col-sm-8">{{selectedFile.ViewTypeName|translate}}</span>
+                                    </div>
+
+                                    <hr class="shape__line shape__line_transparent">
+
+                                    <div class="shape__groups shape__groups-column clearfix">
+                                        <span class="shape__label col-sm-3">{{"finding"|translate}}:</span>
+                                        <span class="col-xs-1" style="text-align: center;">-</span>
+                                        <span class="shape__info col-sm-8">
+                                            <span class="shape__info-column" ng-repeat="finding in selectedFile.SelectedFindings">
+                                                <span class="col-xs-6" style="padding-left: 0;">{{ finding.FindingName|translate}}</span>
+                                                <span class="col-xs-1"> - </span>
+                                                <span class="col-xs-4" ng-if="finding.Type === 'number'"> {{finding.Value}} </span>
+                                                <span class="col-xs-4" ng-bind-html="finding.OptionName|translate | trustAsHtml"></span>
+                                                <br>
+                                            </span>
+                                        </span>
+                                    </div>
+
+                                    <hr class="shape__line shape__line_transparent">
+
+                                    <div class="shape__groups clearfix"
+                                         ng-if="selectedFile.Observations !== ''">
+                                        <span class="shape__label col-sm-3">{{"other"|translate}}:</span>
+                                        <span class="col-xs-1" style="text-align: center;">-</span>
+                                        <span class="shape__info col-sm-8">{{selectedFile.Observations}}</span>
+                                    </div>
+
+                                    <hr class="shape__line shape__line_transparent">
+
+                                </div>
+                            </div>
+
+                            <!-- 3 collapse tabs -->
+                            <div class="swap__collapse active">
+                                <h3 class="swap__collapse-title">
+
+                                    {{"general_assessment_teacher"|translate}}
+
+                                    <i class="fa fa-caret-up" aria-hidden="true"></i>
+                                </h3>
+
+                                <div class="swap__collapse-body swap__collapse-message">
+
+                                    <div class="swap__message clearfix">
+
+                                        <div class="swap__message-body"
+                                             ng-class="(currentUser === message.Username) ? 'swap__message_even' : 'swap__message_odd'"
+                                             ng-repeat="message in submission.messages | orderBy : 'SentOn'">
+
+                                            <dt>
+                                                <span class="medium-blue"
+                                                      ng-if="currentUser === message.Username">{{"me"|translate}}</span>
+                                                <span class="medium-blue"
+                                                      ng-if="currentUser !== message.Username">{{"student"|translate}}</span>
+
+                                                <span> - </span>
+
+                                                <small class="text-muted light-blue">
+                                                    <span class="glyphicon glyphicon-time"></span> {{toLocalDate(message.SentOn) | date : "short"}}
+                                                </small>
+                                            </dt>
+
+                                            <dd>{{message.Text}}</dd>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="swap__message-input">
+
+                                        <textarea id="comment"
+                                                  class="forms__input swap__message-textarea swap__message-textarea_full"
+                                                  ng-model="submission.message">
+                                        </textarea>
+
+                                    </div>
+
+
+                                    <div class="swap__btn">
+                                        <button type="button"
+                                                class="button__c button_c-warning"
+                                                title="Report to admin because of privacy violation, or otherwise unwanted contents"
+                                                ng-click="reportSubmission()"
+                                        >
+                                            {{"Report"|translate}}
+                                        </button>
+                                        <button type="button"
+                                                class="button__c button__c-danger"
+                                                ng-disabled="isAllRejectApprove()"
+                                                ng-click="review(false)"
+                                        >
+                                            {{"reject"|translate}}
+                                        </button>
+
+                                        <button type="button"
+                                                class="button__c button_c-edit"
+                                                ng-disabled="isAllRejectApprove()"
+                                                ng-click="review(true)"
+                                        >
+                                            {{"approve"|translate}}
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    $(".swap__collapse-title").on("click", function() {
+        var self = $(this),
+            currentFieldCollapse = self.closest(".swap__collapse"),
+            allFieldCollapse = $(".swap__collapse");
+
+        allFieldCollapse.removeClass("active");
+        currentFieldCollapse.addClass("active");
+    });
+</script>
+
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-offset-1 col-md-10">
+
+            <div class="shape">
+
+                <!-- header -->
+                <!--<div class="shape__header">-->
+                    <!--<span>{{"files_reviewed"|translate}} : {{filesReviewed || 0}} / {{files.length}}</span>-->
+
+                    <!--<div class="shape__header_right">-->
+                        <!--<a href="javascript:void(0);"-->
+                           <!--class="modals__close modals__close_white"-->
+                           <!--style="padding: 10px 0 10px 15px;"-->
+                           <!--ng-click="close()">-->
+                            <!--<i class="fa fa-times"></i>-->
+                        <!--</a>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!-- end header -->
+                <!-- body -->
+                <div class="shape__body">
+
+                    <!-- preview image [count] -->
+                    <!--<div class="shape_top shape__body-paddingLRB animated fadeIn">-->
+
+                        <!--<div class="thumb-container teacher-review animated fadeIn"-->
+                             <!--ng-class="whatClassIsIt(files.length)"-->
+                             <!--ng-if="!isNullOrUndefined(files) && files.length > 0">-->
+
+                            <!--<div class="teacher-review__image" ng-repeat="file in files" ng-init="loadFirstFileDetails()">-->
+
+                                <!--<div class="keep-ratio" ng-click="loadFileDetails(file.Id, this)"-->
+                                     <!--ng-class="file.Id && selectedFile && file.Id === selectedFile.fileId ? 'selected' : ''">-->
+                                    <!--<img class="keep-ratio__image" ng-if="!isVideoFile(file.Filepath)"-->
+                                         <!--ng-src="{{file.Filepath}}" />-->
+                                    <!--<img class="keep-ratio__image" ng-if="isVideoFile(file.Filepath)"-->
+                                         <!--ng-src="{{file.Thumbnail}}" />-->
+                                <!--</div>-->
+
+                                <!--&lt;!&ndash; icon btn/!btn block main &ndash;&gt;-->
+                                <!--<div class="search__icon-container">-->
+                                    <!--&lt;!&ndash; Preview &ndash;&gt;-->
+                                    <!--<div class="search__icon-field search__icon_light">-->
+                                        <!--<div class="search__icon-wrap" ng-click="enlarge(file.Filepath)">-->
+                                            <!--<i class="fa" ng-class="isVideoFile(file.Filepath) ? 'fa-play' :'fa-arrows-alt'" aria-hidden="true"></i>-->
+                                        <!--</div>-->
+                                        <!--<span class="search__icon-text">{{isVideoFile(file.Filepath) ? 'Play' :'Preview'}}</span>-->
+                                    <!--</div>-->
+
+                                    <!--&lt;!&ndash; Status &ndash;&gt;-->
+                                    <!--<div class="search__icon-field search__icon_light">-->
+                                        <!--<div class="search__icon-wrap" ng-class="{-->
+                                            <!--'approved' : file.Approved,-->
+                                            <!--'rejected' : file.Approved === false,-->
+                                            <!--'pending' : file.Approved === null || file.Approved === undefined}">-->
+                                        <!--</div>-->
+                                        <!--<span class="search__icon-text" ng-if="file.Approved">Approved</span>-->
+                                        <!--<span class="search__icon-text" ng-if="file.Approved === false">Rejected</span>-->
+                                        <!--<span class="search__icon-text" ng-if="file.Approved === null || file.Approved === undefined">Pending</span>-->
+                                    <!--</div>-->
+
+                                    <!--&lt;!&ndash; Notify &ndash;&gt;-->
+                                    <!--<div class="search__icon-field search__icon_light" ng-if="file.HasUnrepliedMessages">-->
+                                        <!--<div class="search__icon-wrap message">-->
+                                            <!--<i class="fa fa-envelope" aria-hidden="true"></i>-->
+                                        <!--</div>-->
+                                        <!--<span class="badge message_count" ng-if="unreadMessageCount > 0">{{unreadMessageCount}}</span>-->
+                                        <!--<span class="search__icon-text">Message</span>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+
+                        <!--<hr class="shape__line_small">-->
+
+                        <!-- btn details info current image -->
+                        <!--<div class="shape__btn-wrap">-->
+                            <!--<button type="button"-->
+                                    <!--class="button__c button__c-fixed button__c-danger button__c-marginTB"-->
+                                    <!--ng-disabled="isNullUndefinedOrWhitespace(selectedFile)"-->
+                                    <!--ng-click="reviewFile(selectedFile.FileId, false)">-->
+                                <!--{{"reject"|translate}}-->
+                            <!--</button>-->
+
+                            <!--<button type="button"-->
+                                    <!--class="button__c button__c-fixed button_c-edit button__c-marginTB"-->
+                                    <!--ng-disabled="isNullUndefinedOrWhitespace(selectedFile)"-->
+                                    <!--ng-click="reviewFile(selectedFile.FileId, true)">-->
+                                <!--{{"approve"|translate}}-->
+                            <!--</button>-->
+                        <!--</div>-->
+                        <!-- end btn details info current image -->
+
+                    <!--</div>-->
+                    <!-- end preview image [count] -->
+                    <!-- preview image information -->
+                    <div class="shape_bottom shape__body-padding">
+
+                        <!-- general info -->
+                        <!--<div class="shape__body-collapse&#45;&#45;wrap">-->
+
+                            <!--<p class="shape__name shape__name_medium shape__name_two shape__name-collapse active">-->
+                                <!--{{"general_information"|translate}}-->
+                                <!--<span>-->
+                                    <!--<span class="shape__name_hide">{{"hide"|translate}}</span>-->
+                                    <!--<span class="shape__name_show">{{"show"|translate}}</span>-->
+                                    <!--<i class="fa fa-angle-double-up" aria-hidden="true"></i>-->
+                                <!--</span>-->
+                            <!--</p>-->
+
+                            <!--<div class="shape__body-collapse active">-->
+
+                                <!--&lt;!&ndash; form general information &ndash;&gt;-->
+                                <!--<form class="form-horizontal clearfix">-->
+
+                                    <!--<hr class="shape__line shape__line_transparent">-->
+
+                                    <!--<div class="shape__groups shape__groups-half clearfix">-->
+                                        <!--<span class="shape__label col-xs-3">{{"ultrasound_type"|translate}}:</span>-->
+                                        <!--<span class="shape__info col-xs-8">-->
+                                            <!--<span class="shape__info-column"-->
+                                                  <!--ng-repeat="ultrasound in submission.ultrasoundType">{{ultrasound.Name|translate}}</span>-->
+                                        <!--</span>-->
+                                    <!--</div>-->
+
+                                    <!--<hr class="shape__line shape__line_transparent">-->
+
+                                    <!--<div class="shape__groups shape__groups-half clearfix">-->
+                                        <!--<span class="shape__label col-xs-3">{{ "patient_age"|translate}}:</span>-->
+                                        <!--<span class="shape__info col-xs-8">{{submission.patientAge}}</span>-->
+                                    <!--</div>-->
+
+                                    <!--<hr class="shape__line shape__line_transparent">-->
+
+                                    <!--<div class="shape__groups shape__groups-half clearfix">-->
+                                        <!--<span class="shape__label col-xs-3">{{"patient_gender"|translate}}:</span>-->
+                                        <!--<span class="shape__info col-xs-8">{{submission.patientGender ? "male" : "female"|translate }}</span>-->
+                                    <!--</div>-->
+
+                                    <!--<hr class="shape__line shape__line_transparent">-->
+
+                                    <!--<div class="shape__groups shape__groups-half clearfix" ng-if="submission.indications.length > 0">-->
+                                        <!--<span class="shape__label col-xs-3">{{"indications"|translate}}:</span>-->
+                                        <!--<span class="shape__info col-xs-8">-->
+                                            <!--<span ng-repeat="indication in submission.indications">{{indication|translate}}<span ng-if="!$last">, </span></span>-->
+                                        <!--</span>-->
+                                    <!--</div>-->
+
+                                    <!--<hr class="shape__line shape__line_transparent">-->
+
+                                    <!--<div class="shape__groups shape__groups-half clearfix">-->
+                                        <!--<span class="shape__label col-xs-3">{{ "conclusion"|translate}}:</span>-->
+                                        <!--<span class="shape__info col-xs-8">{{ submission.conclusion ? "normal" : "not_normal"|translate}}</span>-->
+                                    <!--</div>-->
+
+                                    <!--&lt;!&ndash;<hr class="shape__line" ng-if="!isNullUndefinedOrWhitespace(submission.remarks)">&ndash;&gt;-->
+                                    <!--<hr class="shape__line shape__line_transparent">-->
+
+                                    <!--<div class="shape__groups shape__groups-half clearfix"-->
+                                         <!--ng-if="!isNullUndefinedOrWhitespace(submission.remarks)">-->
+                                        <!--<span class="shape__label col-xs-3">{{"remark"|translate}}:</span>-->
+                                        <!--<span class="shape__info col-xs-8">{{submission.remarks}}</span>-->
+                                    <!--</div>-->
+
+                                    <!--<hr class="shape__line shape__line_transparent">-->
+
+                                <!--</form>-->
+                                <!--&lt;!&ndash; end form general information &ndash;&gt;-->
+
+                            <!--</div>-->
+
+                        <!--</div>-->
+                        <!-- end general info -->
+                        <!-- student interpretation -->
+                        <div class="shape__body-collapse--wrap shape_two shape_paddingB">
+
+                            <!--<p class="shape__name shape__name_medium shape__name_two shape__name-collapse active">-->
+                                <!--{{"student_interpretation"|translate}}-->
+                                <!--<span>-->
+                                    <!--<span class="shape__name_hide">{{"hide"|translate}}</span>-->
+                                    <!--<span class="shape__name_show">{{"show"|translate}}</span>-->
+                                    <!--<i class="fa fa-angle-double-up" aria-hidden="true"></i>-->
+                                <!--</span>-->
+                            <!--</p>-->
+
+                            <div class="shape__body-collapse active">
+
+                                <form class="form-horizontal" id="common_data">
+                                    <!--<hr class="shape__line shape__line_transparent">-->
+
+                                    <!--<div class="shape__groups shape__groups-half clearfix">-->
+                                        <!--<span class="shape__label col-sm-3">{{"view"|translate}}:</span>-->
+                                        <!--<span class="shape__info col-sm-8">{{selectedFile.ViewTypeName|translate}}</span>-->
+                                    <!--</div>-->
+
+                                    <!--<hr class="shape__line shape__line_transparent">-->
+
+                                    <!--<div class="shape__groups shape__groups-column clearfix">-->
+                                        <!--<span class="shape__label col-sm-3">{{"finding"|translate}}:</span>-->
+                                        <!--<span class="shape__info col-sm-8">-->
+                                            <!--<span class="shape__info-column col-xs-12" ng-repeat="finding in selectedFile.SelectedFindings">-->
+                                                <!--<span class="col-xs-5" style="padding-left: 0;">{{ finding.FindingName|translate}}</span>-->
+                                                <!--<span class="col-xs-1"> - </span>-->
+                                                <!--<span class="col-xs-6" ng-if="finding.Type === 'number'"> {{finding.Value}} </span>-->
+                                                <!--<span class="col-xs-6" ng-bind-html="finding.OptionName|translate | trustAsHtml"></span>-->
+                                                <!--<br>-->
+                                            <!--</span>-->
+                                        <!--</span>-->
+                                    <!--</div>-->
+
+                                    <!--<hr class="shape__line shape__line_transparent">-->
+
+                                    <!--<div class="shape__groups shape__groups-half clearfix">-->
+                                        <!--<span class="shape__label col-sm-3">{{"other"|translate}}:</span>-->
+                                        <!--<span class="shape__info col-sm-8">{{selectedFile.Observations}}</span>-->
+                                    <!--</div>-->
+
+                                    <!--<hr class="shape__line">-->
+
+                                    <div class="row messages-container">
+
+                                        <div class="message__body" style="padding: 0 15px;" ng-if="selectedFile.Messages && selectedFile.Messages.length > 0">
+                                            <div class="message__body-wrap" ng-repeat="message in selectedFile.Messages | orderBy : 'sentOn'">
+                                                <dt>
+                                                    <span class="medium-blue" ng-if="currentUser === message.Username">{{"me"|translate}}</span>
+                                                    <span class="medium-blue" ng-if="currentUser !== message.Username">{{"student"|translate}}</span>
+                                                    <br />
+                                                    <small class="text-muted light-blue">
+                                                        <span class="glyphicon glyphicon-time"></span> {{toLocalDate(message.SentOn) | date : "short"}}
+                                                    </small>
+                                                </dt>
+                                                <dd>{{message.Text}}</dd>
+                                                <hr class="shape__line shape__line_small">
+                                            </div>
+                                        </div>
+
+                                        <div class="message__body" ng-if="!selectedFile.Messages || selectedFile.Messages.length === 0 || selectedFile.Messages[selectedFile.Messages.length -1].Username !== currentUser">
+                                            <div class="message__body-wrap clearfix">
+                                                <div class="col-sm-11 col-xs-12">
+                                                    <div class="forms__group forms__group_column">
+
+                                                        <label class="control-label col-sm-2 col-xs-12" style="text-align: center;">{{"message"|translate}}:</label>
+
+                                                        <div class="col-sm-10 col-xs-12">
+                                                            <textarea class="forms__input forms__input_textarea" id="comment" ng-model="selectedFile.Remarks"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-1 col-xs-12">
+                                                <div class="forms__group">
+                                                    <button type="button" class="button__c button__c-marginTL"
+                                                            title="{{'send'|translate}}"
+                                                            ng-click="fileReply(selectedFile.Remarks, selectedFile.FileId)">
+                                                        <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+
+                        </div>
+                        <!-- end student interpretation -->
+                        <!-- teacher review summary -->
+                        <!--<div class="shape__body-collapse&#45;&#45;wrap">-->
+
+                            <!--<p class="shape__name shape__name_medium shape__name_two shape__name-collapse">-->
+                                <!--{{"general_assessment_teacher"|translate}}-->
+                                <!--<span>-->
+                                    <!--<span class="shape__name_hide">{{"hide"|translate}}</span>-->
+                                    <!--<span class="shape__name_show">{{"show"|translate}}</span>-->
+                                    <!--<i class="fa fa-angle-double-up" aria-hidden="true"></i>-->
+                                <!--</span>-->
+                            <!--</p>-->
+
+                            <!--<div class="shape__body-collapse">-->
+
+                                <!--<hr class="shape__line shape__line_transparent">-->
+
+                                <!--<div class="row messages-container">-->
+
+                                    <!--<div class="message__body" style="padding: 0 15px;">-->
+                                        <!--<div class="message__body-wrap"-->
+                                             <!--ng-repeat="message in submission.messages | orderBy : 'SentOn'">-->
+                                            <!--<dt>-->
+                                                <!--<span class="medium-blue" ng-if="currentUser === message.Username">{{"me"|translate}}</span>-->
+                                                <!--<span class="medium-blue" ng-if="currentUser !== message.Username">{{"student"|translate}}</span><br />-->
+                                                <!--<small class="pull-right text-muted light-blue">-->
+                                                    <!--<span class="glyphicon glyphicon-time"> </span>{{toLocalDate(message.SentOn) | date : "short"}}-->
+                                                <!--</small>-->
+                                            <!--</dt>-->
+                                            <!--<dd>{{message.Text}}</dd>-->
+                                            <!--<hr class="shape__line shape__line_small">-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+
+                                    <!--<div class="message__body">-->
+                                        <!--<div class="message__body-wrap clearfix">-->
+                                            <!--<div class="col-sm-11 col-xs-12">-->
+
+                                                <!--<div class="forms__group forms__group_column">-->
+
+                                                    <!--<label class="control-label col-sm-2 text-center">{{ "message"|translate}}:</label>-->
+
+                                                    <!--<div class="col-sm-10 col-xs-12">-->
+                                                        <!--<textarea class="forms__input forms__input_textarea" ng-model="submission.message"></textarea>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+
+                                            <!--</div>-->
+
+                                            <!--<div class="col-sm-1 col-xs-12"-->
+                                                 <!--ng-if="!isNullOrUndefined(submission.approved) && submission.messages && submission.messages[submission.messages.length -1].Username !== currentUser">-->
+
+                                                <!--<div class="forms__group">-->
+                                                    <!--<button type="button"-->
+                                                            <!--class="button__c button__c-marginTL"-->
+                                                            <!--title="{{'send'|translate}}"-->
+                                                            <!--ng-click="submissionReply(submission.message)">-->
+                                                        <!--<i class="fa fa-paper-plane" aria-hidden="true"></i>-->
+                                                    <!--</button>-->
+                                                <!--</div>-->
+
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+
+                                <!--&lt;!&ndash;<span class="shape__footer-wrap">&ndash;&gt;-->
+
+                                    <!--&lt;!&ndash;<span style="margin-left: auto;">&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<button type="button"&ndash;&gt;-->
+                                                <!--&lt;!&ndash;class="button__c button_c-warning" title="Report to admin because of privacy violation, or otherwise unwanted contents" ng-click="reportSubmission()">&ndash;&gt;-->
+                                            <!--&lt;!&ndash;{{"Report"|translate}}&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</button>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<button type="button"&ndash;&gt;-->
+                                                <!--&lt;!&ndash;class="button__c button__c-danger"&ndash;&gt;-->
+                                                <!--&lt;!&ndash;ng-disabled="isAllRejectApprove()"&ndash;&gt;-->
+                                                <!--&lt;!&ndash;ng-click="review(false)"&ndash;&gt;-->
+                                                <!--&lt;!&ndash;&gt;&ndash;&gt;-->
+                                            <!--&lt;!&ndash;{{"reject"|translate}}&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</button>&ndash;&gt;-->
+
+                                        <!--&lt;!&ndash;<button type="button"&ndash;&gt;-->
+                                                <!--&lt;!&ndash;class="button__c button_c-edit"&ndash;&gt;-->
+                                                <!--&lt;!&ndash;ng-disabled="isAllRejectApprove()"&ndash;&gt;-->
+                                                <!--&lt;!&ndash;ng-click="review(true)"&ndash;&gt;-->
+                                                <!--&lt;!&ndash;&gt;&ndash;&gt;-->
+                                            <!--&lt;!&ndash;{{"approve"|translate}}&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</button>&ndash;&gt;-->
+                                    <!--&lt;!&ndash;</span>&ndash;&gt;-->
+
+                                <!--&lt;!&ndash;</span>&ndash;&gt;-->
+
+                            <!--</div>-->
+
+                        <!--</div>-->
+                        <!-- end teacher review summary -->
+                        <!-- title -->
+                        <!--<p class="shape__name" ng-if="isNullUndefinedOrWhitespace(selectedFile)">{{"general_information"|translate}}</p>-->
+                        <!-- end title -->
+                        <!-- form general information -->
+                        <!--<form class="form-horizontal clearfix" ng-show="isNullUndefinedOrWhitespace(selectedFile)">
+
+                            <hr class="shape__line shape__line_medium">
+
+                            <div class="shape__groups clearfix">
+                                <span class="shape__label col-xs-3">{{"ultrasound_type"|translate}}:</span>
+                                <span class="shape__info col-xs-8">
+                                    <span class="shape__info-column"
+                                          ng-repeat="ultrasound in submission.ultrasoundType">{{ultrasound.Name|translate}}</span>
+                                </span>
+                            </div>
+
+                            <hr class="shape__line shape__line_transparent">
+
+                            <div class="shape__groups clearfix">
+                                <span class="shape__label col-xs-3">{{ "patient_age"|translate}}:</span>
+                                <span class="shape__info col-xs-8">{{submission.patientAge}}</span>
+                            </div>
+
+                            <hr class="shape__line shape__line_transparent">
+
+                            <div class="shape__groups clearfix">
+                                <span class="shape__label col-xs-3">{{"patient_gender"|translate}}:</span>
+                                <span class="shape__info col-xs-8">{{submission.patientGender ? "male" : "female"|translate }}</span>
+                            </div>
+
+                            <hr class="shape__line shape__line_transparent">
+
+                            <div class="shape__groups clearfix">
+                                <span class="shape__label col-xs-3">{{"indications"|translate}}:</span>
+                                <span class="shape__info col-xs-8">
+                                    <span class="shape__info-column" ng-repeat="indication in submission.indications">{{indication|translate}}</span>
+                                </span>
+                            </div>
+
+                            <hr class="shape__line">
+
+                            <div class="shape__groups clearfix">
+                                <span class="shape__label col-xs-3">{{ "conclusion"|translate}}:</span>
+                                <span class="shape__info col-xs-8">{{ submission.conclusion ? "normal" : "not_normal"|translate}}</span>
+                            </div>
+
+                            <hr class="shape__line" ng-if="!isNullUndefinedOrWhitespace(submission.remarks)">
+
+                            <div class="shape__groups clearfix"
+                                 ng-if="!isNullUndefinedOrWhitespace(submission.remarks)">
+                                <span class="shape__label col-xs-3">{{"remark"|translate}}:</span>
+                                <span class="shape__info col-xs-8">{{submission.remarks}}</span>
+                            </div>
+
+                        </form>-->
+                        <!-- end form general information -->
+                        <!--form class="form-horizontal" id="common_data" ng-show="!isNullUndefinedOrWhitespace(selectedFile)">
+                            <div class="shape__body-collapse&#45;&#45;wrap">
+                                <p class="shape__name shape__name_medium shape__name_two shape__name-collapse active"
+                                   ng-show="!isNullUndefinedOrWhitespace(selectedFile)">
+                                    {{"student_interpretation"|translate}}
+
+                                    <span>
+                                        <span class="shape__name_hide">{{"hide"|translate}}</span>
+                                        <span class="shape__name_show">{{"show"|translate}}</span>
+                                        <i class="fa fa-angle-double-up" aria-hidden="true"></i>
+                                    </span>
+                                </p>
+
+                                <div class="shape__body-collapse active">
+                                    <hr class="shape__line shape__line_transparent">
+
+                                    <div class="shape__groups clearfix">
+                                        <span class="shape__label col-sm-3">{{"view"|translate}}:</span>
+                                        <span class="shape__info col-sm-8">{{selectedFile.ViewTypeName|translate}}</span>
+                                    </div>
+
+                                    <hr class="shape__line shape__line_transparent">
+
+                                    <div class="shape__groups clearfix">
+                                        <span class="shape__label col-sm-3">{{"finding"|translate}}:</span>
+                                        <span class="shape__info col-sm-8">
+                                        <span class="shape__info-column col-xs-12" ng-repeat="finding in selectedFile.SelectedFindings">
+                                            <span class="col-xs-5" style="padding-left: 0;">{{ finding.FindingName|translate}}</span>
+                                            <span class="col-xs-1"> - </span>
+                                            <span class="col-xs-6" ng-if="finding.Type === 'number'"> {{finding.Value}} </span>
+                                            <span class="col-xs-6" ng-bind-html="finding.OptionName|translate | trustAsHtml"></span>
+                                            <br>
+                                        </span>
+                                    </span>
+                                    </div>
+
+                                    <hr class="shape__line shape__line_transparent">
+
+                                    <div class="shape__groups clearfix">
+                                        <span class="shape__label col-sm-3">{{"other"|translate}}:</span>
+                                        <span class="shape__info col-sm-8">{{selectedFile.Observations}}</span>
+                                    </div>
+
+                                    <hr class="shape__line shape__line_transparent">
+                                </div>
+                            </div>
+
+                            <div class="shape__body-collapse&#45;&#45;wrap">
+                                <p class="shape__name shape__name_medium shape__name_two shape__name-collapse"
+                                   ng-show="!isNullUndefinedOrWhitespace(selectedFile)">
+                                    {{"comments"|translate}}
+
+                                    <span>
+                                        <span class="shape__name_hide">{{"hide"|translate}}</span>
+                                        <span class="shape__name_show">{{"show"|translate}}</span>
+                                        <i class="fa fa-angle-double-up" aria-hidden="true"></i>
+                                    </span>
+                                </p>
+
+                                <div class="shape__body-collapse">
+
+                                    <div class="row messages-container">
+
+                                        <div class="message__body" ng-if="selectedFile.Messages && selectedFile.Messages.length > 0">
+                                            <div class="message__body-wrap" ng-repeat="message in selectedFile.Messages | orderBy : 'sentOn'">
+                                                <dt>
+                                                    <span class="medium-blue" ng-if="currentUser === message.Username">{{"me"|translate}}</span>
+                                                    <span class="medium-blue" ng-if="currentUser !== message.Username">{{"student"|translate}}</span>
+                                                    <br/>
+                                                    <small class="text-muted light-blue">
+                                                        <span class="glyphicon glyphicon-time"></span> {{toLocalDate(message.SentOn) | date : "short"}}
+                                                    </small>
+                                                </dt>
+                                                <dd>{{message.Text}}</dd>
+                                                <hr>
+                                            </div>
+                                        </div>
+
+                                        <div class="message__body clearfix" ng-if="!selectedFile.Messages || selectedFile.Messages.length === 0 || selectedFile.Messages[selectedFile.Messages.length -1].Username !== currentUser">
+                                            <div class="col-sm-11">
+                                                <div class="forms__group">
+
+                                                    <label class="control-label col-sm-2">{{"message"|translate}}:</label>
+
+                                                    <div class="col-sm-10 col-xs-12">
+                                                        <textarea class="forms__input forms__input_textarea" id="comment" ng-model="selectedFile.Remarks"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-1">
+                                                <div class="forms__group">
+                                                    <button type="button" class="button__c button__c-marginTL"
+                                                            title="{{'send'|translate}}"
+                                                            ng-click="fileReply(selectedFile.Remarks, selectedFile.FileId)">
+                                                        <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>-->
+
+                    </div>
+                    <!-- end preview image information -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<script>-->
+    <!--function titleCollapse() {-->
+        <!--$(".shape__name-collapse").on("click", function () {-->
+
+            <!--if ($(this).hasClass("disabled")) {-->
+                <!--return;-->
+            <!--}-->
+
+            <!--if ($(this).hasClass("active")) {-->
+                <!--$(this).removeClass("active");-->
+                <!--$(this).siblings(".shape__body-collapse").slideUp(250);-->
+            <!--} else {-->
+                <!--$(this).addClass("active");-->
+                <!--$(this).siblings(".shape__body-collapse").slideDown(250);-->
+            <!--}-->
+        <!--});-->
+    <!--}-->
+
+    <!--$(document).ready(function () {-->
+        <!--titleCollapse();-->
+    <!--});-->
+<!--</script>-->

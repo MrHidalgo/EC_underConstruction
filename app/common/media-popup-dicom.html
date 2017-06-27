@@ -1,0 +1,15 @@
+﻿<div class="modal-body">
+    <i title="Close" class="fa fa-times-circle-o close-icon" aria-hidden="true" ng-click="close()"></i>
+    <div ng-if="fileGroup!=null">
+      
+       
+        <dicomviewer  class="dicom" urllistid="urlList" urlopenbtnid="openUrls">
+        </dicomviewer>
+
+        <input id="urlList" ng-model="urls"ng-show="false" />
+    
+        <input type="button" ng-show="false" id="openUrls" />
+    </div>
+
+</div>
+

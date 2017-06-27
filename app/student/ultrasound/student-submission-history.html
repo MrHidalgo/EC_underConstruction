@@ -1,0 +1,269 @@
+<div class="upload--history">
+
+    <div class="shape">
+
+        <div class="shape__header">
+            {{"upload_history" | translate}}
+
+            <span>
+                {{submissions.length}} {{"results_found" | translate}}
+            </span>
+        </div>
+
+        <div class="shape__body">
+
+            <div class="upload--history__filter-wrap">
+                <button type="button"
+                        title="Add filter"
+                        class="button__c button__c-fixed js-filter-open">
+                    Add Filter
+                </button>
+
+                <button type="button"
+                        title={{"reset_all_filter"|translate}}
+                        class="button__c button_c-info button__c-fixed"
+                        ng-click="reset()">
+                    Reset Filter
+                </button>
+            </div>
+
+
+            <div class="upload--history__table-wrap upload--history__filter upload--history__filter_std">
+
+                <div class="upload--history__filter--block filter__block-0">
+                    <input date-range-picker
+                           style="min-height: 39px;"
+                           class="forms__input date-picker input-sm"
+                           placeholder="{{'filter_by_upload_date'|translate}}" type="text" readonly
+                           ng-model="dateRangePicker" ng-disabled="false" options="dateRangeOptions"
+                           max="dateOptions.maxDate" />
+                </div>
+                <div class="upload--history__filter--block filter__block-1 table__td-select">
+                    <ui-select multiple ng-model="filterParams.ultrasoundTypes"
+                               theme="bootstrap"
+                               close-on-select="true" title="{{'Filter'}}"
+                               on-select="filter()" on-remove="filter()">
+                        <ui-select-match placeholder="{{'filter_by_ultrasound_type'|translate}}">{{$item.Name|translate}}</ui-select-match>
+                        <ui-select-choices repeat="ultrasoundType in filterParams.ultrasoundTypeOptions">
+                            {{ultrasoundType.Name|translate}}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="upload--history__filter--block filter__block-2 table__td-select">
+                    <ui-select multiple ng-model="filterParams.assessments" theme="bootstrap" close-on-select="true" title="{{'Filter'}}"
+                               on-select="filter()" on-remove="filter()">
+                        <ui-select-match placeholder="{{'filter_by_tagging_completed'|translate }}">{{$item.name|translate }}</ui-select-match>
+                        <ui-select-choices repeat="assessment in filterParams.assessmentOptions">
+                            {{assessment.name|translate }}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="upload--history__filter--block filter__block-3 table__td-select">
+                    <ui-select multiple ng-model="filterParams.conclusions" theme="bootstrap" close-on-select="true" title="{{'Filter'}}"
+                               on-select="filter()" on-remove="filter()">
+                        <ui-select-match placeholder="{{'filter_by_conclusion'|translate }}">{{$item.name|translate }}</ui-select-match>
+                        <ui-select-choices repeat="conclusion in filterParams.conclusionOptions">
+                            {{conclusion.name|translate }}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="upload--history__filter--block filter__block-4 table__td-select">
+                    <ui-select multiple ng-model="filterParams.approvals" theme="bootstrap" close-on-select="true"
+                               title="{{'Filter'}}"
+                               on-select="filter()" on-remove="filter()">
+                        <ui-select-match placeholder="{{'filter_by_submission_status'|translate }}">{{$item.name|translate }}</ui-select-match>
+                        <ui-select-choices repeat="approval in filterParams.approvalOptions">
+                            {{approval.name|translate }}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="upload--history__filter--block filter__block-5 table__td-btn">
+                    <button type="button"
+                            title={{"reset_all_filter"|translate}}
+                            class="button__c button_c-info button__c-marginTB button__show"
+                            ng-click="reset()">
+                        {{"reset"|translate}}
+                    </button>
+                    <button type="button"
+                            title="Apply Filter"
+                            class="button__c button__c-fixed button__hide js-filter-close">
+                        Apply Filter
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="upload--history__table-wrap upload--history__header">
+
+                <div style="width: 170px;" class="upload--history__header--block">{{"upload_date"|translate}}</div>
+                <div class="upload--history__header--block">{{"ultrasound_type"|translate}}</div>
+                <div style="width: 150px;" class="upload--history__header--block">{{"tagging_completed"|translate}}</div>
+                <div style="width: 140px;" class="upload--history__header--block">{{"conclusion"|translate}}</div>
+                <div style="width: 250px;" class="upload--history__header--block">{{"submission_status"|translate}}</div>
+                <div style="width: 272px;" class="upload--history__header--block">{{"actions"|translate}}</div>
+
+            </div>
+
+            <div class="upload--history__table-wrap upload--history__content">
+
+                <table class="upload--history__table">
+                    <thead class="upload--history__table-header upload--history__table_opacity">
+                        <tr>
+                            <th style="width: 170px;">{{"upload_date"|translate}}</th>
+                            <th style="padding-left: 50px; padding-right: 50px;">{{"ultrasound_type"|translate}}</th>
+                            <th style="width: 150px;">{{"tagging_completed"|translate}}</th>
+                            <th style="width: 140px;">{{"conclusion"|translate}}</th>
+                            <th style="width: 250px;">{{"submission_status"|translate}}</th>
+                            <th style="width: 272px;">{{"actions"|translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-show="submissions.length < 1">
+                            <td style="height: 58px;">-</td>
+                            <td style="height: 58px;">-</td>
+                            <td style="height: 58px;">-</td>
+                            <td style="height: 58px;">-</td>
+                            <td style="height: 58px;">-</td>
+                            <td class="upload--history__table_npadding">
+                                <table class="upload--history__table--internal">
+                                    <tr>
+                                        <td>
+                                            <button type="button"
+                                                    class="button__c button__c_half"
+                                                    title="{{'view'|translate }}"
+                                                    disabled>
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button type="button"
+                                                    class="button__c button_c-edit button__c_half"
+                                                    title="{{'edit'|translate }}"
+                                                    disabled>
+                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button type="button"
+                                                    class="button__c button__c-danger button__c_half"
+                                                    title="{{'delete'|translate }}"
+                                                    disabled>
+                                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <span class="button__c-badge disabled">
+                                                <button type="button"
+                                                        class="button__c button_c-warning button__c_half"
+                                                        title="{{'unreplied_messages'|translate }}"
+                                                        disabled>
+                                                    <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                                </button>
+                                                <span class="badge message_count">{{submission.PendingMessages}}</span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="submission in submissions">
+                            <td>
+                                {{toLocalDate(submission.UploadDate) | date:'dd/MM/yyyy HH:mm'}}
+                            </td>
+                            <td>
+                                {{submission.UltrasoundTypeName.join(", ")}}
+                            </td>
+                            <td>
+                                <span ng-if="isNullUndefinedOrWhitespace(submission.StudentAssessment)">-</span>
+                                <span ng-if="!isNullUndefinedOrWhitespace(submission.StudentAssessment)">
+                                    <img ng-src="{{'Images/' + (submission.StudentAssessment ? 'right.png' : 'wrong.png')}}">
+                                </span>
+                            </td>
+                            <td>
+                                <span ng-if="isNullUndefinedOrWhitespace(submission.StudentConclusion)">-</span>
+                                <span ng-if="!isNullUndefinedOrWhitespace(submission.StudentConclusion)">
+                                    {{ submission.StudentConclusion ? "normal" : "not_normal"|translate }}
+                                </span>
+                            </td>
+                            <td>
+                                <span>{{(submission.Status!=5 ? filterParams.approvalOptions[submission.Status-1].name : "-")  | translate }}</span>
+                            </td>
+                            <td class="upload--history__table_npadding upload--history__table-td upload--history__table-btn">
+                                <table class="upload--history__table--internal">
+                                    <tr>
+                                        <td>
+                                            <button type="button"
+                                                    class="button__c button__c_half"
+                                                    title="{{'view'|translate }}"
+                                                      
+                                                    ui-sref="student.submissionPreview({submissionId: submission.Id, returnState:'student.submissionHistory'})">
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </button>
+                                            <!--ng-disabled="isNullUndefinedOrWhitespace(submission.Approved)"  ng-disabled="!isNullUndefinedOrWhitespace(submission.Approved)"-->
+                                        </td>
+                                        <td>
+                                            <button type="button"
+                                                    class="button__c button_c-edit button__c_half"
+                                                    title="{{'edit'|translate }}"
+                                                    ng-disabled="!isNullUndefinedOrWhitespace(submission.Approved)"
+                                                    ui-sref="student.submission({submissionId: submission.Id, returnState:'student.submissionHistory'})">
+                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button type="button"
+                                                    class="button__c button__c-danger button__c_half"
+                                                    title="{{'delete'|translate }}"
+                                                    ng-disabled="!isNullUndefinedOrWhitespace(submission.Approved)"
+                                                    ng-click="remove(submission.Id)">
+                                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <span class="button__c-badge"
+                                                  ng-class="{disabled : submission.PendingMessages === 0}">
+                                                <button type="button"
+                                                        class="button__c button_c-warning button__c_half"
+                                                        title="{{'unreplied_messages'|translate }}"
+                                                        ng-disabled="submission.PendingMessages === 0"
+                                                        ui-sref="student.submissionPreview({submissionId: submission.Id, returnState:'student.submissionHistory'})">
+                                                    <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                                </button>
+                                                <span class="badge message_count">{{submission.PendingMessages}}</span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(".js-filter-open").on("click", function (e) {
+            e.preventDefault();
+
+            var _self = $(this),
+                filterContainer = $(".upload--history__filter");
+
+            filterContainer.addClass("animated fadeIn");
+        });
+        $(".js-filter-close").on("click", function (e) {
+            e.preventDefault();
+
+            var _self = $(this),
+                filterContainer = $(".upload--history__filter");
+
+            filterContainer.removeClass("animated fadeIn");
+        });
+    });
+</script>

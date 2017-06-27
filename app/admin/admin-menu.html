@@ -1,0 +1,70 @@
+﻿
+<a href="javascript:void(0);"
+   ui-sref="admin.userdb" ng-class="{'active' : location.currentState === 'admin.userdb'}"
+   class="nav__btn">
+    <i class="nav__btn-icon icon-database"></i>
+    {{"user_database" | translate}}
+</a>
+
+<!--<a href="javascript:void(0);"-->
+   <!--ui-sref="admin.formmanager"  ng-class="{'active' : location.currentState === 'admin.formmanager'}"-->
+   <!--class="nav__btn">-->
+    <!--<i class="nav__btn-icon icon-layers"></i>-->
+    <!--{{"form_manager" | translate}}-->
+<!--</a>-->
+
+<a href="javascript:void(0);"
+   ui-sref="admin.us-manager" ng-class="{'active' : location.currentState === 'admin.us-manager'}"
+   class="nav__btn">
+    <i class="nav__btn-icon icon-layers"></i>
+    {{"us_manager" | translate}}
+</a>
+
+<a href="javascript:void(0);"
+  ui-sref="admin.upload-manager" ng-class="{'active' : location.currentState === 'admin.upload-manager'}"
+   class="nav__btn">
+    <i class="nav__btn-icon icon-sunny"></i>
+    {{"Upload manager" }}
+</a>
+
+<!--<a href="javascript:void(0);"-->
+   <!--ui-sref="admin.diagnostics" ng-class="{'active' : location.currentState === 'admin.diagnostics'}"-->
+   <!--class="nav__btn">-->
+    <!--<i class="nav__btn-icon icon-chart"></i>-->
+    <!--{{"server_diagnostics" | translate}}-->
+<!--</a>-->
+
+<script>
+    /* LEFT MENU */
+    var menuBtn         = $(".nav__btn"),
+        menuContainer   = $(".navigation");
+
+    menuBtn.on("click", function(){
+        menuContainer.removeClass("active");
+        $("html, body").removeClass("open-menu");
+    });
+</script>
+
+<!--<ul class="nav navbar-nav">-->
+    <!--<li ng-class="{'active' : storage.currentState === 'admin.userdb'}">-->
+        <!--<a href="javascript:;" ui-sref="admin.userdb">-->
+            <!--User database-->
+        <!--</a>-->
+    <!--</li>-->
+    <!--<li ng-class="{'active' : storage.currentState === 'admin.formmanager'}">-->
+        <!--<a href="javascript:;" ui-sref="admin.formmanager">-->
+            <!--Form manager-->
+        <!--</a>-->
+    <!--</li>-->
+    <!--<li ng-class="{'active' : storage.currentState === 'admin.us-manager'}">-->
+        <!--<a href="javascript:;" ui-sref="admin.us-manager">-->
+            <!--US manager-->
+        <!--</a>-->
+    <!--</li>-->
+    <!--<li ng-class="{'active' : storage.currentState === 'admin.ultrasound'}">-->
+        <!--<a href="javascript:;" ui-sref="admin.ultrasound">Ultrasound</a>-->
+    <!--</li>-->
+    <!--<li ng-class="{'active' : storage.currentState === 'admin.diagnostics'}">-->
+        <!--<a href="javascript:;" ui-sref="admin.diagnostics">Server diagnostics</a>-->
+    <!--</li>-->
+<!--</ul>-->

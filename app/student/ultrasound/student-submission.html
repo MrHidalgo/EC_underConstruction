@@ -1,0 +1,1028 @@
+﻿<div class="k-overlay" ng-show="loading">
+    <div class="loader"></div>
+</div>
+<!-- START File upload drop area-->
+
+<section class="body" ng-if="subLoaded== false">
+         <!--ng-show="(submission === null || submission.SubmissionId === null || submission.SubmissionId === EmptyGuid)">-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="upload">
+                <div class="shape">
+
+                    <div class="shape__header">
+                        {{"upload" | translate}}
+                    </div>
+
+                    <div class="shape__body" style="padding: 20px;">
+                        <div class="upload-box"
+                             ngf-select="uploadFiles($files)"
+                             ngf-drop="uploadFiles($files)"
+                             ng-model="files"
+                             ngf-multiple="true"
+                             ngf-pattern="settings.pattern"
+                             ngf-accept="settings.accept"
+                             ngf-max-size="settings.maxSize"
+                             ngf-max-files="settings.maxFiles"
+                             ngf-allow-dir="true"
+                             ngf-include-dir="true"
+                             ngf-drop-available="true">
+
+                            <div class="upload__icon-wrap">
+                                <i class="upload__icon fa fa-file-image-o"></i>
+                                <i class="upload__icon fa fa-file-video-o"></i>
+                                <i class="upload__icon fa fa-files-o"></i>
+                            </div>
+
+                            <div class="text-center">
+                                <i class="fa fa-cloud-upload font80" aria-hidden="true"></i>
+                            </div>
+
+                            <p class="text-center upload__title">
+                               {{"drag_and_drop_or_click_here"|translate}}
+                            </p>
+                            
+                            <p class="text-center upload__subtitle">
+                                {{"to_upload_your_files"|translate}} ({{"filesize"|translate}} max 250mb)
+                            </p>
+                        </div>
+                        <!--ngf-keep="'distinct'"-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- END File upload drop area-->
+<!-- START Upload files list -->
+<!--isNullOrUndefined(files) || files.length === 0 || submission.SubmissionId == null || submission.SubmissionId == EmptyGuid-->
+
+
+<div class="container" ng-if="subLoaded == true">
+    <div class="col-md-offset-1 col-md-10">
+
+        <div class="shape shape__upload">
+
+            <div class="shape__header">
+                <div class="shape__header_left">
+                    <span class="shape__header_margin">
+                        {{"files_uploaded"|translate}}: {{filesUploaded || 0}}/{{uploadedFiles.length}}
+                    </span>
+                    <span class="shape__header_margin">
+                        {{"files_tagged"|translate}}: {{filesTagged || 0}}/{{uploadedFiles.length}}
+                    </span>
+                    <span class="shape__header_margin" ng-show="duplicates>0">
+                        {{"duplicate_files"|translate}}: {{duplicates || 0}}/{{uploadedFiles.length}}
+                    </span>
+                </div>
+
+                <div class="shape__header_right">
+                    <a href="javascript:void(0);"
+                       class="modals__close modals__close_white"
+                       style="padding: 10px 0 10px 15px;"
+                       ng-click="closeUpload()">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="shape__body">
+
+                <div class="shape_top shape__body-padding animated fadeIn">
+
+                    <div class="thumb-container teacher-review animated fadeIn"
+                         ng-class="whatClassIsIt(uploadedFiles.length)">
+
+                        <div class="teacher-review__image"
+                             ng-repeat="file in uploadedFiles"
+                             ng-if="file.Id"
+                             ng-class="{'active':isValidGeneral && !selectedFile.Duplicate && file.Id && selectedFile && file.Id === selectedFile.Id}">
+
+                            <button id="{{file.$$hashKey}}" type="button"
+                                    ng-show="file.Progress === 100 && !file.Duplicate"
+                                        ng-click="deleteFile(file)"
+                                    class="submission-status submission-status_delete"
+                                    title="Delete current file">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+
+                            <div ng-click="loadFileDetails($index)" >
+                                <div class="keep-ratio"
+                                     ng-class="{'selected':!selectedFile.Duplicate && file.Id && selectedFile && file.Id === selectedFile.Id }">
+
+                                    <video ng-show="file.name != null && file.Filepath  == null && !DisabledPreview && isVideoFile(file.name) && !file.isDicom"
+                                           loop
+                                           ng-if="file.name != null && file.Filepath  == null && !file.isDicom"
+                                           ngf-src="file"
+                                           ngf-thumbnail="file"
+                                           ngf-size="{width:100, height:100}"
+                                           class="video-trumbail-preview"></video>
+
+                                    <img ng-show="file.name != null && file.Filepath  == null && !DisabledPreview && !isVideoFile(file.name) && !file.isDicom"
+                                          ng-if="file.name != null && file.Filepath  == null && !file.isDicom"
+                                         ngf-thumbnail="file"
+                                          ngf-background="file"
+                                          class="video-trumbail-preview keep-ratio__image"/>
+                                 
+
+                                    <img ng-show="file.Filepath != null && isVideoFile(file.Filepath) && !file.isDicom"
+                                           ng-if="file.Filepath != null && !file.isDicom"
+                                         class="keep-ratio__image"
+                                         ng-src="{{file.Thumbnail}}"/>
+
+                                    <img  ng-show="file.Filepath  != null  && !isVideoFile(file.Filepath) && !file.isDicom"
+                                         ng-if="file.Filepath  != null && !file.isDicom"
+                                         class="keep-ratio__image"
+                                         ng-src="{{file.Filepath}}"/>
+                                   <img ng-if="file.isDicom" ng-src="{{'Images/dicom_icon.png'}}" style="background:white" class="keep-ratio__image"/>
+                                    
+                                </div>
+                                <div >
+                                    <div class="progress" ng-hide="file.Id === EmptyGuid || file.Duplicate === true || file.Progress === 100">
+                                        <div class="progress-bar"
+                                             role="progressbar" aria-valuenow="{{file.Progress}}"
+                                             aria-valuemin="0" aria-valuemax="100"
+                                             ng-style="{width: (file.Progress || '10')+'%'}">
+                                            {{file.Progress || 0}}%
+                                        </div>
+                                    </div>
+
+                                    <div class="progress"  ng-show="file.Id === EmptyGuid || file.Duplicate === true">
+                                        <div class="duplicate-progress"
+                                             role="progressbar">
+                                            <span> Duplicate </span>
+                                        </div>
+                                    </div>
+
+                                    <span class="tag-status"
+                                          ng-class="{'pending': !file.Completed, 'completed': file.Completed}"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- btn details info current image -->
+                    <div class="shape__btn-wrap">
+                        <button type="button"
+                                ngf-select="uploadFiles($files)"
+                                ngf-drop="uploadFiles($files)"
+                                ng-model="files"
+                                ngf-multiple="true"
+                                ngf-pattern="settings.pattern"
+                                ngf-accept="settings.accept"
+                                ng-disabled="disabledFileSelect === true && files.length !==0"
+                                ngf-select-disabled="disabledFileSelect === true && files.length !==0"
+                                ngf-drop-disabled="disabledFileSelect === true && files.length !==0"
+                                ngf-model-options="{updateOn: 'change click drop dropUrl paste'}"
+                                ngf-max-size="settings.maxSize"
+                                ngf-max-files="settings.maxFiles"
+                                ngf-allow-dir="true"
+                                ngf-include-dir="true"
+                                class="button__c button__c-fixed button_c-edit">
+                            {{"upload_more_files"|translate}}
+                        </button>
+
+                        <button type="button"
+                                class="button__c button__c-fixed"
+                                ng-click="enlarge(selectedFile)"
+                                ng-disabled="uploadedFiles.length < 0 || selectedFile.DisabledPreview">
+
+                            <i ng-if="selectedFile && !selectedFile.isDicom"
+                               ng-show="(selectedFile.name != null && !isVideoFile(selectedFile.name)) || (selectedFile.Filepath!=null && !isVideoFile(selectedFile.Filepath))"
+                               class="glyphicon glyphicon-picture"></i>
+
+                            <i ng-if="selectedFile && !selectedFile.isDicom"
+                               ng-show="(selectedFile.name != null && isVideoFile(selectedFile.name)) || (selectedFile.Filepath!=null && isVideoFile(selectedFile.Filepath))"
+                               class="glyphicon glyphicon-facetime-video"></i>
+                            
+                            <i ng-if="selectedFile && selectedFile.isDicom"
+                               class="glyphicon glyphicon-duplicate" ></i>
+                            {{"preview_file"|translate}}
+                        </button>
+                    </div>
+                    <!-- end btn details info current image -->
+                </div>
+
+                <div class="shape_bottom shape__body-padding">
+                        <!-- body collapse -->
+                        <div class="shape__body-collapse--wrap">
+
+                            <!-- 1 -->
+                            <p class="shape__name shape__name_medium shape__name_two shape__name-collapse" ng-click="openCollapse(false, $event, 'General')"
+                               ng-class="{'active' : status.General }">
+                                {{"general_information"|translate}}
+                                <span>
+                                    <span class="shape__name_hide">{{"hide"|translate}}</span>
+                                    <span class="shape__name_show">{{"show"|translate}}</span>
+                                    <i class="fa fa-angle-double-up" aria-hidden="true"></i>
+                                </span>
+                            </p>
+
+                            <!-- 1 -->
+                            <div class="shape__body-collapse"
+                                 ng-class="{'active' : status.General}">
+                                <form class="form-horizontal" name="form.submissionForm">
+
+                                    <hr class="shape__line shape__line_transparent">
+
+                                    <div class="shape__groups clearfix">
+
+                                        <label class="shape__label col-sm-2"> {{"ultrasound_type"|translate}}:</label>
+
+                                        <div class="shape__info col-sm-7">
+                                            <ui-select ng-required="true" multiple ng-model="submission.UltrasoundType"
+                                                       theme="bootstrap"
+                                                       close-on-select="true"
+                                                       ng-change="checkGeneralValidation('UltrasoundType')"
+                                                       on-select="ultrasoundSelected()" on-remove="deleteUsType($item)">
+
+                                                <ui-select-match>{{$item.Name|translate}}</ui-select-match>
+                                                <ui-select-choices repeat="ultrasoundType in ultrasoundTypes">
+                                                    {{ultrasoundType.Name|translate}}
+                                                </ui-select-choices>
+                                            </ui-select>
+                                            <span class="shape__info-star">*</span>
+                                        </div>
+                                    </div>
+
+                                    <hr class="shape__line shape__line_transparent">
+
+                                    <div class="shape__groups clearfix">
+
+                                        <div class="shape__label col-sm-2"></div>
+
+                                        <div class="shape__info col-sm-7">
+                                            <div class="btn-group">
+                                                <label class="btn btn-default" required name="HealthyTest"
+                                                       ng-change="onChangeGeneral()"
+                                                       ng-model="submission.HealthyTest" uncheckable
+                                                       uib-btn-radio="false">{{"Patient"|translate}}</label>
+                                                <label class="btn btn-default" name="HealthyTest"
+                                                       ng-change="onChangeGeneral()"
+                                                       ng-model="submission.HealthyTest" uncheckable
+                                                       uib-btn-radio="true">{{"Healthy_test_subject"|translate}}</label>
+
+                                                <span class="shape__info-star shape__info-star_right">*</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <hr class="shape__line" ng-show="submission.HealthyTest !== null && submission.HealthyTest === false">
+
+                                    <div ng-show="submission.HealthyTest !== null && submission.HealthyTest === false">
+                                        <div class="shape__groups clearfix">
+
+                                            <div class="shape__label col-sm-2">{{"patient_age"|translate}}:</div>
+
+                                            <div class="shape__info col-sm-7">
+                                                <div class="input-group col-sm-3 no-padding">
+                                                    <input class="forms__input"
+                                                           ng-change="onChangeGeneral()"
+                                                           ng-model="submission.PatientAge"
+                                                           aria-describedby="sizing-addon3">
+                                                    <span class="input-group-addon" id="sizing-addon3">{{"years"|translate}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <hr class="shape__line shape__line_transparent">
+
+                                        <div class="shape__groups clearfix">
+
+                                            <div class="shape__label col-sm-2">{{"patient_gender"|translate}}:</div>
+
+                                            <div class="shape__info col-sm-7">
+                                                <div class="btn-group">
+                                                    <label class="btn btn-default" name="pgender"
+                                                           ng-change="onChangeGeneral()"
+                                                           ng-model="submission.PatientGender" uncheckable
+                                                           uib-btn-radio="false">{{"female"|translate}}</label>
+                                                    <label class="btn btn-default" name="pgender"
+                                                           ng-change="onChangeGeneral()"
+                                                           ng-model="submission.PatientGender" uncheckable
+                                                           uib-btn-radio="true">{{"male"|translate}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <hr class="shape__line shape__line_transparent" ng-show="indications!=null && indications.length>0">
+
+                                        <div class="shape__groups clearfix" ng-show="indications!=null && indications.length>0">
+
+                                            <div class="shape__label col-sm-2">{{"indications"|translate}}:</div>
+
+                                            <div class="shape__info col-sm-7">
+                                                <div class="clearfix col-xs-6" ng-repeat="indication in indications">
+                                                    <label class="btn btn-default col-xs-12 indications"
+                                                           ng-model="indication.Selected"
+                                                           ng-checked="indication.Selected"
+                                                           ng-click="setIndicationOnClick(indication)"
+                                                           ng-change="onChangeGeneral()"
+                                                           ng-hide="indications[$index].Hidden"
+                                                           uib-btn-checkbox>{{indication.Name|translate}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr class="shape__line shape__line_medium">
+
+                                    <div class="button__c-wrap clearfix">
+                                        <button type="button"
+                                                class="button__c pull-right"
+                                                ng-click="updateSubmission()">
+                                            {{"save"|translate}}
+                                        </button>
+                                    </div>
+
+                                    <hr class="shape__line shape__line_medium">
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="shape__body-collapse--wrap">
+                            <!--ng-class="isClassNameCollapse()">-->
+                            <!-- 2 -->
+                            <p class="shape__name shape__name_medium shape__name_two shape__name-collapse" ng-click="openCollapse(!isValidGeneral, $event, 'Tag')"
+                               ng-class="{'active':  status.Tag , 'disabled' : !isValidGeneral || !selectedFile}">
+                                {{"tag_individual_images_videos"|translate}}
+                                <span>
+                                    <span class="shape__name_hide">{{"hide"|translate}}</span>
+                                    <span class="shape__name_show">{{"show"|translate}}</span>
+                                    <i class="fa fa-angle-double-up" aria-hidden="true"></i>
+                                </span>
+                            </p>
+                            <!--ng-class="isClassNameCollapse()">-->
+                            <!-- 2 -->
+                            <div class="shape__body-collapse"
+                                 ng-class="{'active' : status.Tag, 'disabled' : !isValidGeneral || !selectedFile}">
+                                <form class="form-horizontal" name="submissionTag" id="common_data"
+                                      ng-show="isValidGeneral && uploadedFiles.length>0"
+                                      ng-if="selectedFile && !selectedFile.Duplicate">
+
+                                    <hr class="shape__line shape__line_transparent">
+
+                                    <div class="shape__groups clearfix">
+
+                                        <div class="shape__label col-sm-2">{{"view"|translate}}:</div>
+
+                                        <div class="shape__info col-sm-7">
+                                            <select class="forms__input" 
+                                                    ng-model="selectedFile.ViewType" ng-change="viewSelected()"
+                                                    ng-options="view.Id as view.Name|translate group by view.Group|translate for view in views">
+                                                <option value="" disabled>-- Select view --</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <hr class="shape__line" ng-if="!isNullUndefinedOrWhitespace(selectedFile.ViewType)">
+
+                                    <div class="shape__groups--wrap" ng-if="!isNullUndefinedOrWhitespace(selectedFile.ViewType)" ng-repeat="finding in findings">
+                                        <div class="shape__groups clearfix">
+
+                                            <div class="shape__label col-sm-2">{{finding.Name |translate| trustAsHtml}}:</div>
+
+                                            <div class="shape__info col-sm-7">
+                                                <div class="clearfix col-xs-12">
+                                                    <label ng-repeat="option in finding.Options"
+                                                           class="btn btn-default indications"
+                                                           uncheckable
+                                                           name="{{finding.Name}}"
+                                                           ng-model="finding.SelectedOptionId"
+                                                           ng-change="onChangeTagging()"
+                                                           ng-checked="finding.SelectedOptionId"
+                                                           title="{{(option.Name === '?' ? 'finding_option_not_assessable': '')|translate}}"
+                                                           uib-btn-radio="option.Id">{{option.Name|translate}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <hr class="shape__line">
+                                    </div>
+
+                                    <hr class="shape__line shape__line_transparent" ng-if="!isNullUndefinedOrWhitespace(selectedFile.ViewType)">
+
+                                    <div class="shape__groups clearfix" ng-if="!isNullUndefinedOrWhitespace(selectedFile.ViewType)">
+
+                                        <div class="shape__label col-sm-2">{{"other"|translate}}:</div>
+
+                                        <div class="shape__info col-sm-7">
+                                            <textarea class="forms__input forms__input_textarea"
+                                                      ng-model="selectedFile.Observations"
+                                                      ng-change="onChangeTagging()"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <hr class="shape__line shape__line_medium">
+
+                                    <div class="button__c-wrap clearfix">
+                                        <button type="button" class="button__c pull-right"
+                                                ng-click="updateFileDetails()">
+                                            {{"save"|translate }}
+                                        </button>
+                                    </div>
+
+                                    <hr class="shape__line shape__line_medium">
+
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="shape__body-collapse--wrap">
+
+                            <!-- 3  -->
+                            <p class="shape__name shape__name_medium shape__name_two shape__name-collapse" ng-click="openCollapse(!isValidGeneral || !allFilesTagged, $event, 'Conclusion')"
+                               ng-class="{'active' : status.Conclusion , 'disabled' : !isValidGeneral || !allFilesTagged}">
+                                {{"conclusion"|translate}}
+                                <span>
+                                    <span class="shape__name_hide">{{"hide"|translate}}</span>
+                                    <span class="shape__name_show">{{"show"|translate}}</span>
+                                    <i class="fa fa-angle-double-up" aria-hidden="true"></i>
+                                </span>
+                            </p>
+
+                            <!-- 3 -->
+                            <div class="shape__body-collapse"
+                                 ng-class="{'active' : status.Conclusion, 'disabled' : !isValidGeneral || !allFilesTagged}">
+
+                                <hr class="shape__line shape__line_transparent">
+
+
+
+                                <div class="shape__groups--wrap" ng-repeat="cView in submission.SpecificConclusion">
+                                        <div class="shape__groups clearfix"><b>{{cView.Name}}</b></div>
+                                        <div class="shape__groups clearfix" ng-repeat="cTags in cView.Tags">
+
+                                            <div class="shape__label col-sm-2">{{cTags.Name}}:</div>
+
+                                            <div class="shape__info col-sm-7">
+                                                <div class="clearfix col-xs-12">
+                                                    <label ng-repeat="answer in cTags.Answers"
+                                                           class="btn btn-default indications"
+                                                           uncheckable
+                                                           name="{{answer.Name}}"
+                                                           ng-model="answer.SelectedOptionId"
+                                                        
+                                                           ng-checked="answer.SelectedOptionId"
+                                                           title="{{(answer.Name === '?' ? 'finding_option_not_assessable': '')|translate}}"
+                                                           uib-btn-radio="option.Id">{{answer.Name}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <hr class="shape__line">
+                                    </div>
+
+
+
+
+                                <div class="shape__groups clearfix">
+
+                                    <div class="shape__label col-sm-2">{{ "conclusion"|translate }}:</div>
+
+                                    <div class="shape__info col-sm-7">
+                                        <!--<label class="radio__img"></label>
+                        <label class="active radio__img"> </label>-->
+                                        <div class="btn-group">
+                                            <label class="btn btn-default"  ng-model="submission.Conclusion" ng-change="onChangeConclusion()"
+                                                   uncheckable
+                                                   uib-btn-radio="true">{{"normal"|translate}}</label>
+                                            <label class="btn btn-default"  ng-model="submission.Conclusion" ng-change="onChangeConclusion()"
+                                                   uncheckable
+                                                   uib-btn-radio="false">{{"not_normal"|translate}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr class="shape__line shape__line_transparent">
+
+                                <div class="shape__groups clearfix">
+
+                                    <div class="shape__label col-sm-2">{{ "remark"|translate }}:</div>
+
+                                    <div class="shape__info col-sm-7">
+                                        <textarea class="forms__input forms__input_textarea" ng-model="submission.Comments" ng-change="onChangeConclusion()"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end body collapse -->
+                    
+                </div>
+            </div>
+
+            <div class="shape__footer">
+                <!--<button type="button"-->
+                        <!--class="button__c"-->
+                        <!--title="{{'close'}}"-->
+                        <!--ng-click="closeUpload()">-->
+                    <!--Close Upload-->
+                <!--</button>-->
+
+                <!--<div class="shape__footer_right"></div>-->
+
+                <span style="margin-left: auto">
+
+                     <button class="button__c"
+                             type="button"
+                             title="{{'to_portfolio_without_assessment'|translate }}"
+                             ng-disabled="!isValidGeneral"
+                             ng-click="complete(false)">
+                    {{"save"|translate}}
+                    </button>
+
+                    <button class="button__c button_c-info"
+                        title="{{'to_expert_for_assessment'|translate}}"
+                        ng-disabled="!isValidGeneral || !allFilesTagged || submission.Conclusion === null"
+                        ng-click="complete(true)">{{"send"|translate}}
+                    </button>
+
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!--<script>
+    function titleCollapse() {
+     
+       $(".shape__name-collapse").on("click", function () {
+
+            if($(this).hasClass("disabled")) {
+                return;
+            }
+
+            if($(this).hasClass("active")) {
+                $(this).removeClass("active");
+                $(this).siblings(".shape__body-collapse").removeClass("active");
+            } else {
+                $(this).addClass("active");
+                $(this).siblings(".shape__body-collapse").addClass("active");
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        titleCollapse();
+    });
+</script>-->
+   
+<!--<section class="body" ng-hide="!subLoaded">-->
+
+
+
+<!--<section class="body"-->
+         <!--ng-hide="( submission === null || submission.SubmissionId === null || submission.SubmissionId === EmptyGuid )">-->
+    <!--<div class="container-fluid">-->
+
+        <!--<div class="row">-->
+            <!--<div class="col-md-offset-2 col-md-8">-->
+                <!--<div class="panel panel-default">-->
+
+                    <!--<div class="status-bar">
+                        <span>{{"files_uploaded"|translate}}: {{filesUploaded || 0}}/{{uploadedFiles.length}}</span>
+                        <span class="ml60">{{"files_tagged"|translate}}: {{filesTagged || 0}}/{{uploadedFiles.length}}</span>
+                        <span ng-show="duplicates>0" class="ml60">{{"duplicate_files"|translate}}: {{duplicates || 0}}/{{uploadedFiles.length}}</span>
+                        <span class="pull-right upload-close" title="{{'close'}}" ng-click="closeUpload()">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </span>
+                    </div>-->
+
+                    <!--<div class="panel-body">-->
+
+                        <!--<uib-accordion close-others="oneAtATime">-->
+                            <!--General information -->
+                            <!--&lt;!&ndash;<form class="form-horizontal" name="form.submissionForm" style="margin-bottom:5px;">-->
+                                <!--<div uib-accordion-group class="panel-default" is-open="status.General"-->
+                                     <!--ng-click="openCollapse(false, $event, 'General')">-->
+                                    <!--<div uib-accordion-heading>-->
+                                        <!--&nbsp;{{"general_information"|translate}}-->
+                                        <!--<i class="pull-left glyphicon"-->
+                                           <!--ng-class="{'glyphicon-minus': status.General, 'glyphicon-plus': !status.General}"></i>-->
+                                        <!--<span class="pull-right glyphicon glyphicon-ok valid-form-collapse"-->
+                                              <!--ng-show="isValidGeneral"></span>-->
+                                    <!--</div>-->
+<!--
+
+                                    <div class="form-group">
+                                      &lt;!&ndash;   ng-class="{ 'has-error' : validationGeneral.UltrasoundType && !pristineGeneral.UltrasoundType}">&ndash;&gt;
+
+                                        <label class="control-label col-sm-6"> {{"ultrasound_type"|translate}}:</label>
+                                        <div class="col-sm-6">
+                                            <ui-select ng-required="true" multiple ng-model="submission.UltrasoundType"
+                                                       theme="bootstrap"
+                                                       close-on-select="true"
+                                                       ng-change="checkGeneralValidation('UltrasoundType')"
+                                                       on-select="ultrasoundSelected()" on-remove="deleteUsType($item)">
+
+                                                <ui-select-match>{{$item.Name}}</ui-select-match>
+                                                <ui-select-choices repeat="ultrasoundType in ultrasoundTypes">
+                                                    {{ultrasoundType.Name}}
+                                                </ui-select-choices>
+                                            </ui-select>
+
+                                           &lt;!&ndash; <p ng-show="validationGeneral.UltrasoundType && !pristineGeneral.UltrasoundType"
+                                               class="help-block">{{GeneralFormMsgs.UltrasoundType}}</p>&ndash;&gt;
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-6 col-sm-6">
+                                            <div class="btn-group">
+                                                <label class="btn btn-default" required name="HealthyTest"
+                                                       ng-change="checkGeneralValidation('HealthyTest')"
+                                                       ng-model="submission.HealthyTest" uncheckable
+                                                       uib-btn-radio="false">{{"Patient"|translate}} </label>
+                                                <label class="btn btn-default" name="HealthyTest"
+                                                       ng-change="checkGeneralValidation('HealthyTest')"
+                                                       ng-model="submission.HealthyTest" uncheckable
+                                                       uib-btn-radio="true">{{"Healthy_test_subject"|translate}}</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div ng-show="submission.HealthyTest !=null && submission.HealthyTest == false">
+
+                                        <div class="form-group">
+                                             &lt;!&ndash;ng-class="{ 'has-error' : validationGeneral.PatientAge && !pristineGeneral.PatientAge}">&ndash;&gt;
+
+                                            <label class="control-label col-sm-6"> {{"patient_age"|translate}}:</label>
+
+                                            <div class="col-sm-6">
+
+                                                <div class="input-group col-sm-2 no-padding" style="width:6em;">
+                                                    <input class="form-control" style="width:4em;"
+                                                           ng-change="checkGeneralValidation('PatientAge')"
+                                                           ng-model="submission.PatientAge"
+                                                           aria-describedby="sizing-addon3">
+                                                    <span class="input-group-addon" id="sizing-addon3"
+                                                          style="padding:1px;font-size:smaller;width:3em;">{{"years"|translate}}</span>
+                                                </div>
+
+
+                                             &lt;!&ndash;   <p ng-show="validationGeneral.PatientAge && !pristineGeneral.PatientAge"
+                                                   class="help-block">{{GeneralFormMsgs.PatientAge}}</p>&ndash;&gt;
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                             &lt;!&ndash;ng-class="{ 'has-error' : validationGeneral.PatientGender && !pristineGeneral.PatientGender}">&ndash;&gt;
+
+                                            <label class="control-label col-sm-6">{{"patient_gender"|translate}}:</label>
+                                            <div class="col-sm-6">
+                                                <div class="btn-group">
+                                                    <label class="btn btn-default" name="pgender"
+                                                           ng-change="checkGeneralValidation('PatientGender')"
+                                                           ng-model="submission.PatientGender" uncheckable
+                                                           uib-btn-radio="false">{{"female"|translate}}</label>
+                                                    <label class="btn btn-default" name="pgender"
+                                                           ng-change="checkGeneralValidation('PatientGender')"
+                                                           ng-model="submission.PatientGender" uncheckable
+                                                           uib-btn-radio="true">{{"male"|translate}}</label>
+                                                </div>
+
+                                               &lt;!&ndash; <p ng-show="validationGeneral.PatientGender  && !pristineGeneral.PatientGender"
+                                                   class="help-block">{{GeneralFormMsgs.PatientGender}}</p>&ndash;&gt;
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" ng-show="indications !== null || indications.length === 0">
+                                             &lt;!&ndash;ng-class="{ 'has-error' : validationGeneral.Indications && !pristineGeneral.Indications}">&ndash;&gt;
+                                            <div class="col-sm-6">
+                                                <label class="control-label pull-right">{{"indications"|translate}}:</label>
+
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label ng-repeat="indication in indications"
+
+                                                       class="btn btn-default col-xs-6 indications"
+                                                       ng-model="indication.Selected"
+                                                       ng-checked="indication.Selected"
+                                                       ng-click="setIndicationOnClick(indication)"
+                                                       ng-change="checkGeneralValidation('Indications')"
+                                                       ng-hide="indications[$index].Hidden"
+                                                       uib-btn-checkbox>{{indication.Name}}</label> <br/>
+
+                                                &lt;!&ndash;<p ng-show="validationGeneral.Indications && !pristineGeneral.Indications"
+                                                   class="help-block">{{GeneralFormMsgs.Indications}}</p>&ndash;&gt;
+                                            </div>
+                                            &lt;!&ndash;todo delete&ndash;&gt;
+                                            &lt;!&ndash;<div class="form-group">&ndash;&gt;
+                                            &lt;!&ndash;<div class="col-sm-12" ng-repeat="indication in indications">&ndash;&gt;
+                                            &lt;!&ndash;{{indication}}&ndash;&gt;
+                                            &lt;!&ndash;</div>&ndash;&gt;
+                                            &lt;!&ndash;</div>&ndash;&gt;
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-4 col-sm-8 text-right">
+                                            <button type="button" class="btn btn-primary" 
+                                                    ng-click="updateSubmission()">{{"save"|translate}}
+                                            </button>
+
+                                        </div>
+                                    </div>-->
+
+                                <!--</div>-->
+                            <!--</form>-->
+
+                            <!-- Tag individual images/videos -->
+                            <!--<div uib-accordion-group class="panel-default" is-disabled="!isValidGeneral"-->
+                                 <!--is-open="status.Tag" ng-click="openCollapse(!isValidGeneral,$event, 'Tag')">-->
+
+                                <!--<div uib-accordion-heading>-->
+                                    <!--&nbsp;{{"tag_individual_images_videos"|translate}}-->
+                                    <!--<i class="pull-left glyphicon"-->
+                                       <!--ng-class="{'glyphicon-minus': status.Tag, 'glyphicon-plus': !status.Tag}"></i>-->
+                                    <!--<span class="pull-right glyphicon glyphicon-ok valid-form-collapse"-->
+                                          <!--ng-show="isValidGeneral && allFilesTagged"></span>-->
+                                   
+                                <!--</div>-->
+
+                                <!--<div class="thumb-container file-upload-thumb-container">
+
+                                    <div ng-repeat="file in uploadedFiles" ng-class="{'disabled':  !isValidGeneral}">
+                                        &lt;!&ndash;<button id="{{file.$$hashKey}}" type="button"&ndash;&gt;
+                                                &lt;!&ndash;ng-show="file.Progress === 100 && !file.Duplicate"&ndash;&gt;
+                                                &lt;!&ndash;ng-click="deleteFile(file)"&ndash;&gt;
+                                                &lt;!&ndash;class="btn btn-danger btn-xs btn-round-small btn__close"&ndash;&gt;
+                                                &lt;!&ndash;title="Delete current file">&ndash;&gt;
+                                            &lt;!&ndash;<span class="glyphicon glyphicon-remove"></span>&ndash;&gt;
+                                        &lt;!&ndash;</button>&ndash;&gt;
+                                        <div ng-click="loadFileDetails($index)" >
+                                            <div class="keep-ratio" 
+                                                 ng-class="{'selected':isValidGeneral && !selectedFile.Duplicate && file.Id && selectedFile && file.Id === selectedFile.Id , 'disabled': !isValidGeneral}">
+
+                                                <video ng-show="file.name != null && isVideoFile(file.name)" loop
+                                                       ng-if="file.name != null && file.Filepath  == null"
+                                                       ngf-src="file"
+                                                       ngf-thumbnail="file"
+                                                       ngf-size="{width:100, height:100}"
+                                                       style="width:100px; max-height:100px;max-width:100%;"
+                                                       class="video-trumbail-preview"></video>
+
+
+                                                <img ng-show="file.name != null && !isVideoFile(file.name)"
+                                                     ng-if="file.name != null && file.Filepath  == null"
+                                                     ngf-thumbnail="file"
+                                                     ngf-background="file"
+                                                     class="video-trumbail-preview"
+                                                     style="width:100px; height:auto;max-height:100px;max-width:100%;"/>
+
+
+                                                <img ng-show="file.Filepath  != null && isVideoFile(file.Filepath)"
+                                                     class="img-responsive"
+                                                     ng-src="{{file.Thumbnail}}"/>
+
+                                                <img ng-show="file.Filepath  != null  && !isVideoFile(file.Filepath)"
+                                                     class="img-responsive"
+                                                     ng-src="{{file.Filepath}}"/>
+
+                                            </div>
+                                            <div >
+                                                <div class="progress" ng-hide="file.Id === EmptyGuid || file.Duplicate === true || file.Progress === 100">
+                                                    <div class="progress-bar"
+                                                         
+                                                         role="progressbar" aria-valuenow="{{file.Progress}}"
+                                                         aria-valuemin="0" aria-valuemax="100"
+                                                         ng-style="{width: (file.Progress || '10')+'%'}">
+                                                        {{file.Progress || 0}}%
+                                                    </div>
+                                                </div>
+                                                <div class="progress"  ng-show="file.Id === EmptyGuid || file.Duplicate === true">
+                                                    <div class="duplicate-progress"
+                                                         role="progressbar">
+                                                        <span> Duplicate </span>
+                                                    </div>
+                                                </div>
+
+                                                <span class="tag-status"
+                                                      ng-class="{'pending': !file.Completed, 'completed': file.Completed}"></span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                   
+
+                                    &lt;!&ndash;add uploads&ndash;&gt;
+                                   &lt;!&ndash; <div style="position:absolute; width:300px;" ng-disabled="disabledFileSelect">
+
+                                        <div class="upload-box light-blue"
+                                             ngf-select="uploadFiles($files)"
+                                             ngf-drop="uploadFiles($files)"
+                                             ng-model="files"
+                                             ngf-multiple="true"
+                                             ngf-pattern="settings.pattern"
+                                             ngf-accept="settings.accept"
+                                             ng-disabled="disabledFileSelect === true && files.length !==0"
+                                             ngf-select-disabled="disabledFileSelect === true && files.length !==0" 
+                                             ngf-drop-disabled="disabledFileSelect === true && files.length !==0" 
+                                             ngf-model-options="{updateOn: 'change click drop dropUrl paste'}"
+                                             ngf-max-size="settings.maxSize"
+                                             ngf-max-files="settings.maxFiles"
+                                             ngf-allow-dir="true"
+                                             ngf-include-dir="true"
+                                             style="position: relative; top: 50%; transform: translateY(-50%); max-height:100%;">
+
+                                            &lt;!&ndash;ngf-keep="'distinct'"&ndash;&gt;
+                                            <div class="text-center font50 light-blue">
+                                                <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+                                            </div>
+                                            <p class="text-center">
+                                                {{"drag_and_drop_files_here_to_upload"|translate}}</p>
+
+                                        </div>
+
+                                    </div>&ndash;&gt;
+                                </div>-->
+
+                                <!--<form class="form-horizontal" name="submissionTag" style="margin-top:20px;"
+                                      id="common_data"
+                                      ng-show="isValidGeneral && uploadedFiles.length>0"
+                                      ng-if="!isNullUndefinedOrWhitespace(selectedFile) && !selectedFile.Duplicate">
+                                    <div class="row">
+                                        &lt;!&ndash;<div class="col-md-5 col-md-push-7">
+
+                                            <table class="table table-img-preview table-responsive">
+                                                <tbody>
+                                                <tr>
+                                                    <td class="v-align-middle">
+                                                        <button type="button" class="btn btn-custom1 np-button"
+                                                                ng-disabled="!previousEnabled"
+                                                                ng-click="loadPreviousFile()" title="Previous">
+                                                            <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+                                                        </button>
+                                                    </td>
+                                                    <td>
+                                                        <img ng-show="selectedFile.name == null && selectedFile.Filepath  != null  && !isVideoFile(selectedFile.Filepath) "
+                                                             ng-src="{{selectedFile.Filepath}}" class="img-responsive"/>
+                                                        <img ng-show="selectedFile.name == null && selectedFile.Filepath  != null && isVideoFile(selectedFile.Filepath) "
+                                                             ng-src="{{selectedFile.Thumbnail}}"
+                                                             class="img-responsive"/>
+
+
+                                                        <img ng-show="selectedFile.name != null && !isVideoFile(selectedFile.name)"
+                                                             class="img-responsive"
+                                                             ngf-thumbnail="selectedFile"
+                                                             ngf-background="true"/>
+
+                                                        <video ng-show="selectedFile.name != null && isVideoFile(selectedFile.name)"
+                                                               ngf-src="selectedFile"
+                                                               class="img-responsive"/>
+
+
+                                                        <div class="play-icon">
+                                                            <i class="fa glow-icon"
+                                                               ng-class="isVideoFile(selectedFile.Filepath) || isVideoFile(selectedFile.name) ? 'fa-play-circle-o' :'fa-search-plus'"
+                                                               aria-hidden="true" ng-click="enlarge(selectedFile)"></i>
+                                                        </div>
+                                                    </td>
+                                                    <td class="v-align-middle">
+                                                        <button type="button" class="btn btn-custom1 np-button"
+                                                                ng-disabled="!nextEnabled"
+                                                                ng-click="loadNextFile()" title="Next">
+                                                            <i class="fa fa-chevron-circle-right"
+                                                               aria-hidden="true"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>&ndash;&gt;
+
+                                        <div class="col-md-7 col-md-pull-5">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-6" for="view">{{"view"|translate}}
+                                                    :</label>
+                                                <div class="col-sm-6">
+                                                   &lt;!&ndash; <select class="form-control" id="view"
+                                                            ng-model="selectedFile.ViewType" ng-change="viewSelected()">
+                                                        <option value="" disabled>&#45;&#45; Select view &#45;&#45;</option>
+                                                        <optgroup ng-repeat="group in viewsAndIndication"
+                                                                  label="{{group.Name}}">
+                                                            <option ng-repeat="view in group.Views" value="{{view}}">
+                                                                {{view.Name}}
+                                                            </option>
+                                                        </optgroup>
+                                                    </select>&ndash;&gt;
+                                                    <select class="form-control" ng-model="selectedFile.ViewType" ng-change="viewSelected()"
+                                                            ng-options="view.Id as view.Name group by view.Group for view in views">
+                                                         <option value="" disabled>&#45;&#45; Select view &#45;&#45;</option>
+                                                    </select>
+                                                       &lt;!&ndash;  <select ng-model="myColor" disable when color.notAnOption
+                                                              ng-options="color.name group by color.shade disable when color.notAnOption for color in colors">
+                                                        </select>&ndash;&gt;
+                                                </div>
+                                            </div>
+                                            <div class="form-group" ng-repeat="finding in findings">
+
+                                                <label class="control-label col-sm-6">{{finding.Name | trustAsHtml}}
+                                                    :</label>
+                                                <div class="col-sm-6">
+                                                    <label ng-repeat="option in finding.Options"
+                                                           class="btn col-xs-12 btn-default indications" uncheckable
+                                                           name="{{finding.Name}}"
+                                                           ng-model="finding.SelectedOptionId"
+                                                           ng-change="findingChanged()"
+                                                           ng-checked="finding.SelectedOptionId"
+                                                           uib-btn-radio="option.Id">{{option.Name}}</label>
+
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-6">{{"other"|translate}}:</label>
+                                                <div class="col-sm-6">
+                                                    <textarea class="form-control" rows="3"
+                                                              ng-model="selectedFile.Observations"
+                                                              ng-change="observationChanged()"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="text-right">
+                                                <button type="button" class="btn btn-primary"
+                                                        ng-click="updateFileDetails()">{{"save"|translate }}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>-->
+                            <!--</div>-->
+
+                            <!--Conclusion-->
+                            <!--<div uib-accordion-group class="panel-default"-->
+                                 <!--is-disabled="!isValidGeneral || !allFilesTagged"-->
+                                 <!--is-open="status.Conclusion"-->
+                                 <!--ng-click="openCollapse(!isValidGeneral || !allFilesTagged,$event, 'Conclusion')">-->
+                                <!--<div uib-accordion-heading>-->
+                                    <!--&nbsp;{{"conclusion"|translate}}-->
+                                    <!--<i class="pull-left glyphicon"-->
+                                       <!--ng-class="{'glyphicon-minus': status.Conclusion, 'glyphicon-plus': !status.Conclusion}"></i>-->
+                                    <!--<span class="pull-right glyphicon glyphicon-ok valid-form-collapse"-->
+                                          <!--ng-show="isValidGeneral && allFilesTagged && submission.Conclusion != null"></span>-->
+                                <!--</div>-->
+                                <!--<div class="form-horizontal">
+
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">{{ "conclusion"|translate }} :</label>
+                                        <div class="col-sm-7">
+                                            &lt;!&ndash;<label class="radio-inline" for="normal">&ndash;&gt;
+                                            <div class="btn-group">
+                                              &lt;!&ndash;  <label>{{"normal"|translate}}<input type="radio" name="conclusion" ng-model="submission.Conclusion" ng-checked="submission.Conclusion==true"/></label>
+                                                <label>{{"not_normal"|translate}}<input type="radio" name="conclusion" ng-model="submission.Conclusion" ng-checked="submission.Conclusion==false"/></label>&ndash;&gt;
+                                                <label class="btn btn-default" ng-model="submission.Conclusion"
+                                                       uncheckable
+                                                       uib-btn-radio="true">{{"normal"|translate}}</label>
+                                                <label class="btn btn-default" ng-model="submission.Conclusion"
+                                                       uncheckable
+                                                       uib-btn-radio="false">{{"not_normal"|translate}}</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">{{ "remark"|translate }} :</label>
+                                        <div class="col-sm-7">
+                                            <textarea class="form-control" rows="5"
+                                                      ng-model="submission.Comments"></textarea>
+                                        </div>
+                                    </div>
+
+                                </div>-->
+                            <!--</div>-->
+
+                            <!--<div class="form-group">
+                                <div style="margin-top:15px;">
+                                    <button class="btn btn-primary" type="button"
+                                            title="{{'to_portfolio_without_assessment'|translate }}"
+                                            ng-disabled="!allFilesTagged || !isValidGeneral " ng-click="complete(false)">
+                                        {{"save"|translate}}
+                                    </button>
+                                    <button class="btn btn-success pull-right"
+                                            title="{{'to_expert_for_assessment'|translate}}"
+                                            ng-disabled="!isValidGeneral || !allFilesTagged || submission.Conclusion === null"
+                                            ng-click="complete(true)">{{"send"|translate}}
+                                    </button>
+                                </div>
+                            </div>-->
+
+                        <!--</uib-accordion>-->
+
+                    <!--</div>-->
+
+
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+    <!--</div>-->
+<!--</section>-->
+<!-- END Upload files list -->

@@ -1,0 +1,177 @@
+﻿<div class="nav__btn-wrap" ng-show="isPStudent">
+
+    <a href="/student-dashboard"
+       ui-sref="student.dashboard"
+       ng-class="{'active' : state.current.name === 'student.dashboard'}"
+       class="nav__btn">
+        <i class="nav__btn-icon glyphicon glyphicon-dashboard"></i>
+        {{"dashboard" | translate}}
+    </a>
+
+    <a href="/student-add"
+       ui-sref="student.add"
+       ng-class="{'active' : state.current.name === 'student.add'|| state.current.name === 'student.add.kpb'}"
+       class="nav__btn">
+        <i class="nav__btn-icon glyphicon glyphicon-plus"></i>
+        {{"forms" | translate}}
+    </a>
+
+    <a href="/student-epa"
+       ui-sref="student.epa"
+       ng-class="{'active' : state.current.name === 'student.epa'}"
+       class="nav__btn">
+        <i class="nav__btn-icon glyphicon glyphicon-check"></i>
+        {{"epa" | translate}}
+    </a>
+    <a href="/student-formsnumber"
+       ui-sref="student.formsnumber"
+       ng-class="{'active' : state.current.name === 'student.formsnumber'}"
+       class="nav__btn">
+        <i class="nav__btn-icon glyphicon glyphicon-check"></i>
+        {{"tables" | translate}}
+    </a>
+</div>
+
+<div class="nav__btn-wrap" ng-show="isUsStudent">
+
+    <a href="/student-submission"
+       ui-sref="student.submission"
+       ng-class="{'active' : state.current.name  === 'student.submission'}"
+       class="nav__btn">
+        <i class="nav__btn-icon fa fa-upload"></i>
+        {{"upload" | translate}}
+    </a>
+
+    <a href="/student-submission-history"
+       ui-sref="student.submissionHistory"
+       ng-class="{'active' : state.current.name  === 'student.submissionHistory'}"
+       class="nav__btn">
+        <i class="nav__btn-icon fa fa-history"></i>
+        {{"upload_history" | translate}}
+    </a>
+
+    <a href="/student-progress"
+       ui-sref="student.progress"
+       ng-class="{'active' : state.current.name  === 'student.progress'}"
+       class="nav__btn">
+        <i class="nav__btn-icon fa fa-undo"></i>
+        {{"progress" | translate}}
+    </a>
+
+    <a href="/student-search"
+       ui-sref="student.search"
+       ng-class="{'active' : state.current.name  === 'student.search'}"
+       class="nav__btn">
+        <i class="nav__btn-icon fa fa-search"></i>
+        {{"search" | translate}}
+    </a>
+
+</div>
+
+<div class="nav__btn-wrap" ng-show="isCollegeUser">
+
+    <a href="/student-collegeSubmission"
+       ui-sref="student.collegeSubmission"
+       ng-class="{'active' : state.current.name  === 'student.collegeSubmission'}"
+       class="nav__btn">
+        <i class="nav__btn-icon fa fa-upload"></i>
+        {{"upload" | translate}}
+    </a>
+
+    <a href="/studentcollege-submission-history"
+       ui-sref="student.collegesubmissionHistory"
+       ng-class="{'active' : state.current.name  === 'student.collegesubmissionHistory'}"
+       class="nav__btn">
+        <i class="nav__btn-icon fa fa-history"></i>
+        {{"upload_history" | translate}}
+    </a>
+
+    <a href="/student-collegeprogress"
+       ui-sref="student.collegeprogress"
+       ng-class="{'active' : state.current.name  === 'student.collegeprogress'}"
+       class="nav__btn">
+        <i class="nav__btn-icon fa fa-undo"></i>
+        {{"progress" | translate}}
+    </a>
+
+    <a href="/student-collegesearch"
+       ui-sref="student.collegesearch"
+       ng-class="{'active' : state.current.name  === 'student.collegesearch'}"
+       class="nav__btn">
+        <i class="nav__btn-icon fa fa-search"></i>
+        {{"search" | translate}}
+    </a>
+
+</div>
+
+<!--<a href="/teacher-profile"-->
+   <!--ui-sref="teacher.profile"-->
+   <!--ng-class="{'active' : state.current.name === 'teacher.profile' || state.current.name === 'teacher.editprofile'}"-->
+   <!--class="nav__btn">-->
+    <!--<i class="nav__btn-icon glyphicon glyphicon-user"></i>-->
+    <!--{{"profile" | translate}}-->
+<!--</a>-->
+
+<script>
+    /* LEFT MENU */
+    var menuBtn = $(".nav__btn"),
+        menuContainer = $(".navigation");
+
+    menuBtn.on("click", function () {
+        menuContainer.removeClass("active");
+        $("html, body").removeClass("open-menu");
+    });
+</script>
+
+
+<!--<ul class="nav navbar-nav" ng-show="isPStudent">-->
+<!--&lt;!&ndash;<li ng-class="{'active' : state.current.name === 'student.dashboard'}">&ndash;&gt;-->
+<!--&lt;!&ndash;<a href="/student-dashboard" ui-sref="student.dashboard">&ndash;&gt;-->
+<!--&lt;!&ndash;<i class="glyphicon glyphicon-dashboard"> </i>&ndash;&gt;-->
+<!--&lt;!&ndash;Dashboard&ndash;&gt;-->
+<!--&lt;!&ndash;</a>&ndash;&gt;-->
+<!--&lt;!&ndash;</li>&ndash;&gt;-->
+<!--&lt;!&ndash;<li ng-class="{'active' : state.current.name === 'student.add'|| state.current.name === 'student.add.kpb'}">&ndash;&gt;-->
+<!--&lt;!&ndash;<a href="/student-add" ui-sref="student.add">&ndash;&gt;-->
+<!--&lt;!&ndash;<i class="glyphicon glyphicon-plus"> </i>&ndash;&gt;-->
+<!--&lt;!&ndash;Forms&ndash;&gt;-->
+<!--&lt;!&ndash;</a>&ndash;&gt;-->
+<!--&lt;!&ndash;</li>&ndash;&gt;-->
+<!--&lt;!&ndash;<li ng-class="{'active' : state.current.name === 'student.epa'}">&ndash;&gt;-->
+<!--&lt;!&ndash;<a href="/student-epa" ui-sref="student.epa">&ndash;&gt;-->
+<!--&lt;!&ndash;<i class="glyphicon glyphicon-check"> </i>&ndash;&gt;-->
+<!--&lt;!&ndash;EPA&ndash;&gt;-->
+<!--&lt;!&ndash;</a>&ndash;&gt;-->
+<!--&lt;!&ndash;</li>&ndash;&gt;-->
+<!--</ul>-->
+
+<!--<ul class="nav navbar-nav" ng-show="isUsStudent">-->
+<!--&lt;!&ndash;<li ng-class="{'active' : state.current.name  === 'student.submission'}">&ndash;&gt;-->
+<!--&lt;!&ndash;<a href="/student-submission" ui-sref="student.submission">&ndash;&gt;-->
+<!--&lt;!&ndash;<i class="fa fa-upload" aria-hidden="true"></i> Upload&ndash;&gt;-->
+<!--&lt;!&ndash;</a>&ndash;&gt;-->
+<!--&lt;!&ndash;</li>&ndash;&gt;-->
+<!--&lt;!&ndash;<li ng-class="{'active' : state.current.name  === 'student.submissionHistory'}">&ndash;&gt;-->
+<!--&lt;!&ndash;<a href="/student-submission-history" ui-sref="student.submissionHistory">&ndash;&gt;-->
+<!--&lt;!&ndash;<i class="fa fa-history" aria-hidden="true"></i> Upload History&ndash;&gt;-->
+<!--&lt;!&ndash;</a>&ndash;&gt;-->
+<!--&lt;!&ndash;</li>&ndash;&gt;-->
+<!--&lt;!&ndash;<li ng-class="{'active' : state.current.name  === 'student.progress'}">&ndash;&gt;-->
+<!--&lt;!&ndash;<a href="/student-progress" ui-sref="student.progress">&ndash;&gt;-->
+<!--&lt;!&ndash;<i class="fa fa-undo" aria-hidden="true"></i> Progress</a>&ndash;&gt;-->
+<!--&lt;!&ndash;</li>&ndash;&gt;-->
+<!--&lt;!&ndash;<li ng-class="{'active' : state.current.name  === 'student.search'}">&ndash;&gt;-->
+<!--&lt;!&ndash;<a href="/student-search" ui-sref="student.search">&ndash;&gt;-->
+<!--&lt;!&ndash;<i class="fa fa-search" aria-hidden="true"></i> Search&ndash;&gt;-->
+<!--&lt;!&ndash;</a>&ndash;&gt;-->
+<!--&lt;!&ndash;</li>&ndash;&gt;-->
+<!--</ul>-->
+
+<!--<ul class="nav navbar-nav" ng-show="isPStudent || isUsStudent">-->
+<!--&lt;!&ndash;<li ng-class="{'active' : state.current.name === 'student.profile' || state.current.name === 'student.editprofile'}">&ndash;&gt;-->
+<!--&lt;!&ndash;<a href="/student-profile" ui-sref="student.profile">&ndash;&gt;-->
+<!--&lt;!&ndash;<i class="glyphicon glyphicon-user"> </i>&ndash;&gt;-->
+<!--&lt;!&ndash;Profile&ndash;&gt;-->
+<!--&lt;!&ndash;</a>&ndash;&gt;-->
+<!--&lt;!&ndash;</li>&ndash;&gt;-->
+<!--</ul>-->
